@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="mg2modeller++" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/mg2modeller++" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/mg2modeller++" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++0x" />
+			<Add option="`pkg-config --cflags gtkmm-3.0 x11`" />
+			<Add directory="/usr/include/" />
+		</Compiler>
+		<Linker>
+			<Add option="`pkg-config --libs gtkmm-3.0 x11`" />
+		</Linker>
+		<Unit filename="include/camera.h" />
+		<Unit filename="include/cube.h" />
+		<Unit filename="include/display.h" />
+		<Unit filename="include/divider.h" />
+		<Unit filename="include/gui.h" />
+		<Unit filename="include/light.h" />
+		<Unit filename="include/main_window.h" />
+		<Unit filename="include/math3d.h" />
+		<Unit filename="include/mg2.h" />
+		<Unit filename="include/object.h" />
+		<Unit filename="include/plane.h" />
+		<Unit filename="include/preferences.h" />
+		<Unit filename="include/primitive.h" />
+		<Unit filename="include/scene.h" />
+		<Unit filename="include/tools.h" />
+		<Unit filename="include/tools_edit.h" />
+		<Unit filename="include/vertex.h" />
+		<Unit filename="include/view.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/camera.cpp" />
+		<Unit filename="src/cube.cpp" />
+		<Unit filename="src/display.cpp" />
+		<Unit filename="src/edit.cpp" />
+		<Unit filename="src/gui.cpp" />
+		<Unit filename="src/light.cpp" />
+		<Unit filename="src/math3d.cpp" />
+		<Unit filename="src/object.cpp" />
+		<Unit filename="src/plane.cpp" />
+		<Unit filename="src/preferences.cpp" />
+		<Unit filename="src/primitive.cpp" />
+		<Unit filename="src/scene.cpp" />
+		<Unit filename="src/tools.cpp" />
+		<Unit filename="src/vertex.cpp" />
+		<Unit filename="src/view.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,1600 @@
+Perspective
+Left
+Right
+Front
+Back
+Top
+Top
+Bottom
+Set Camera
+Isometric 
+Perspective
+Nearest ortho
+FP navigation
+FP navigation
+Reset View
+Look at  Selection
+Rect zoom
+X lock
+Y lock
+Z lock
+Opaque
+OpaqueWires
+Transp
+TranspWires
+Wires
+WireframeGrid
+Wireframe Grid
+Opaque Grid
+No Grid
+Show
+Hide
+Show
+ShowAll
+HideAll
+ShowAll
+World
+Object
+Tangent
+Screen
+DynaPose
+PhysMove
+Look At
+3D Window ViewBar
+Move
+Rotate
+Scale
+Move Cam
+Rotate Cam
+Fov Cam
+Help
+Tool tips
+About
+Help
+tS6 File
+New
+Scene
+Library
+Project
+Load
+Scene
+Object
+Library
+Radiosity
+Save
+Scene
+Object
+Preferences
+Hot Keys
+Save As...
+Scene
+Object
+Radiosity
+Texture from illumination
+Archive
+Exit
+Preferences
+Display options...
+Recent Files
+Toolbar Button Item
+Toolbar Button Item, 1
+Toolbar Button Item, 2
+Toolbar Button Item, 3
+Toolbar Button Item, 4
+Toolbar Button Item, 5
+Toolbar Button Item, 6
+Toolbar Button Item, 7
+Rec
+Start frame
+Prev keyframe
+Prev keyframe
+Prev frame
+Stop
+Play
+Next keyframe
+Next keyframe
+Next frame
+End frame
+Link Editor Navigator
+Placement
+Unselect
+Project
+Windows Manager Space
+Default
+System
+Network
+Widgets
+Obj Widget
+PE Widget
+Bkgrd Widget
+Preferences
+Toolbar Prototypes Encapsulator
+X lock
+Y lock
+Z lock
+Undo
+Undo
+Redo
+SnapToGrid
+SnapToGrid
+DistFb
+PointEdit
+3D Encapsulate
+3D Encapsulate
+Encapsulate
+Flatten
+Unencapsulate
+Glue
+UnGlue
+Glue
+Physical simulation
+Set Camera
+Set Camera
+Set Camera
+Isometric 
+Perspective
+Perspective
+Nearest ortho
+Top
+Top
+Bottom
+Front
+Front
+Back
+Left
+Left
+Right
+Opaque
+Opaque
+Opaque
+OpaqueWires
+Transp
+TranspWires
+Wires
+WireframeGrid
+Wireframe Grid
+Opaque Grid
+No Grid
+ShowAll
+HideAll
+ShowAll
+Show
+Hide
+Show
+Reset Default
+New scene, 1
+Reset Default
+Default context backup
+Reset Default
+World
+World
+Object
+Tangent
+Screen
+Cube
+Cube
+Sphere
+Cylinder
+Torus
+Plane
+Cone
+Text
+Camera
+EntryPoint
+Omni
+Omni
+Infinite
+Projector
+Sky
+Directional
+Ambient
+Area
+Spot, 1
+Render Scene
+Render Scene
+Render Area
+Render Object
+Render Animation
+FP navigation
+FP navigation
+Move Cam
+Rotate Cam
+Fov Cam
+Rect zoom
+Reset
+Reset
+Look at Selection
+DynaPose
+DynaPose
+PhysMove
+Move
+Rotate
+Scale
+Look At
+UnLook At
+Look At
+Library browser
+LE Window
+Copy Window
+LE Window
+Command Prompt
+Output Console
+Command History
+Status view
+Stack View
+Anim View
+Package Manager
+Scene View
+3D Window, 1
+Record Toolbar
+Record Toolbar, 1
+jScript Macro Record Toolbar, 1
+VB Macro Record Toolbar, 1
+Shared Space
+Export to VE
+HW settings
+Manual
+Export to VE, 1
+FileRender, 1
+Copy object, 1
+Copy object
+Delete object
+File
+New Scene
+Load
+Save
+Mn Recent Files
+Toolbar Button Item
+Toolbar Button Item, 1
+Toolbar Button Item, 2
+Toolbar Button Item, 3
+Toolbar Button Item, 4
+Toolbar Button Item, 5
+Toolbar Button Item, 6
+Toolbar Button Item, 7
+Exit
+HW settings
+Save As RsRcd
+Help
+About
+Manual
+United 3D Artist
+Updates
+Eye Camera
+Camera View
+Camera View, 1
+Camera View, 2
+Camera View, 3
+Camera View, 4
+Camera View, 5
+Camera View, 6
+Eye to Camera
+Eye Camera
+Copy
+Copy
+Cut
+Paste
+cubeWidgetButton
+loadCurveButton
+polygon2curveButton
+points2curveButton
+sweepPathButton
+extendCurveButton
+insertControlPointButton
+deleteControlPointButton
+unrealPSKPSAButton
+SVGButton
+fbx2Button
+Spline Polygon
+Create Clip
+Rec
+Start frame
+Prev keyframe
+Prev frame
+Stop
+Play
+Next frame
+Next keyframe
+End frame
+Object
+Object
+Location
+Scale
+Rotation
+Reset
+Axis
+FlattenAxis
+Paint
+Paint
+Paint
+Rectangle
+Lasso
+DynaPick
+Soft
+Invert
+Invert
+Connected
+Unselect
+Materials
+Path
+Grow
+Grow
+Shrink
+Convert
+Smooth
+Outline
+Selected
+Selected
+Hide
+Unhide
+Context
+Context
+Vertices
+Edges
+Edges
+TriEdges
+Faces
+Faces
+TriFaces
+EdgeLoops
+EdgeLoops
+FaceLoops
+DynaSweep
+DynaSweep
+DynaSweep
+Bevel
+Sweep
+Tip
+Modeler
+Modeler
+Mirror
+Copy
+Separate
+Flip
+Flip
+Delete
+FormFace, 1
+Vertex Snap
+Face Snap button
+Split
+Split
+Merge
+SwapEdge
+Optimize
+Quadrify
+AddLoop
+AddLoop
+Collapse
+Quad
+Smooth
+Polydraw
+Polydraw
+AddEdges
+AddVertices
+Bridge
+Bridge
+Weld
+Heal
+Scissors
+Fix Bad Geometry Button
+Visible
+Visible
+SelectAll
+Soft paint
+Soft paint
++ SDS
++ SDS
+- SDS
+ResetSDS
+SDSVertex
+SDSEdge
+Normalmap
+Normalmap
+Simplify
+Union
+Union
+Intersection
+Subtract
+Cut
+Merge
+Merge
+Add
+DisBrush
+DisBrush
+DisMap
+Length
+Length
+Blowdryer
+Softness
+Direction
+Density
+M.Editor
+M.Editor
+Inspect
+Inspect
+Objects
+Faces
+Repaint
+UV Editor 
+Spherical
+Spherical
+Planar
+Cylindrical
+Cubic
+ShrinkUV
+Smooth
+Smooth
+AutoFacet
+Facet
++PhysAttr
++PhysAttr
++PhysAttr
++LocalEnv
++ClothAttr
+-PhysAttr
+-LocalEnv
+-ClothAttr
+Speed
+Speed
+Rotation
+A.Speed
+A.Rotation
+COG
+COG
+FixPoint1
+FixPoint2
+ClothFix
+WindLocal
+WindLocal
+WindGlobal
+EnviLocal
+Gravity
+Skeleton
+Skeleton
+Skeleton
+DelJoint
+ShapeSkel
+-Limb
+Limits
+Limits
+SetPose
+ResetPose
+Envelope
+Envelope
+Skin2Bone
+Skin2Skeleton
+Object2Bone
+Weight
+Weight
+HealSkin
+Skin2Sel
+Sel2Skin
+Transfer
+Pos.Lock
+Pos.Lock
+Rot.Lock
+FullLock
+ModIkHndl
+AlignHndl
++Morph
+CustomToolbarButton
+Import
+Export
+Commit
+Cut
+Copy
+Paste
+Undo
+Redo
+Find
+Advanced
+Set Camera
+Set Camera
+Orthogonal
+Set Camera
+Perspective
+Nearest ortho
+Perspective
+Top
+Bottom
+Top
+Front
+Back
+Front
+Left
+Right
+Left
+Opaque
+Opaque
+OpaqueWires
+Transparent
+TranspWires
+WiresWireframe
+WireframeGrid
+WireframeGrid
+OpaqueGrid
+NoGrid
+DynaPose
+DynaPose
+PhysMove
+Move
+Rotate
+Scale
+FP navigation
+FP navigation
+Move Cam
+Rotate Cam
+Fov Cam
+Rect zoom
+Look At
+Stop Recording
+Play Record
+Reverse Play, 1
+Play Record
+Open Media View 
+Import Record
+Open Media View 
+Export Record
+Pause Replaying
+Clear Record
+Start Record
+Stop Recording
+Play Record
+Start Record
+Stop activities
+Stop Recording
+Play Record
+Start Record
+Stop activities
+Pick element
+Paint selection
+Rectangle selection
+Lasso selection
+Pick element
+All mode
+Vertex mode
+Edge mode
+All mode
+Triangle mode
+Face mode
+Patch mode
+Move selection
+Move selection
+Scale selection
+Rotate selection
+Paint brush
+Paint brush
+Draw line
+Weld vertices
+Weld vertices
+Slice selection
+Heal vertices
+Flatten vertices
+Export texture
+Export bitmap
+Edit texture
+Synchronize UV
+Synchronize UV
+Flip horizontally
+Flip vertically
+CE
+CE
+Build skeleton
+AttachSkin
+AttachSkin
+AttachObj
+Ik1DHandle
+Ik1DHandle
+Ik2DHandle
+IkHandleAlign
+ResetIkAlign
+EditIkHandle
+PosLock, 1
+PosLock
+RotLock
+FullLock
+Physical simulation
+Speeds
+Speed
+Rotation
+Acc Speed
+Acc Rotation
+Constraints
+Cog
+FixPoint1
+FixPoint2
+Space
+Global Wind
+Local Wind
+Local Environment
+Gravity
+Physical simulation, 1
+AddPhysAttr
+AddLocalEnv
+RemovePhysAttr
+RemoveLocalEnv
+Surfacing tools
+UV Editor  
+Spherical
+Spherical
+Planar
+Cylindrical
+Cubic
+Shrink wrap
+Create hair
+Create hair
+Length brush
+Density brush
+Material Editor
+ME Paint Object
+ME Paint Face
+ME RePaint
+ME Inspect
+Displacement brush
+Displacement brush
+Displacement mapping
+Selection action
+Paint selection
+Object tool
+Dynapick
+Select connected
+Invert selection
+Convert
+Shrink
+Grow
+Select connected
+Lasso selection
+Rectangle selection
+Soft selection
+Selection item
+Point edit: context
+Edge mode
+Triangle edge mode
+Point edit: edges
+Point edit: vertex
+Edge Loop mode
+Face Loop mode
+Edge Loop mode
+Face mode
+Triangle mode
+Face mode, 1
+PE tools
+Weld
+Weld, 2
+Blend_Bridge, 1
+Normal extrude
+SmoothDivide
+Subdivide, 2
+Add loop, 1
+Sweep
+Normal sweep
+Sweep
+Tip
+Bevel tool, 1
+Polydraw
+Polydraw
+Add edges
+Add vertices
+More PE tools
+Mirror
+Copy
+Mirror
+Mirror modeller
+Raycast Selection
+Raycast Selection
+All selection
+FlipFaces
+Flip
+Delete
+Add face
+SplitPolygons
+Merge
+Scissors
+Split, 1
+Modeling tools
+Normalmap
+Normalmap
+Lod
+Location
+Location
+Scale
+Rotation
+ResetAxes
+ShowAxes
+Look At
+Add SS
+Edge weights
+Vertex weight, 1
+Remove SS, 2
+Add SS, 1
+Shut Down
+Shut Down
+Stop activities
+Default context backup
+Material Editor
+Pick Mat
+Export to VE
+HW settings
+Manual
+Export to VE, 1
+FileRender, 1
+Record Toolbar
+Record Toolbar, 1
+jScript Macro Record Toolbar, 1
+VB Macro Record Toolbar, 1
+Library browser
+Shared Space
+LE Window, 1
+Copy Window
+LE Window
+Command Prompt
+Output Console
+Command History
+Status view
+Stack View
+Anim View
+Package Manager
+Scene View
+3D Window, 1
+Smooth
+FaceLoops
+SelectAll
+Outline
+Unselect
+Paint
+Rectangle
+Lasso
+Context
+DynaPick
+Shrink
+Soft
+Edges
+TriEdges
+Faces
+Materials
+Path
+EdgeLoops
+Selected
+Visible
+UV Editor
+Hide
+Vertices
+TriFaces
+Connected
+Unhide
+Invert
+Grow
+Convert
+Spherical
+Spherical
+Planar
+Cylindrical
+Cubic
+ShrinkUV, 1
+DynaSweep
+AddLoop
+Tip
+Flip
+Length
+Length
+Blowdryer
+Softness
+Direction
+Density
+Normalmap
+Normalmap
+Simplify
+Scissors
+FormFace
+Split
+Merge
+Bridge
+Delete
+Bevel
+Quad
+Collapse
+Weld
+SwapEdge
+Smooth
+Quadrify
+Optimize
+Heal
+Modeler
+Modeler
+Mirror
+Copy
+Separate
+Polydraw
+Polydraw
+AddEdges
+AddVertices
+Union
+Union
+Intersection
+Subtract
+Cut
+Merge
+Merge
+Add
+Soft paint
+Soft paint
+DisMap
+DisBrush, 2
++ SDS
++ SDS
+- SDS
+ResetSDS
+SDSVertex
+SDSEdge
+Sweep
+Skeleton
+Limits
+Envelope
+DelJoint
+-Limb
+Skin2Bone
+Object2Bone
+Set pose
+ResetPose
+Rot.Lock
+Skin2Skeleton
+Weight
+HealSkin
+Pos.Lock
+ShapeSkel
+Sel2Skin
+Transfer
+Sel2Skin
++Morph
+ModIkHndl
+Skin2Sel
+AlignHndl
+FullLock
++PhysAttr
+Rotation
+COG
+FixPoint1
+ClothFix
+WindLocal
+WindGlobal
+EnviLocal
+Gravity
+-PhysAttr
+Speed
++LocalEnv
+-LocalEnv
+-ClothAttr
++ClothAttr
+A.Rotation
+A.Speed
+FixPoint2
+Reset Default
+New scene
+Reset Default
+Default context backup
+Reset Default
+Object
+Object
+Location
+Scale
+Rotation
+Reset
+Axis
+FlattenAxis
+Cube
+Cube
+Sphere
+Cylinder
+Torus
+Plane
+Cone
+Text
+Camera
+EntryPoint
+Omni
+Omni
+Infinite
+Projector
+Sky
+Directional
+Ambient
+Area
+Spot, 1
+3D Encapsulate
+3D Encapsulate
+Encapsulate
+Flatten
+Glue
+UnGlue
+Glue
+Unencapsulate
+Undo
+Undo
+Redo
+World
+Object, 1
+Tangent
+Screen
+X lock
+Y lock
+Z lock
+Move
+Rotate
+Scale
+Move Cam
+Rotate Cam
+Fov Cam
+Rect zoom
+Look at Selection
+Perspective
+Front
+Back
+Left
+Right
+Top
+Bottom
+Reset
+LE Window
+Copy Window
+LE Window
+Command Prompt
+Output Console
+Command History
+Status view
+Stack View
+Anim View
+Package Manager
+Scene View
+3D Window, 1
+WireframeGrid
+Opaque Grid
+No Grid
+Wireframe Grid, 1
+Opaque
+Opaque
+OpaqueWires
+Transp
+TranspWires
+Wires
+SnapToGrid
+DistFb
+PointEdit
+M.Editor
+M.Editor
+Inspect
+Inspect
+Objects
+Faces
+Repaint
+UV Editor 
+Spherical
+Spherical
+Planar
+Cylindrical
+Cubic
+ShrinkUV
+Smooth
+Smooth
+AutoFacet
+Facet
+Library browser
+Look At
+UnLook At
+Look At
+Set Camera
+Isometric 
+Nearest ortho
+Isometric 
+DynaPose
+DynaPose, 2
+FP navigation, 2
+PhysMove, 2
++PhysAttr, 1
++PhysAttr
++PhysAttr
++LocalEnv
++ClothAttr
+-PhysAttr
+-LocalEnv
+-ClothAttr
+Speed
+Speed
+Rotation
+A.Speed
+A.Rotation
+COG
+COG
+FixPoint1
+FixPoint2
+ClothFix
+WindLocal
+WindLocal
+WindGlobal
+EnviLocal
+Gravity
+Physical simulation, 2
+Record Toolbar
+Record Toolbar, 1
+jScript Macro Record Toolbar, 1
+VB Macro Record Toolbar, 1
+Shared Space
+Export to VE
+HW settings
+Manual
+Export to VE, 1
+FileRender, 1
+Render Scene
+Render Scene
+Render Area
+Render Object
+Render Animation
+Show
+Hide
+ShowAll
+HideAll
+ShowAll
+Show
+Copy object
+Copy object
+Delete object
+Rec
+Start frame
+Prev keyframe
+Prev keyframe
+Prev frame
+Stop
+Play
+Next keyframe
+Next keyframe
+Next frame
+End frame
+Rec
+Start frame
+Prev keyframe
+Prev keyframe
+Prev frame
+Stop
+Play
+Next keyframe
+Next keyframe
+Next frame
+End frame
+Link Editor Navigator
+Placement
+Unselect
+Project
+Windows Manager Space
+Default
+System
+Network
+Widgets
+Obj Widget
+PE Widget
+Bkgrd Widget
+Preferences
+Toolbar Prototypes Encapsulator
+Rec
+Start frame
+Prev keyframe
+Prev keyframe
+Prev frame
+Stop
+Play
+Next keyframe
+Next keyframe
+Next frame
+End frame
+Help
+Tool tips
+About
+Help
+tS6 File
+New
+Scene
+Library
+Project
+Load
+Scene
+Object
+Library
+Radiosity
+Save
+Scene
+Object
+Preferences
+Hot Keys
+Save As...
+Scene
+Object
+Radiosity
+Texture from illumination
+Archive
+Exit
+Preferences
+Display options...
+Recent Files
+Toolbar Button Item
+Toolbar Button Item, 1
+Toolbar Button Item, 2
+Toolbar Button Item, 3
+Toolbar Button Item, 4
+Toolbar Button Item, 5
+Toolbar Button Item, 6
+Toolbar Button Item, 7
+Perspective
+Left
+Left
+Right
+Front
+Front
+Back
+Top
+Top
+Bottom
+Set Camera
+Set Camera
+Isometric 
+Perspective
+Perspective
+Nearest ortho
+FP navigation
+FP navigation
+Reset View
+Reset View
+Look at  Selection
+Rect zoom
+X lock
+Y lock
+Z lock
+Opaque
+Opaque
+Opaque
+OpaqueWires
+Transp
+TranspWires
+Wires
+WireframeGrid
+Wireframe Grid
+Opaque Grid
+No Grid
+Show
+Hide
+Show
+ShowAll
+HideAll
+ShowAll
+World
+World
+Object
+Tangent
+Screen
+DynaPose
+DynaPose
+PhysMove
+Look At
+3D Window ViewBar
+Move
+Rotate
+Scale
+Move Cam
+Rotate Cam
+Fov Cam
+File
+New Scene
+Load
+Save
+Mn Recent Files
+Toolbar Button Item
+Toolbar Button Item, 1
+Toolbar Button Item, 2
+Toolbar Button Item, 3
+Toolbar Button Item, 4
+Toolbar Button Item, 5
+Toolbar Button Item, 6
+Toolbar Button Item, 7
+Exit
+HW settings
+Save As RsRcd
+Help
+About
+Manual
+United 3D Artist
+Updates
+Perspective
+Left
+Left
+Right
+Front
+Front
+Back
+Top
+Top
+Bottom
+Set Camera
+Set Camera
+Isometric 
+Perspective
+Perspective
+Nearest ortho
+FP navigation
+FP navigation
+Reset View
+Reset View
+Look at  Selection
+Rect zoom
+Fov Cam
+Rotate Cam
+Move Cam
+X lock
+Y lock
+Z lock
+Opaque
+Opaque
+Opaque
+OpaqueWires
+Transp
+TranspWires
+Wires
+WireframeGrid
+Wireframe Grid
+Opaque Grid
+No Grid
+Show
+Hide
+Show
+ShowAll
+HideAll
+ShowAll
+World
+World
+Object
+Tangent
+Screen
+DynaPose
+DynaPose
+PhysMove
+Move
+Rotate
+Scale
+Look At
+3D Window ViewBar
+Eye Camera
+Camera View
+Camera View, 1
+Camera View, 2
+Camera View, 3
+Camera View, 4
+Camera View, 5
+Camera View, 6
+Eye to Camera
+Eye Camera
+Copy
+Copy
+Cut
+Paste
+cubeWidgetButton
+Object
+Object
+Location
+Scale
+Rotation
+Reset
+Axis
+FlattenAxis
+Paint
+Paint
+Paint
+Rectangle
+Lasso
+DynaPick
+Soft
+Invert
+Invert
+Connected
+Unselect
+Materials
+Path
+Grow
+Grow
+Shrink
+Convert
+Smooth
+Outline
+Selected
+Selected
+Hide
+Unhide
+Context
+Context
+Vertices
+Edges
+Edges
+TriEdges
+Faces
+Faces
+TriFaces
+EdgeLoops
+EdgeLoops
+FaceLoops
+DynaSweep
+DynaSweep
+DynaSweep
+Bevel
+Sweep
+Tip
+Modeler
+Modeler
+Mirror
+Copy
+Separate
+Flip
+Flip
+Delete
+FormFace, 1
+Vertex Snap
+Face Snap button
+Split
+Split
+Merge
+SwapEdge
+Optimize
+Quadrify
+AddLoop
+AddLoop
+Collapse
+Quad
+Smooth
+Polydraw
+Polydraw
+AddEdges
+AddVertices
+Bridge
+Bridge
+Weld
+Heal
+Scissors
+Fix Bad Geometry Button
+Visible
+Visible
+SelectAll
+Soft paint
+Soft paint
++ SDS
++ SDS
+- SDS
+ResetSDS
+SDSVertex
+SDSEdge
+Normalmap
+Normalmap
+Simplify
+Union
+Union
+Intersection
+Subtract
+Cut
+Merge
+Merge
+Add
+DisBrush
+DisBrush
+DisMap
+Length
+Length
+Blowdryer
+Softness
+Direction
+Density
+M.Editor
+M.Editor
+Inspect
+Inspect
+Objects
+Faces
+Repaint
+UV Editor 
+Spherical
+Spherical
+Planar
+Cylindrical
+Cubic
+ShrinkUV
+Smooth
+Smooth
+AutoFacet
+Facet
++PhysAttr
++PhysAttr
++PhysAttr
++LocalEnv
++ClothAttr
+-PhysAttr
+-LocalEnv
+-ClothAttr
+Speed
+Speed
+Rotation
+A.Speed
+A.Rotation
+COG
+COG
+FixPoint1
+FixPoint2
+ClothFix
+WindLocal
+WindLocal
+WindGlobal
+EnviLocal
+Gravity
+Skeleton
+Skeleton
+Skeleton
+DelJoint
+ShapeSkel
+-Limb
+Limits
+Limits
+SetPose
+ResetPose
+Envelope
+Envelope
+Skin2Bone
+Skin2Skeleton
+Object2Bone
+Weight
+Weight
+HealSkin
+Skin2Sel
+Sel2Skin
+Transfer
+Pos.Lock
+Pos.Lock
+Rot.Lock
+FullLock
+ModIkHndl
+AlignHndl
++Morph
+CustomToolbarButton
+X lock
+Y lock
+Z lock
+Undo
+Undo
+Redo
+SnapToGrid
+SnapToGrid
+DistFb
+PointEdit
+3D Encapsulate
+3D Encapsulate
+Encapsulate
+Flatten
+Unencapsulate
+Glue
+UnGlue
+Glue
+Physical simulation
+Set Camera
+Set Camera
+Set Camera
+Isometric 
+Perspective
+Perspective
+Nearest ortho
+Top
+Top
+Bottom
+Front
+Front
+Back
+Left
+Left
+Right
+Opaque
+Opaque
+Opaque
+OpaqueWires
+Transp
+TranspWires
+Wires
+WireframeGrid
+Wireframe Grid
+Opaque Grid
+No Grid
+ShowAll
+HideAll
+ShowAll
+Show
+Hide
+Show
+Reset Default
+New scene, 1
+Reset Default
+Default context backup
+Reset Default
+World
+World
+Object
+Tangent
+Screen
+Cube
+Cube
+Sphere
+Cylinder
+Torus
+Plane
+Cone
+Text
+Camera
+EntryPoint
+Omni
+Omni
+Infinite
+Projector
+Sky
+Directional
+Ambient
+Area
+Spot, 1
+Render Scene
+Render Scene
+Render Area
+Render Object
+Render Animation
+FP navigation
+FP navigation
+Move Cam
+Rotate Cam
+Fov Cam
+Rect zoom
+Reset
+Reset
+Look at Selection
+DynaPose
+DynaPose
+PhysMove
+Move
+Rotate
+Scale
+Look At
+UnLook At
+Look At
+Library browser
+LE Window
+Copy Window
+LE Window
+Command Prompt
+Output Console
+Command History
+Status view
+Stack View
+Anim View
+Package Manager
+Scene View
+3D Window, 1
+Record Toolbar
+Record Toolbar, 1
+jScript Macro Record Toolbar, 1
+VB Macro Record Toolbar, 1
+Shared Space
+Export to VE
+HW settings
+Manual
+Export to VE, 1
+FileRender, 1
+Copy object, 1
+Copy object
+Delete object
+YafaRay Render Settings
+YafaRay Export Render
+YafaRay Help
+YafaRay Render Settings
+Yafaray Infinite
+Yafaray Directional
+Yafaray Sphere
+Yafaray Spot
+Yafaray Point
+Yafaray Sun
+Yafaray Infinite
+Yafaray Arealight
+Yafaray IES Spot

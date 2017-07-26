@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="mg2modeller" InternalType="GUI" Version="10.0.0">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="include">
+    <File Name="include/camera.h"/>
+    <File Name="include/cube.h"/>
+    <File Name="include/display.h"/>
+    <File Name="include/divider.h"/>
+    <File Name="include/gui.h"/>
+    <File Name="include/light.h"/>
+    <File Name="include/math3d.h"/>
+    <File Name="include/mg2.h"/>
+    <File Name="include/object.h"/>
+    <File Name="include/plane.h"/>
+    <File Name="include/preferences.h"/>
+    <File Name="include/primitive.h"/>
+    <File Name="include/scene.h"/>
+    <File Name="include/tools.h"/>
+    <File Name="include/tools_edit.h"/>
+    <File Name="include/view.h"/>
+    <File Name="include/subdivision.h"/>
+    <File Name="include/animation.h"/>
+    <File Name="include/geometry.h"/>
+    <File Name="include/material.h"/>
+    <File Name="include/normal.h"/>
+    <File Name="include/texture.h"/>
+    <VirtualDirectory Name="gui">
+      <File Name="include/gui/tsgui.h"/>
+      <File Name="include/gui/tdsgui.h"/>
+      <File Name="include/gui/tdsgui_callbacks.h"/>
+      <File Name="include/gui/tsgui_callbacks.h"/>
+      <File Name="include/gui/callbacks.h"/>
+    </VirtualDirectory>
+    <File Name="include/render.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="src">
+    <File Name="main.cpp"/>
+    <File Name="src/view.cpp"/>
+    <File Name="src/tools.cpp"/>
+    <File Name="src/scene.cpp"/>
+    <File Name="src/primitive.cpp"/>
+    <File Name="src/preferences.cpp"/>
+    <File Name="src/plane.cpp"/>
+    <File Name="src/object.cpp"/>
+    <File Name="src/math3d.cpp"/>
+    <File Name="src/light.cpp"/>
+    <File Name="src/gui.cpp"/>
+    <File Name="src/edit.cpp"/>
+    <File Name="src/display.cpp"/>
+    <File Name="src/cube.cpp"/>
+    <File Name="src/camera.cpp"/>
+    <File Name="src/geometry.cpp"/>
+    <File Name="src/material.cpp"/>
+    <File Name="src/normal.cpp"/>
+    <File Name="src/animation.cpp"/>
+    <File Name="src/texture.cpp"/>
+    <VirtualDirectory Name="gui">
+      <File Name="src/gui/tdsgui.cpp"/>
+      <File Name="src/gui/tsgui.cpp"/>
+      <File Name="src/gui/tdsgui_callbacks.cpp"/>
+      <File Name="src/gui/callbacks.cpp"/>
+      <File Name="src/gui/tsgui_callbacks.cpp"/>
+    </VirtualDirectory>
+    <File Name="src/render.cpp"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-Wall;-O0;$(shell pkg-config --cflags gtkmm-3.0 glew gl)" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="-rdynamic $(shell pkg-config --libs gtkmm-3.0 glew gl)" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)/../" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="yes">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2;-Wall;$(shell pkg-config --cflags gtkmm-3.0)" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="$(shell pkg-config --libs gtkmm-3.0)" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[
+      ]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>

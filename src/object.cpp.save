@@ -1,0 +1,50 @@
+#include "../include/object.h"
+
+void object::create_object()
+{
+	int object_location[] = {0, 0, 0};
+	int object_rotation[] = {0, 0, 0};
+	int object_scale[] = {0, 0, 0};
+};
+
+void object::set_location(double loc_X, double loc_Y, double loc_Z)
+{
+/*	object_location[0] = loc_X;
+	object_location[1] = loc_Y;
+	object_location[2] = loc_Z;*/
+}
+
+void object::set_rotation(double rot_X, double rot_Y, double rot_Z)
+{
+/*	object_rotation[0] = rot_X;
+	object_rotation[1] = rot_Y;
+	object_rotation[2] = rot_Z;*/
+}
+
+void object::set_scale(double sca_X, double sca_Y, double sca_Z)
+{
+/*	object_scale[0] = sca_X;
+	object_scale[1] = sca_Y;
+	object_scale[2] = sca_Z;*/
+}
+
+void object::get_location()
+{
+	double cur_loc_X = 0;
+	double cur_loc_Y = 0;
+	double cur_loc_Z = 0;
+}
+
+void object::get_rotation()
+{
+	double cur_rot_X = 0;
+	double cur_rot_Y = 0;
+	double cur_rot_Z = 0;
+}
+
+void object::get_scale()
+{
+	double cur_sca_X = 0;
+	double cur_sca_Y = 0;
+	double cur_sca_Z = 0;
+}

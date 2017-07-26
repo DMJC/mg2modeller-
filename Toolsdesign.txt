@@ -1,0 +1,41 @@
+sweep
+	face
+	faces
+
+tip
+	face
+	faces
+	no shared edges
+
+lathe
+	face
+
+bevel
+	edge
+	face
+
+deform object
+sculpt surface
+deformation object
+taper
+skewing
+bend
+
+Shell
+Subtract
+Addition
+Difference
+
+Material Rectangle
+UV Mapping Editor
+
+UV Unwrapper
+Plane UV Mapper
+Cube UV Mapper
+Cylinder UV Mapper
+Spherical UV Mapper
+
+Quad
+Smooth Quad
+Triangle
+

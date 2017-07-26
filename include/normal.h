@@ -1,0 +1,5 @@
+class normal
+{
+	protected:
+	public:
+};
