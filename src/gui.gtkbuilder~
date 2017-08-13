@@ -2582,23 +2582,6 @@
       <placeholder/>
     </child>
   </object>
-  <object class="GtkWindow" id="object_tool_window">
-    <property name="can_focus">False</property>
-    <property name="resizable">False</property>
-    <property name="default_height">22</property>
-    <property name="decorated">False</property>
-    <child>
-      <object class="GtkButton">
-        <property name="label" translatable="yes">button</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-      </object>
-    </child>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-  </object>
   <object class="GtkWindow" id="ogl_setting_window">
     <property name="can_focus">False</property>
     <child>
@@ -5138,7 +5121,7 @@
     <property name="can_focus">False</property>
     <signal name="destroy" handler="quit_cb" swapped="no"/>
     <child>
-      <object class="GtkGrid" id="grid40">
+      <object class="GtkGrid" id="tds_packing_grid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
@@ -5681,7 +5664,7 @@
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">File</property>
                     <child type="submenu">
-                      <object class="GtkMenu" id="menu2">
+                      <object class="GtkMenu" id="tds_file_menu">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>

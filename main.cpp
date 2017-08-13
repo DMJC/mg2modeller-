@@ -16,7 +16,7 @@ int main(){
 
 	int interface_type = prefs.get_interface_type();
 
-	if(interface_type == 0){
+	if(interface_type == 1){
 		ts_gui ts;
 		ts.setbuilder("src/gui.gtkbuilder");
 		ts.make_gui(prefs, new_scene);

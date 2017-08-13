@@ -57,7 +57,7 @@ Debug/main.cpp.o: main.cpp include/mg2.h /usr/include/gtkmm-3.0/gtkmm.h \
  /usr/include/glib-2.0/glib/gtrashstack.h \
  /usr/include/glib-2.0/glib/gtree.h \
  /usr/include/glib-2.0/glib/gurifuncs.h \
- /usr/include/glib-2.0/glib/gversion.h \
+ /usr/include/glib-2.0/glib/guuid.h /usr/include/glib-2.0/glib/gversion.h \
  /usr/include/glib-2.0/glib/deprecated/gallocator.h \
  /usr/include/glib-2.0/glib/deprecated/gcache.h \
  /usr/include/glib-2.0/glib/deprecated/gcompletion.h \
@@ -1148,7 +1148,8 @@ Debug/main.cpp.o: main.cpp include/mg2.h /usr/include/gtkmm-3.0/gtkmm.h \
  include/camera.h include/../include/object.h include/render.h \
  include/gui/tsgui.h include/gui/../gui.h include/gui/../scene.h \
  include/gui/callbacks.h include/gui/tsgui_callbacks.h \
- include/gui/../mg2.h include/gui/tdsgui.h include/gui/tdsgui_callbacks.h
+ include/gui/../mg2.h include/gui/mg2toolbutton.h include/gui/../tools.h \
+ include/gui/tdsgui.h include/gui/tdsgui_callbacks.h
 
 include/mg2.h:
 
@@ -1297,6 +1298,8 @@ include/mg2.h:
 /usr/include/glib-2.0/glib/gtree.h:
 
 /usr/include/glib-2.0/glib/gurifuncs.h:
+
+/usr/include/glib-2.0/glib/guuid.h:
 
 /usr/include/glib-2.0/glib/gversion.h:
 
@@ -3581,6 +3584,10 @@ include/gui/callbacks.h:
 include/gui/tsgui_callbacks.h:
 
 include/gui/../mg2.h:
+
+include/gui/mg2toolbutton.h:
+
+include/gui/../tools.h:
 
 include/gui/tdsgui.h:
 

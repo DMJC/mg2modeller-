@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=James Carthew
-Date                   :=07/26/17
+Date                   :=08/13/17
 CodeLitePath           :=/home/james/.codelite
 LinkerName             :=g++
 SharedObjectLinkerName :=g++ -shared -fPIC
@@ -62,7 +62,7 @@ AS       := as
 CodeLiteDir:=/usr/share/codelite
 Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_view.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_tools.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_scene.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_primitive.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_preferences.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_plane.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_object.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_math3d.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_light.cpp$(ObjectSuffix) \
 	$(IntermediateDirectory)/src_gui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_edit.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_display.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_cube.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_geometry.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_material.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_normal.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_animation.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_texture.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_render.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tdsgui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tsgui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tdsgui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tsgui_callbacks.cpp$(ObjectSuffix) 
+	$(IntermediateDirectory)/src_render.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tdsgui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tsgui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tdsgui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tsgui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(ObjectSuffix) 
 
 
 
@@ -300,6 +300,14 @@ $(IntermediateDirectory)/src_gui_tsgui_callbacks.cpp$(DependSuffix): src/gui/tsg
 
 $(IntermediateDirectory)/src_gui_tsgui_callbacks.cpp$(PreprocessSuffix): src/gui/tsgui_callbacks.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_gui_tsgui_callbacks.cpp$(PreprocessSuffix) src/gui/tsgui_callbacks.cpp
+
+$(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(ObjectSuffix): src/gui/mg2toolbutton.cpp $(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/gui/mg2toolbutton.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(DependSuffix): src/gui/mg2toolbutton.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(DependSuffix) -MM src/gui/mg2toolbutton.cpp
+
+$(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(PreprocessSuffix): src/gui/mg2toolbutton.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(PreprocessSuffix) src/gui/mg2toolbutton.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

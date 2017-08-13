@@ -36,6 +36,7 @@
       <File Name="include/gui/tdsgui_callbacks.h"/>
       <File Name="include/gui/tsgui_callbacks.h"/>
       <File Name="include/gui/callbacks.h"/>
+      <File Name="include/gui/mg2toolbutton.h"/>
     </VirtualDirectory>
     <File Name="include/render.h"/>
   </VirtualDirectory>
@@ -66,6 +67,7 @@
       <File Name="src/gui/tdsgui_callbacks.cpp"/>
       <File Name="src/gui/callbacks.cpp"/>
       <File Name="src/gui/tsgui_callbacks.cpp"/>
+      <File Name="src/gui/mg2toolbutton.cpp"/>
     </VirtualDirectory>
     <File Name="src/render.cpp"/>
   </VirtualDirectory>

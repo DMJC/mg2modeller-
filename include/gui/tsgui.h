@@ -4,6 +4,7 @@
 #include "../scene.h"
 #include "callbacks.h"
 #include "tsgui_callbacks.h"
+#include "mg2toolbutton.h"
 
 class ts_gui : public gui
 {

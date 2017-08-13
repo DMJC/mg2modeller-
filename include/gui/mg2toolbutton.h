@@ -1,19 +1,10 @@
 #ifndef MG2TOOLBUTTON_H
 #define MG2TOOLBUTTON_H
 #include <gtkmm.h>
-//#include "tool.h"
+#include "../tools.h"
 #include <iostream>
+#include <list>
 #include <string>
-
-struct tool{
-    string name;
-    string tooltip;
-    string image_filename;
-    callback left_click_callback;
-    callback right_click_callback;
-    callback long_left_click_callback;
-    callback long_right_click_callback;
-};
 
 struct pressrelease {
     unsigned int button;

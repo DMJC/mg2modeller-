@@ -1,4 +1,5 @@
-#include "mg2toolbutton.h"
+#include "../../include/gui/mg2toolbutton.h"
+
 
 ToolButton::ToolButton(std::list<tool>& tool_list)
 {
@@ -9,10 +10,10 @@ ToolButton::ToolButton(std::list<tool>& tool_list)
     this->name = tool_list.front().name;
     this->tooltip = tool_list.front().tooltip;
     this->image_filename = tool_list.front().image_filename;
-    void (*left_click_callback)(void) = tool_list.front().left_click_callback;
-    void (*right_click_callback)(void) = tool_list.front().right_click_callback;
-    void (*long_left_click_callback)(void) = tool_list.front().long_left_click_callback;
-    void (*long_right_click_callback)(void) = tool_list.front().long_right_click_callback;
+    this->left_click_callback = tool_list.front().left_click_callback;
+    this->right_click_callback = tool_list.front().right_click_callback;
+    this->long_left_click_callback = tool_list.front().long_left_click_callback;
+    this->long_right_click_callback = tool_list.front().long_right_click_callback;
     this->tool_list = &tool_list;
     this->set_size_request(32, 24);
     this->buttonimage = new Gtk::Image( this->image_filename );
@@ -48,7 +49,7 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 	switch (event->button){
 
 	case 3:
-	    if ((finish_time - this->start_time) >= 200){
+	    if ((finish_time - this->start_time) >= 200 && this->tool_list->size() > 1){
 		    std::cout << "Menu click" << std::endl;
 			this->Trigger_Menu(*this->tool_list, event);
 	    } else {
@@ -61,7 +62,7 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 	    }
 	break;
 	default:
-	    if ((finish_time - this->start_time) >= 200){
+	    if ((finish_time - this->start_time) >= 200 && this->tool_list->size() > 1){
 		    std::cout << "Menu click" << std::endl;
 			this->Trigger_Menu(*this->tool_list, event);
 	    } else {
