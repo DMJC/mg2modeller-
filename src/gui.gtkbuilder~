@@ -6612,20 +6612,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">O</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-          </object>
-          <packing>
-            <property name="left_attach">20</property>
-            <property name="top_attach">1</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkToggleButton" id="togglebutton12">
             <property name="label" translatable="yes">Z</property>
             <property name="visible">True</property>
@@ -6668,88 +6654,25 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">C</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-          </object>
-          <packing>
-            <property name="left_attach">16</property>
-            <property name="top_attach">1</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">V</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-          </object>
-          <packing>
-            <property name="left_attach">15</property>
-            <property name="top_attach">1</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">P</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-          </object>
-          <packing>
-            <property name="left_attach">14</property>
-            <property name="top_attach">1</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">V</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-          </object>
-          <packing>
-            <property name="left_attach">13</property>
-            <property name="top_attach">1</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">D</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-          </object>
-          <packing>
-            <property name="left_attach">12</property>
-            <property name="top_attach">1</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
-          <object class="GtkButton">
-            <property name="label" translatable="yes">R</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-          </object>
-          <packing>
-            <property name="left_attach">11</property>
-            <property name="top_attach">1</property>
-          </packing>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
     </child>

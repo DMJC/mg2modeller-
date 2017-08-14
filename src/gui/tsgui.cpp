@@ -38,10 +38,12 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	Gtk::Window* torus_window = nullptr;
 	Gtk::Window* undo_options_window = nullptr;
 	Gtk::Grid* view_grid = nullptr;
+	Gtk::Grid* main_window_grid = nullptr;
 	Gtk::ImageMenuItem* ts_quit_button = nullptr;
 
 
 		/*TS Style UI*/
+	this -> builder->get_widget("main_window_grid", main_window_grid);
 	this -> builder->get_widget("ts_main_window", main_window);
 	this -> builder->get_widget("edit_window", edit_window);
 	this -> builder->get_widget("boolean_window", boolean_window);
@@ -81,9 +83,81 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	this -> builder->get_widget("ts_quit_button", ts_quit_button);
     gtk_builder_connect_signals (this->builder->gobj(), NULL);
 
-	int num_views = 1;
+	list<tool> render_list = {
+		{"Render Current Object", "Render Current Object", "pix/render_object.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Render Portion of Screen", "Render Portion of Screen", "render_screen.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Render Scene", "Render Scene", "pix/render_scene.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Render Scene to File", "Render Scene to File", "pix/render_to_file.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Compute Textures from Illumination", "Compute Textures from Illumination", "pix/compute_textures.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton render_tools = ToolButton(render_list);
+
+	list<tool> draw_mode_list = {
+		{"Draw Objects as Wireframe", "Draw Objects as Wireframe", "pix/draw_wireframe.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Draw Objects as Transparent Outline", "Draw Objects as Transparent Outline", "pix/draw_transparent_wire.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Draw Objects as Solid Outline", "Draw Objects as Solid Outline", "pix/draw_solid_wire.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Draw Objects as Transparent", "Draw Objects as Transparent", "pix/draw_transparent.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Draw Objects as Solid", "Draw Objects as Solid", "pix/draw_solid.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Draw Objects as Radiosity", "Draw Objects as Radiosity", "pix/draw_radiosity.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton draw_mode_tools = ToolButton(draw_mode_list);
+	
+	list<tool> splitscreen_list = {
+		{"Quad View", "Quad View", "pix/view_quad.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Triple View", "Triple View", "pix/view_triple.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Split View", "Split View", "pix/view_double.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Single View", "Single View", "pix/view_single.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton splitscreen_tools = ToolButton(splitscreen_list);
+
+	list<tool> view_list = {
+		{"Perspective View", "Perspective View", "pix/view_perspective.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Front View", "Front View", "pix/view_front.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Left View", "Left View", "pix/view_left.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Top View", "Top View", "pix/view_top.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Back View", "Back View", "pix/view_back.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Right View", "Right View", "pix/view_right.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Bottom View", "Bottom View", "pix/view_bottom.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Camera View", "Camera View", "pix/view_camera.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton view_tools = ToolButton(view_list);
+
+	list<tool> new_view_list = {
+		{"New Perspective View", "New Perspective View", "pix/new_view_perspective.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"New Front View", "New Front View", "pix/new_view_front.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"New Left View", "New Left View", "pix/new_view_left.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"New Top View", "New Top View", "pix/new_view_top.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"New Back View", "New Back View", "pix/new_view_back.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"New Right View", "New Right View", "pix/new_view_right.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"New Bottom View", "New Bottom View", "pix/new_view_bottom.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"New Camera View", "New Camera View", "pix/new_view_camera.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton new_view_tools = ToolButton(new_view_list);
+
+	list<tool> coordinates_list = {
+		{"World Coordinates", "Use World Coordinates", "pix/coords_world.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Screen Coordinates", "Use Screen Coordinates", "pix/coords_screen.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Object Coordinates", "Use Object Coordinates", "pix/coords_object.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton coordinates_tools = ToolButton(coordinates_list);
+
+	list<tool> renderer_list = {
+		{"OpenGL Renderer", "Use OpenGL Renderer", "pix/opengl.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Vulkan Renderer", "Use Vulkan Renderer", "pix/vulkan.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton renderer_tools = ToolButton(renderer_list);
+
+	main_window_grid->attach(render_tools,4,1,1,1);
+	main_window_grid->attach(draw_mode_tools,5,1,1,1);
+	main_window_grid->attach(splitscreen_tools,6,1,1,1);
+	main_window_grid->attach(view_tools,7,1,1,1);
+	main_window_grid->attach(new_view_tools,8,1,1,1);
+	main_window_grid->attach(coordinates_tools,9,1,1,1);
+	main_window_grid->attach(renderer_tools,12,1,1,1);
+	main_window_grid->show();
 
 	main_window->show();
+	int num_views = 1;
 	view_grid->show();
 
 	view view3d_4(LEFT_VIEW, WIREFRAME_VIEW, scene );
