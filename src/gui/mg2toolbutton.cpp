@@ -16,6 +16,7 @@ ToolButton::ToolButton(std::list<tool>& tool_list)
     this->long_right_click_callback = tool_list.front().long_right_click_callback;
     this->tool_list = &tool_list;
     this->set_size_request(32, 24);
+	this->Set_Gravity( Gdk::GRAVITY_NORTH, Gdk::GRAVITY_SOUTH );
     this->buttonimage = new Gtk::Image( this->image_filename );
     this->set_image(*this->buttonimage);
     this->show();
@@ -77,7 +78,7 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 	std::cout << "Click Took: " << finish_time - this->start_time << std::endl;
 }
 
-int ToolButton::Trigger_Menu(std::list<tool>& tool_list, GdkEventButton * event){
+void ToolButton::Trigger_Menu(std::list<tool>& tool_list, GdkEventButton * event){
     std::cout << "Opening Menu" << std::endl;
     int list_size = 0;
     list_size = tool_list.size();
@@ -97,9 +98,22 @@ int ToolButton::Trigger_Menu(std::list<tool>& tool_list, GdkEventButton * event)
     	Menu->attach(*MenuItem,0,1,i,i+1);
         i++;
     }
-    Menu->set_size_request(32, 24);
+//    Menu->set_size_request(32, 24);
     Menu->set_reserve_toggle_size(FALSE);
-    Menu->popup_at_widget(this, Gdk::GRAVITY_NORTH, Gdk::GRAVITY_SOUTH, nullptr);
-    Menu->show_all();
+	Menu->popup_at_widget(this, this->Gravity_Menu, this->Gravity_Button, nullptr);
+	Menu->show_all();
     std::cout << "Showing Tools" << std::endl;
+}
+
+void ToolButton::Set_Gravity(Gdk::Gravity Gravity_Menu, Gdk::Gravity Gravity_Button){
+		this->Gravity_Menu = Gravity_Menu;
+		this->Gravity_Button = Gravity_Button;
+}
+
+Gdk::Gravity ToolButton::Get_Gravity_Menu(void){
+	return this->Gravity_Menu;
+}
+
+Gdk::Gravity ToolButton::Get_Gravity_Button(void){
+	return this->Gravity_Button;
 }

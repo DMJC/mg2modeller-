@@ -1736,6 +1736,7 @@
   </object>
   <object class="GtkWindow" id="object_info_window">
     <property name="can_focus">False</property>
+    <property name="gravity">north</property>
     <child>
       <object class="GtkGrid" id="grid4">
         <property name="visible">True</property>

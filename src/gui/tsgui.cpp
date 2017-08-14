@@ -81,7 +81,26 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	this -> builder->get_widget("undo_options_window", undo_options_window);
 	this -> builder->get_widget("ts_view_grid", view_grid);
 	this -> builder->get_widget("ts_quit_button", ts_quit_button);
-    gtk_builder_connect_signals (this->builder->gobj(), NULL);
+	edit_window->set_keep_above(TRUE);
+	object_info_window->set_keep_above(TRUE);
+	int h_loc = 0;
+    int w_loc = 0;
+	int s_width = 0;
+    int s_height = 0;
+
+	Glib::RefPtr <Gdk::Screen> cur_screen = Gdk::Screen::get_default();
+    cur_screen = main_window->get_screen();
+    s_width =  cur_screen->get_width();
+    s_height = cur_screen->get_height();
+    std::cout << "Resolution is: " << s_width <<" x "<< s_height << std::endl;
+	
+    w_loc = (s_width - 300);
+    h_loc = (s_height - 32);
+
+    object_info_window->move(w_loc, h_loc/2);
+
+	
+    	gtk_builder_connect_signals (this->builder->gobj(), NULL);
 
 	list<tool> render_list = {
 		{"Render Current Object", "Render Current Object", "pix/render_object.xpm", nullptr, nullptr, nullptr, nullptr },
@@ -221,7 +240,9 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	view_object_tool_grid.add(object_hierarchy_up_tool);
 	view_object_tool_grid.add(object_hierarchy_down_tool);
 	view_object_tool_grid.show();
+	view_object_tool_window.set_keep_above(TRUE);
 	view_object_tool_window.add(view_object_tool_grid);
+	view_object_tool_window.move(w_loc/2, 52);
 	view_object_tool_window.show();
 
 	list<tool> polygon_tool_list = {
@@ -392,7 +413,9 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	main_tool_grid.add(uv_projection_tools);
 	main_tool_grid.add(normalisation_tools);
 	main_tool_grid.show();
+	main_tool_window.set_keep_above(TRUE);
 	main_tool_window.add(main_tool_grid);
+	main_tool_window.move(0, h_loc-40);
 	main_tool_window.show();
 
 
@@ -490,7 +513,10 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	object_tool_grid.add(button_finder_tools);
 	object_tool_grid.show();
 	object_tool_window.add(object_tool_grid);
+	object_tool_window.set_keep_above(TRUE);
+	object_tool_window.move(w_loc+16, h_loc-40);
 	object_tool_window.show();
+
 		
 	main_window->maximize();Gtk::Builder::create_from_file("src/gui.gtkbuilder");
 	this -> app->run(*main_window);
