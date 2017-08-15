@@ -12,127 +12,127 @@
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/gui/callbacks.h" Name="FileName"/>
-      <int Value="18" Name="FirstVisibleLine"/>
+      <int Value="15" Name="FirstVisibleLine"/>
       <int Value="16" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/src/gui/tdsgui.cpp" Name="FileName"/>
-      <int Value="22" Name="FirstVisibleLine"/>
+      <int Value="48" Name="FirstVisibleLine"/>
       <int Value="46" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/gui/tdsgui.h" Name="FileName"/>
-      <int Value="7" Name="FirstVisibleLine"/>
+      <int Value="4" Name="FirstVisibleLine"/>
       <int Value="5" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/src/gui.cpp" Name="FileName"/>
-      <int Value="63" Name="FirstVisibleLine"/>
+      <int Value="60" Name="FirstVisibleLine"/>
       <int Value="61" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/gui.h" Name="FileName"/>
-      <int Value="16" Name="FirstVisibleLine"/>
+      <int Value="13" Name="FirstVisibleLine"/>
       <int Value="14" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/gui/tsgui.h" Name="FileName"/>
-      <int Value="7" Name="FirstVisibleLine"/>
+      <int Value="4" Name="FirstVisibleLine"/>
       <int Value="5" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/src/gui/tdsgui_callbacks.cpp" Name="FileName"/>
-      <int Value="78" Name="FirstVisibleLine"/>
+      <int Value="77" Name="FirstVisibleLine"/>
       <int Value="78" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/src/gui/tsgui.cpp" Name="FileName"/>
-      <int Value="68" Name="FirstVisibleLine"/>
+      <int Value="71" Name="FirstVisibleLine"/>
       <int Value="69" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/gui/tdsgui_callbacks.h" Name="FileName"/>
-      <int Value="19" Name="FirstVisibleLine"/>
+      <int Value="16" Name="FirstVisibleLine"/>
       <int Value="17" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/gui/tsgui_callbacks.h" Name="FileName"/>
-      <int Value="7" Name="FirstVisibleLine"/>
+      <int Value="4" Name="FirstVisibleLine"/>
       <int Value="5" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/mg2.h" Name="FileName"/>
-      <int Value="22" Name="FirstVisibleLine"/>
+      <int Value="19" Name="FirstVisibleLine"/>
       <int Value="20" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/divider.h" Name="FileName"/>
-      <int Value="11" Name="FirstVisibleLine"/>
+      <int Value="8" Name="FirstVisibleLine"/>
       <int Value="9" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/camera.h" Name="FileName"/>
-      <int Value="9" Name="FirstVisibleLine"/>
+      <int Value="6" Name="FirstVisibleLine"/>
       <int Value="7" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/object.h" Name="FileName"/>
-      <int Value="21" Name="FirstVisibleLine"/>
+      <int Value="18" Name="FirstVisibleLine"/>
       <int Value="19" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/include/scene.h" Name="FileName"/>
-      <int Value="18" Name="FirstVisibleLine"/>
+      <int Value="15" Name="FirstVisibleLine"/>
       <int Value="16" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/src/gui/tsgui_callbacks.cpp" Name="FileName"/>
-      <int Value="1" Name="FirstVisibleLine"/>
+      <int Value="0" Name="FirstVisibleLine"/>
       <int Value="1" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/main.cpp" Name="FileName"/>
-      <int Value="3" Name="FirstVisibleLine"/>
+      <int Value="0" Name="FirstVisibleLine"/>
       <int Value="1" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/james/development/mg2modeller/mg2modeller++/src/gui/mg2toolbutton.cpp" Name="FileName"/>
-      <int Value="75" Name="FirstVisibleLine"/>
-      <int Value="100" Name="CurrentLine"/>
+      <int Value="176" Name="FirstVisibleLine"/>
+      <int Value="299" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
