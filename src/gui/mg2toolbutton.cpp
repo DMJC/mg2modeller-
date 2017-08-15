@@ -98,10 +98,10 @@ void ToolButton::Trigger_Menu(std::list<tool>& tool_list, GdkEventButton * event
     	Menu->attach(*MenuItem,0,1,i,i+1);
         i++;
     }
-//    Menu->set_size_request(32, 24);
+    Menu->set_size_request(32, 24);
     Menu->set_reserve_toggle_size(FALSE);
-	Menu->popup_at_widget(this, this->Gravity_Menu, this->Gravity_Button, nullptr);
-	Menu->show_all();
+    Menu->show_all();
+    Menu->popup_at_widget(this, this->Gravity_Menu, this->Gravity_Button, nullptr);
     std::cout << "Showing Tools" << std::endl;
 }
 
