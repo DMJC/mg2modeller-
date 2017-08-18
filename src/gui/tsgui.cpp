@@ -315,7 +315,7 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	ToolButton sweep_tools = ToolButton(sweep_tool_list);
 
 	list<tool> subdivision_tool_list = {
-		{ "Subdivision Object", "Subdivision Object", "pix/subdiv_object.xpm", nullptr, nullptr, nullptr, nullptr }, 
+		{ "Subdivision Object", "Subdivision Object", "pix/subdivision_object.xpm", nullptr, nullptr, nullptr, nullptr }, 
 		{ "Plastiform", "Plastiform", "pix/plastiform.xpm", nullptr, nullptr, nullptr, nullptr }
 	};
 	ToolButton subdivision_tools = ToolButton(subdivision_tool_list);
@@ -329,11 +329,13 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	ToolButton boolean_tools = ToolButton(boolean_tool_list);
 
 	list<tool> deformation_tool_list = {
-		{ "Taper Current Object", "Taper Current Object", "pix/object_taper.xpm", nullptr, nullptr, nullptr, nullptr }, 
-		{ "Deform", "Deform", "pix/deform.xpm", nullptr, nullptr, nullptr, nullptr }, 
-		{ "Sculpt", "Sculpt", "pix/sculpt.xpm", nullptr, nullptr, nullptr, nullptr }, 
-		{ "Skew Current Object", "Skew Current Object", "pix/object_skew.xpm", nullptr, nullptr, nullptr, nullptr }, 
-		{ "Bend Current Object", "Bend Current Object", "pix/object_bend.xpm", nullptr, nullptr, nullptr, nullptr }
+		{ "Taper Current Object", "Taper Current Object", "pix/taper_object.xpm", nullptr, nullptr, nullptr, nullptr }, 
+		{ "Deform", "Deform", "pix/deform_object.xpm", nullptr, nullptr, nullptr, nullptr }, 
+		{ "Sculpt", "Sculpt", "pix/sculpt_surface.xpm", nullptr, nullptr, nullptr, nullptr }, 
+		{ "Skew Current Object", "Skew Current Object", "pix/skew_object.xpm", nullptr, nullptr, nullptr, nullptr }, 
+		{ "Bend Current Object", "Bend Current Object", "pix/bend_object.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Standalone Deformation Object", "Standalone Deformation Object", "pix/standalone_deformation.xpm", nullptr, nullptr, nullptr, nullptr }, 
+		{ "Delete Deformation Object", "Delete Deformation Object", "pix/delete_deformation.xpm", nullptr, nullptr, nullptr, nullptr }
 	};
 	ToolButton deformation_tools = ToolButton(deformation_tool_list);
 
@@ -391,6 +393,26 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	};
 	ToolButton normalisation_tools = ToolButton(normalisation_tool_list);
 
+	list<tool> geometry_tool_list = {
+		{ "Polygon Reduction Tool", "Polygon Reduction Tool", "pix/reduce.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Dimensioning Tool", "Dimensioning Tool", "pix/dimensioning.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Mirror Modelling", "Mirror Modelling", "pix/mirror.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Split Hierarchy", "Split hierarchy into polyhedra and IK linked branches", "pix/split_hierarchy.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Decompose Object", "Decompose into objects", "pix/decompose.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Flip Normals", "Flip all normals", "pix/flip_normals.xpm", nullptr, nullptr, nullptr, nullptr },	
+		{ "Flip Object Faces", "Select object and flip faces", "pix/flip_object_faces.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Fix Geometry", "Try to fix bad geometry", "pix/fix_bad_geometry.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Quad Divide", "Quad Divide", "pix/quad_divide.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Smooth Quad Divide", "Smooth Quad Divide", "pix/smooth_quad_divide.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Triangulate", "Triangulate", "pix/triangulate.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton geometry_tools = ToolButton(geometry_tool_list);
+
+	list<tool> plugin_tool_list = {
+		{ "Add Plugin", "Add Plugin", "pix/plugin.xpm", nullptr, nullptr, nullptr, nullptr }
+	};
+	ToolButton plugin_tools = ToolButton(plugin_tool_list);
+
 	Gtk::Window main_tool_window;
 	Gtk::Box main_tool_grid;
 	main_tool_window.set_default_size(32, 24);
@@ -412,6 +434,8 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	main_tool_grid.add(uv_mapping_tools);
 	main_tool_grid.add(uv_projection_tools);
 	main_tool_grid.add(normalisation_tools);
+	main_tool_grid.add(geometry_tools);
+	main_tool_grid.add(plugin_tools);
 	main_tool_grid.show();
 	main_tool_window.set_keep_above(TRUE);
 	main_tool_window.add(main_tool_grid);
@@ -433,10 +457,10 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 		{ "Point Edit Vertices", "Point Edit Vertices", "pix/select_vertices.xpm", select_vertices, nullptr, nullptr, nullptr }, 
 		{ "Point Edit Edges", "Point Edit Edges", "pix/select_edges.xpm", select_edges, nullptr, nullptr, nullptr }, 
 		{ "Point Edit Faces", "Point Edit Faces", "pix/select_faces.xpm", select_faces, nullptr, nullptr, nullptr }, 
-		{ "Named Selection", "Named Selection", "pix/named_selection.xpm", named_selection, nullptr, nullptr, nullptr }, 
-		{ "Select Using Lasso", "Select Using Lasso", "pix/lasso_selection.xpm", lasso_selection, nullptr, nullptr, nullptr }, 
-		{ "Select Using Rectangle", "Select Using Rectangle", "pix/rectangle_selection.xpm", rectangle_selection, nullptr, nullptr, nullptr }, 
-		{ "Select Using Freehand", "Select Using Freehand", "pix/freehand_selection.xpm", freehand_selection, nullptr, nullptr, nullptr } 
+		{ "Named Selection", "Named Selection", "pix/select_named.xpm", named_selection, nullptr, nullptr, nullptr }, 
+		{ "Select Using Lasso", "Select Using Lasso", "pix/select_lasso.xpm", lasso_selection, nullptr, nullptr, nullptr }, 
+		{ "Select Using Rectangle", "Select Using Rectangle", "pix/select_rectangle.xpm", rectangle_selection, nullptr, nullptr, nullptr }, 
+		{ "Select Using Freehand", "Select Using Freehand", "pix/select_freehand.xpm", freehand_selection, nullptr, nullptr, nullptr } 
 	};
 	ToolButton edit_tools = ToolButton(edit_tool_list);
 
