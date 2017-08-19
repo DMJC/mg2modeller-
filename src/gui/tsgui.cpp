@@ -353,9 +353,39 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	ToolButton draw_panel_tools = ToolButton(draw_panel_tool_list);
 
 	list<tool> curve_tool_list = {
-		{ "Add Freehand Curve", "Add Freehand Curve", "pix/freehand_curve.xpm", freehand_curve, nullptr, nullptr, nullptr }
+		{ "Add Freehand Curve", "Add Freehand Curve", "pix/freehand_curve.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Add Curve", "Add Curve", "pix/curve.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Add Polyline", "Add Polyline", "pix/polyline.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Add Circular Arc Drawn by Center and two Points", "Add Circular Arc Drawn by Center and two Points", "pix/circular_arc_center_two_points.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Add Circular Arc", "Add Circular Arc", "pix/circular_arc_three_points.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Add Elliptical Arc", "Add Elliptical Arc", "pix/elliptical_arc_center_vertex_point.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Add Elliptical Arc", "Add Elliptical Arc", "pix/elliptical_arc_center_three_points.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Circle Drawn by Center and Point", "Circle Drawn by Center and Point", "pix/circle_point.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Circle Drawn by Two Points", "Circle Drawn by Two Points", "pix/circle_two_points.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Circle Drawn by Three Points", "Circle Drawn by Three Points", "pix/circle_three_points.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Add Regular Polygon", "Add Regular Polygon", "pix/regular_polygon.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Ellipse Drawn by Center and Point", "Ellipse Drawn by Center and Point", "pix/ellipse_point.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Ellipse Drawn by Center, Vertex Point", "Ellipse Drawn by Center, Vertex Point", "pix/ellipse_center_vertex_point.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Ellipse Drawn by Center, two Focuses and Point", "Ellipse Drawn by Center, two Focuses and Point", "pix/ellipse_two_focus_point.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Ellipse Drawn by two Vertices and Point", "Ellipse Drawn by two Vertices and Point", "pix/ellipse_two_vertex_point.xpm", freehand_curve, nullptr, nullptr, nullptr },
+		{ "Add Vertical Text", "Add Vertical Text, Right Click scene to select Font", "pix/text.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Add Horizontal Text", "Add Horizontal Text, Right Click scene to select Font", "pix/horizontal_text.xpm", nullptr, nullptr, nullptr, nullptr }
 	};
 	ToolButton curve_tools = ToolButton(curve_tool_list);
+
+	list<tool> skin_tool_list = {
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr },
+		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr }
+	};
+	ToolButton skin_tools = ToolButton(skin_tool_list);
 
 	list<tool> material_tool_list = {
 		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", material_editor, nullptr, nullptr, nullptr }
@@ -394,7 +424,7 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	ToolButton normalisation_tools = ToolButton(normalisation_tool_list);
 
 	list<tool> geometry_tool_list = {
-		{ "Polygon Reduction Tool", "Polygon Reduction Tool", "pix/reduce.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Polygon Reduction Tool", "Polygon Reduction Tool", "pix/lod.xpm", nullptr, nullptr, nullptr, nullptr },
 		{ "Dimensioning Tool", "Dimensioning Tool", "pix/dimensioning.xpm", nullptr, nullptr, nullptr, nullptr },
 		{ "Mirror Modelling", "Mirror Modelling", "pix/mirror.xpm", nullptr, nullptr, nullptr, nullptr },
 		{ "Split Hierarchy", "Split hierarchy into polyhedra and IK linked branches", "pix/split_hierarchy.xpm", nullptr, nullptr, nullptr, nullptr },
@@ -429,6 +459,7 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 	main_tool_grid.add(array_tools);
 	main_tool_grid.add(draw_panel_tools);
 	main_tool_grid.add(curve_tools);
+	main_tool_grid.add(skin_tools);
 	main_tool_grid.add(material_tools);
 	main_tool_grid.add(threed_paint_tools);
 	main_tool_grid.add(uv_mapping_tools);
