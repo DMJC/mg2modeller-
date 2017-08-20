@@ -104,7 +104,7 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 
 	list<tool> render_list = {
 		{"Render Current Object", "Render Current Object", "pix/render_object.xpm", nullptr, nullptr, nullptr, nullptr },
-		{"Render Portion of Screen", "Render Portion of Screen", "render_screen.xpm", nullptr, nullptr, nullptr, nullptr },
+		{"Render Portion of Screen", "Render Portion of Screen", "pix/render_selection.xpm", nullptr, nullptr, nullptr, nullptr },
 		{"Render Scene", "Render Scene", "pix/render_scene.xpm", nullptr, nullptr, nullptr, nullptr },
 		{"Render Scene to File", "Render Scene to File", "pix/render_to_file.xpm", nullptr, nullptr, nullptr, nullptr },
 		{"Compute Textures from Illumination", "Compute Textures from Illumination", "pix/compute_textures.xpm", nullptr, nullptr, nullptr, nullptr }
@@ -431,7 +431,7 @@ void ts_gui::make_gui(preferences &prefs, scene &scene)
 		{ "Decompose Object", "Decompose into objects", "pix/decompose.xpm", nullptr, nullptr, nullptr, nullptr },
 		{ "Flip Normals", "Flip all normals", "pix/flip_normals.xpm", nullptr, nullptr, nullptr, nullptr },	
 		{ "Flip Object Faces", "Select object and flip faces", "pix/flip_object_faces.xpm", nullptr, nullptr, nullptr, nullptr },
-		{ "Fix Geometry", "Try to fix bad geometry", "pix/fix_bad_geometry.xpm", nullptr, nullptr, nullptr, nullptr },
+		{ "Fix Geometry", "Try to fix bad geometry", "pix/fix_geometry.xpm", nullptr, nullptr, nullptr, nullptr },
 		{ "Quad Divide", "Quad Divide", "pix/quad_divide.xpm", nullptr, nullptr, nullptr, nullptr },
 		{ "Smooth Quad Divide", "Smooth Quad Divide", "pix/smooth_quad_divide.xpm", nullptr, nullptr, nullptr, nullptr },
 		{ "Triangulate", "Triangulate", "pix/triangulate.xpm", nullptr, nullptr, nullptr, nullptr }
