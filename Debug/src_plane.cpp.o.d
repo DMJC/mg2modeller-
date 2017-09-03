@@ -61,7 +61,7 @@ Debug/src_plane.cpp.o: src/plane.cpp src/../include/plane.h \
  /usr/include/glib-2.0/glib/gtrashstack.h \
  /usr/include/glib-2.0/glib/gtree.h \
  /usr/include/glib-2.0/glib/gurifuncs.h \
- /usr/include/glib-2.0/glib/guuid.h /usr/include/glib-2.0/glib/gversion.h \
+ /usr/include/glib-2.0/glib/gversion.h \
  /usr/include/glib-2.0/glib/deprecated/gallocator.h \
  /usr/include/glib-2.0/glib/deprecated/gcache.h \
  /usr/include/glib-2.0/glib/deprecated/gcompletion.h \
@@ -1312,8 +1312,6 @@ src/../include/mg2.h:
 /usr/include/glib-2.0/glib/gtree.h:
 
 /usr/include/glib-2.0/glib/gurifuncs.h:
-
-/usr/include/glib-2.0/glib/guuid.h:
 
 /usr/include/glib-2.0/glib/gversion.h:
 

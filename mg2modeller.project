@@ -9,7 +9,6 @@
   <Dependencies/>
   <VirtualDirectory Name="include">
     <File Name="include/camera.h"/>
-    <File Name="include/cube.h"/>
     <File Name="include/display.h"/>
     <File Name="include/divider.h"/>
     <File Name="include/gui.h"/>
@@ -54,7 +53,6 @@
     <File Name="src/gui.cpp"/>
     <File Name="src/edit.cpp"/>
     <File Name="src/display.cpp"/>
-    <File Name="src/cube.cpp"/>
     <File Name="src/camera.cpp"/>
     <File Name="src/geometry.cpp"/>
     <File Name="src/material.cpp"/>

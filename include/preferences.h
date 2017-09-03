@@ -32,7 +32,5 @@ class preferences
 		int get_grid_resolution();
 		int get_draw_ground_plane();
 		bool get_draw_axes();
-		
-
 };
 #endif // PREFERENCES_H

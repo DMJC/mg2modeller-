@@ -3,7 +3,6 @@
 
 ToolButton::ToolButton(std::list<tool>& tool_list)
 {
-    std::cout << "Initialised" << std::endl;
     this->start_time = 0;
     this->signal_button_press_event().connect(sigc::mem_fun(this, &ToolButton::mg2_button_press), false);
     this->signal_button_release_event().connect(sigc::mem_fun(this, &ToolButton::mg2_button_release), false);
@@ -14,9 +13,10 @@ ToolButton::ToolButton(std::list<tool>& tool_list)
     this->right_click_callback = tool_list.front().right_click_callback;
     this->long_left_click_callback = tool_list.front().long_left_click_callback;
     this->long_right_click_callback = tool_list.front().long_right_click_callback;
+	this->curr_scene = tool_list.front().curr_scene;
     this->tool_list = &tool_list;
     this->set_size_request(32, 24);
-	this->Set_Gravity( Gdk::GRAVITY_NORTH, Gdk::GRAVITY_SOUTH );
+    this->Set_Gravity( Gdk::GRAVITY_NORTH, Gdk::GRAVITY_SOUTH );
     this->buttonimage = new Gtk::Image( this->image_filename );
     this->set_image(*this->buttonimage);
     this->show();
@@ -56,7 +56,7 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 	    } else {
 		    std::cout << "short right click" << std::endl;
 			if(this->right_click_callback != nullptr){
-			    this->right_click_callback();
+			    this->right_click_callback(this->curr_scene);
 			}else{
 			    std::cout << "No Right Click Action" << std::endl;
 			}
@@ -69,7 +69,7 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 	    } else {
 		    std::cout << "short left click" << std::endl;
 			if(this->left_click_callback != nullptr){
-			    this->left_click_callback();
+			    this->left_click_callback(this->curr_scene);
 			}else{
 			    std::cout << "No Left Click Action" << std::endl;
 			}

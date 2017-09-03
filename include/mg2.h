@@ -9,8 +9,12 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include "preferences.h"
 #include "divider.h"
+#include "math3d.h"
+#include "camera.h"
+#include "animation.h"
+#include "render.h"
+
 /*#define objmode 0
 #define facmode 1
 #define linmode 2
@@ -19,7 +23,6 @@
 using namespace std;
 
 typedef struct _tool_menu tool_menu;
-using callback = void(*)();
 
 enum mg2_tool_state
 {

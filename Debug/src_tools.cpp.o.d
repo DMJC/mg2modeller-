@@ -1,6 +1,6 @@
 Debug/src_tools.cpp.o: src/tools.cpp src/../include/tools.h \
- src/../include/mg2.h /usr/include/gtkmm-3.0/gtkmm.h \
- /usr/include/glibmm-2.4/glibmm.h \
+ src/../include/scene.h src/../include/preferences.h src/../include/mg2.h \
+ /usr/include/gtkmm-3.0/gtkmm.h /usr/include/glibmm-2.4/glibmm.h \
  /usr/lib/x86_64-linux-gnu/glibmm-2.4/include/glibmmconfig.h \
  /usr/include/glibmm-2.4/glibmm/thread.h /usr/include/glib-2.0/glib.h \
  /usr/include/glib-2.0/glib/galloca.h /usr/include/glib-2.0/glib/gtypes.h \
@@ -58,7 +58,7 @@ Debug/src_tools.cpp.o: src/tools.cpp src/../include/tools.h \
  /usr/include/glib-2.0/glib/gtrashstack.h \
  /usr/include/glib-2.0/glib/gtree.h \
  /usr/include/glib-2.0/glib/gurifuncs.h \
- /usr/include/glib-2.0/glib/guuid.h /usr/include/glib-2.0/glib/gversion.h \
+ /usr/include/glib-2.0/glib/gversion.h \
  /usr/include/glib-2.0/glib/deprecated/gallocator.h \
  /usr/include/glib-2.0/glib/deprecated/gcache.h \
  /usr/include/glib-2.0/glib/deprecated/gcompletion.h \
@@ -1141,10 +1141,18 @@ Debug/src_tools.cpp.o: src/tools.cpp src/../include/tools.h \
  /usr/include/gtkmm-3.0/gtkmm/treestore.h \
  /usr/include/gtkmm-3.0/gtkmm/uimanager.h \
  /usr/include/gtkmm-3.0/gtkmm/viewport.h \
- /usr/include/gtkmm-3.0/gtkmm/volumebutton.h src/../include/preferences.h \
- src/../include/divider.h
+ /usr/include/gtkmm-3.0/gtkmm/volumebutton.h src/../include/divider.h \
+ src/../include/math3d.h src/../include/object.h \
+ src/../include/animation.h src/../include/geometry.h \
+ src/../include/material.h src/../include/texture.h \
+ src/../include/normal.h src/../include/camera.h \
+ src/../include/../include/object.h src/../include/render.h
 
 src/../include/tools.h:
+
+src/../include/scene.h:
+
+src/../include/preferences.h:
 
 src/../include/mg2.h:
 
@@ -1293,8 +1301,6 @@ src/../include/mg2.h:
 /usr/include/glib-2.0/glib/gtree.h:
 
 /usr/include/glib-2.0/glib/gurifuncs.h:
-
-/usr/include/glib-2.0/glib/guuid.h:
 
 /usr/include/glib-2.0/glib/gversion.h:
 
@@ -3530,6 +3536,24 @@ src/../include/mg2.h:
 
 /usr/include/gtkmm-3.0/gtkmm/volumebutton.h:
 
-src/../include/preferences.h:
-
 src/../include/divider.h:
+
+src/../include/math3d.h:
+
+src/../include/object.h:
+
+src/../include/animation.h:
+
+src/../include/geometry.h:
+
+src/../include/material.h:
+
+src/../include/texture.h:
+
+src/../include/normal.h:
+
+src/../include/camera.h:
+
+src/../include/../include/object.h:
+
+src/../include/render.h:

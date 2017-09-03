@@ -1,214 +1,215 @@
 #include "../include/tools.h"
 
-void view_move (void){
+void view_move (scene curr_scene){
 }
-void view_rotate (void){
+void view_rotate (scene curr_scene){
 }
-void view_zoom (void){
+void view_zoom (scene curr_scene){
 }
-void object_move (void){
+void object_move (scene curr_scene){
 }
-void object_rotate (void){
+void object_rotate (scene curr_scene){
 }
-void object_scale (void){
+void object_scale (scene curr_scene){
 }
-void hierarchy_up (void){
+void hierarchy_up (scene curr_scene){
 }
-void hierarchy_down (void){
+void hierarchy_down (scene curr_scene){
 }
-void create_plane (void){
+void create_plane (scene curr_scene){
+	cout << "Current Interface type is: " << curr_scene.prefs.get_interface_type() << endl;
 }
-void create_cube (void){
+void create_cube (scene curr_scene){
 }
-void create_cylinder (void){
+void create_cylinder (scene curr_scene){
 }
-void create_cone (void){
+void create_cone (scene curr_scene){
 }
-void create_sphere (void){
+void create_sphere (scene curr_scene){
 }
-void create_geosphere (void){
+void create_geosphere (scene curr_scene){
 }
-void create_rounded_cylinder (void){
+void create_rounded_cylinder (scene curr_scene){
 }
-void create_rounded_cube (void){
+void create_rounded_cube (scene curr_scene){
 }
-void create_torus (void){
+void create_torus (scene curr_scene){
 }
-void create_nurbs_plane (void){
+void create_nurbs_plane (scene curr_scene){
 }
-void create_nurbs_halfpipe (void){
+void create_nurbs_halfpipe (scene curr_scene){
 }
-void create_nurbs_saddle (void){
+void create_nurbs_saddle (scene curr_scene){
 }
-void create_nurbs_cube (void){
+void create_nurbs_cube (scene curr_scene){
 }
-void create_nurbs_cylinder (void){
+void create_nurbs_cylinder (scene curr_scene){
 }
-void create_nurbs_cone (void){
+void create_nurbs_cone (scene curr_scene){
 }
-void create_nurbs_sphere (void){
+void create_nurbs_sphere (scene curr_scene){
 }
-void create_nurbs_torus (void){
+void create_nurbs_torus (scene curr_scene){
 }
-void create_metaball_cube (void){
+void create_metaball_cube (scene curr_scene){
 }
-void create_metaball_cylinder (void){
+void create_metaball_cylinder (scene curr_scene){
 }
-void create_metaball_sphere (void){
+void create_metaball_sphere (scene curr_scene){
 }
-void create_metaball_rounded_cylinder (void){
+void create_metaball_rounded_cylinder (scene curr_scene){
 }
-void create_metaball_rounded_cube (void){
+void create_metaball_rounded_cube (scene curr_scene){
 }
-void create_metaball_metamuscle (void){
+void create_metaball_metamuscle (scene curr_scene){
 }
-void create_image_light (void){
+void create_image_light (scene curr_scene){
 }
-void create_spot_light (void){
+void create_spot_light (scene curr_scene){
 }
-void create_local_light (void){
+void create_local_light (scene curr_scene){
 }
-void create_infinite_light (void){
+void create_infinite_light (scene curr_scene){
 }
-void create_projector_light (void){
+void create_projector_light (scene curr_scene){
 }
-void create_sky_light (void){
+void create_sky_light (scene curr_scene){
 }
-void create_goniometric_light (void){
+void create_goniometric_light (scene curr_scene){
 }
-void create_area_light (void){
+void create_area_light (scene curr_scene){
 }
-void create_camera (void){
+void create_camera (scene curr_scene){
 }
-void create_panoramic_camera (void){
+void create_panoramic_camera (scene curr_scene){
 }
-void create_global_physical_wind (void){
+void create_global_physical_wind (scene curr_scene){
 }
-void create_local_physical_wind (void){
+void create_local_physical_wind (scene curr_scene){
 }
-void deformation_plane (void){
+void deformation_plane (scene curr_scene){
 }
-void deformation_pipe (void){
+void deformation_pipe (scene curr_scene){
 }
-void deformation_object (void){
+void deformation_object (scene curr_scene){
 }
-void sweep (void){
+void sweep (scene curr_scene){
 }
-void fillet (void){
+void fillet (scene curr_scene){
 }
-void chamfer (void){
+void chamfer (scene curr_scene){
 }
-void bevel (void){
+void bevel (scene curr_scene){
 }
-void macro_sweep (void){
+void macro_sweep (scene curr_scene){
 }
-void lathe (void){
+void lathe (scene curr_scene){
 }
-void tip (void){
+void tip (scene curr_scene){
 }
-void create_object_grid (void){
+void create_object_grid (scene curr_scene){
 }
-void create_object_spline (void){
+void create_object_spline (scene curr_scene){
 }
-void create_object_radial (void){
+void create_object_radial (scene curr_scene){
 }
-void array_to_group (void){
+void array_to_group (scene curr_scene){
 }
-void draw_panel (void){
+void draw_panel (scene curr_scene){
 }
-void freehand_curve (void){
+void freehand_curve (scene curr_scene){
 }
-void material_editor (void){
+void material_editor (scene curr_scene){
 }
-void threed_paint (void){
+void threed_paint (scene curr_scene){
 }
-void uv_editor (void){
+void uv_editor (scene curr_scene){
 }
-void material_rectangle (void){
+void material_rectangle (scene curr_scene){
 }
-void planar_uv (void){
+void planar_uv (scene curr_scene){
 }
-void cubic_uv (void){
+void cubic_uv (scene curr_scene){
 }
-void spherical_uv (void){
+void spherical_uv (scene curr_scene){
 }
-void cylindrical_uv (void){
+void cylindrical_uv (scene curr_scene){
 }
-void uv_unwrap (void){
+void uv_unwrap (scene curr_scene){
 }
-void uv_slice (void){
+void uv_slice (scene curr_scene){
 }
-void shrinkwrap_uv (void){
+void shrinkwrap_uv (scene curr_scene){
 }
-void normalise_location (void){
+void normalise_location (scene curr_scene){
 }
-void normalise_rotation (void){
+void normalise_rotation (scene curr_scene){
 }
-void normalise_scale (void){
+void normalise_scale (scene curr_scene){
 }
-void center_axes (void){
+void center_axes (scene curr_scene){
 }
-void show_axes (void){
+void show_axes (scene curr_scene){
 }
-void select_object (void){
+void select_object (scene curr_scene){
 }
-void global_panel (void){
+void global_panel (scene curr_scene){
 }
-void unhide_objects (void){
+void unhide_objects (scene curr_scene){
 }
-void object_notes (void){
+void object_notes (scene curr_scene){
 }
-void select_context (void){
+void select_context (scene curr_scene){
 }
-void select_vertices (void){
+void select_vertices (scene curr_scene){
 }
-void select_edges (void){
+void select_edges (scene curr_scene){
 }
-void select_faces (void){
+void select_faces (scene curr_scene){
 }
-void named_selection (void){
+void named_selection (scene curr_scene){
 }
-void lasso_selection (void){
+void lasso_selection (scene curr_scene){
 }
-void rectangle_selection (void){
+void rectangle_selection (scene curr_scene){
 }
-void freehand_selection (void){
+void freehand_selection (scene curr_scene){
 }
-void toggle_grid (void){
+void toggle_grid (scene curr_scene){
 }
-void snap_vertex (void){
+void snap_vertex (scene curr_scene){
 }
-void snap_edge (void){
+void snap_edge (scene curr_scene){
 }
-void snap_face (void){
+void snap_face (scene curr_scene){
 }
-void magnetic_tool (void){
+void magnetic_tool (scene curr_scene){
 }
-void collision_disabled (void){
+void collision_disabled (scene curr_scene){
 }
-void collision_ground (void){
+void collision_ground (scene curr_scene){
 }
-void collision_peers (void){
+void collision_peers (scene curr_scene){
 }
-void new_scene (void){
+void new_scene (scene curr_scene){
 }
-void undo (void){
+void undo (scene curr_scene){
 }
-void redo (void){
+void redo (scene curr_scene){
 }
-void object_copy (void){
+void object_copy (scene curr_scene){
 }
-void glue_object_as_child (void){
+void glue_object_as_child (scene curr_scene){
 }
-void glue_object_as_sibling (void){
+void glue_object_as_sibling (scene curr_scene){
 }
-void object_unglue (void){
+void object_unglue (scene curr_scene){
 }
-void object_group (void){
+void object_group (scene curr_scene){
 }
-void object_ungroup (void){
+void object_ungroup (scene curr_scene){
 }
-void object_erase (void){
+void object_erase (scene curr_scene){
 }
-void button_finder (void){
+void button_finder (scene curr_scene){
 }

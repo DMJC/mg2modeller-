@@ -2,12 +2,6 @@
 #define VIEW_H
 #include "gui.h"
 #include "mg2.h"
-#include "math3d.h"
-#include "camera.h"
-#include "animation.h"
-#include "render.h"
-#include "scene.h"
-#include "preferences.h"
 
 using namespace std;
 

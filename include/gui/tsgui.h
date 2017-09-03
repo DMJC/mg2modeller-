@@ -11,6 +11,6 @@ class ts_gui : public gui
 private:
 
 public:
-	void make_gui(preferences &prefs, scene &scene);
+	void make_gui(preferences &prefs, scene &curr_scene);
 };
 #endif //TSGUI_H

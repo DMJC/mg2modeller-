@@ -59,7 +59,7 @@ Debug/src_gui_tsgui.cpp.o: src/gui/tsgui.cpp \
  /usr/include/glib-2.0/glib/gtrashstack.h \
  /usr/include/glib-2.0/glib/gtree.h \
  /usr/include/glib-2.0/glib/gurifuncs.h \
- /usr/include/glib-2.0/glib/guuid.h /usr/include/glib-2.0/glib/gversion.h \
+ /usr/include/glib-2.0/glib/gversion.h \
  /usr/include/glib-2.0/glib/deprecated/gallocator.h \
  /usr/include/glib-2.0/glib/deprecated/gcache.h \
  /usr/include/glib-2.0/glib/deprecated/gcompletion.h \
@@ -1143,21 +1143,21 @@ Debug/src_gui_tsgui.cpp.o: src/gui/tsgui.cpp \
  /usr/include/gtkmm-3.0/gtkmm/uimanager.h \
  /usr/include/gtkmm-3.0/gtkmm/viewport.h \
  /usr/include/gtkmm-3.0/gtkmm/volumebutton.h \
- src/gui/../../include/gui/../preferences.h \
  src/gui/../../include/gui/../divider.h \
- src/gui/../../include/gui/../scene.h \
+ src/gui/../../include/gui/../math3d.h \
  src/gui/../../include/gui/../object.h \
  src/gui/../../include/gui/../animation.h \
  src/gui/../../include/gui/../geometry.h \
  src/gui/../../include/gui/../material.h \
  src/gui/../../include/gui/../texture.h \
  src/gui/../../include/gui/../normal.h \
- src/gui/../../include/gui/../tools.h src/gui/../../include/gui/../view.h \
- src/gui/../../include/gui/../gui.h src/gui/../../include/gui/../math3d.h \
  src/gui/../../include/gui/../camera.h \
  src/gui/../../include/gui/../../include/object.h \
  src/gui/../../include/gui/../render.h \
  src/gui/../../include/gui/../scene.h \
+ src/gui/../../include/gui/../preferences.h \
+ src/gui/../../include/gui/../tools.h src/gui/../../include/gui/../view.h \
+ src/gui/../../include/gui/../gui.h src/gui/../../include/gui/../scene.h \
  src/gui/../../include/gui/callbacks.h \
  src/gui/../../include/gui/tsgui_callbacks.h \
  src/gui/../../include/gui/../mg2.h \
@@ -1315,8 +1315,6 @@ src/gui/../../include/gui/../mg2.h:
 /usr/include/glib-2.0/glib/gtree.h:
 
 /usr/include/glib-2.0/glib/gurifuncs.h:
-
-/usr/include/glib-2.0/glib/guuid.h:
 
 /usr/include/glib-2.0/glib/gversion.h:
 
@@ -3552,11 +3550,9 @@ src/gui/../../include/gui/../mg2.h:
 
 /usr/include/gtkmm-3.0/gtkmm/volumebutton.h:
 
-src/gui/../../include/gui/../preferences.h:
-
 src/gui/../../include/gui/../divider.h:
 
-src/gui/../../include/gui/../scene.h:
+src/gui/../../include/gui/../math3d.h:
 
 src/gui/../../include/gui/../object.h:
 
@@ -3570,19 +3566,21 @@ src/gui/../../include/gui/../texture.h:
 
 src/gui/../../include/gui/../normal.h:
 
-src/gui/../../include/gui/../tools.h:
-
-src/gui/../../include/gui/../view.h:
-
-src/gui/../../include/gui/../gui.h:
-
-src/gui/../../include/gui/../math3d.h:
-
 src/gui/../../include/gui/../camera.h:
 
 src/gui/../../include/gui/../../include/object.h:
 
 src/gui/../../include/gui/../render.h:
+
+src/gui/../../include/gui/../scene.h:
+
+src/gui/../../include/gui/../preferences.h:
+
+src/gui/../../include/gui/../tools.h:
+
+src/gui/../../include/gui/../view.h:
+
+src/gui/../../include/gui/../gui.h:
 
 src/gui/../../include/gui/../scene.h:
 

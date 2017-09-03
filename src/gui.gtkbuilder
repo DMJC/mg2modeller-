@@ -33,9 +33,6 @@
         </child>
       </object>
     </child>
-    <child>
-      <placeholder/>
-    </child>
   </object>
   <object class="GtkWindow" id="animation_toolbar_window">
     <property name="can_focus">False</property>
@@ -1741,6 +1738,8 @@
       <object class="GtkGrid" id="grid4">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
         <child>
           <object class="GtkExpander" id="expander1">
             <property name="visible">True</property>
@@ -1966,6 +1965,7 @@
               <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
                 <property name="label" translatable="yes">X</property>
               </object>
               <packing>
@@ -1977,6 +1977,7 @@
               <object class="GtkLabel" id="label8">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
                 <property name="label" translatable="yes">Y</property>
               </object>
               <packing>
@@ -1988,6 +1989,7 @@
               <object class="GtkLabel" id="label9">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
                 <property name="label" translatable="yes">Z</property>
               </object>
               <packing>
@@ -2032,6 +2034,7 @@
               <object class="GtkComboBox" id="combobox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -2043,6 +2046,7 @@
               <object class="GtkComboBox" id="combobox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -2076,6 +2080,7 @@
               <object class="GtkEntry" id="entry2">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2089,6 +2094,7 @@
               <object class="GtkEntry" id="entry3">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2102,6 +2108,7 @@
               <object class="GtkEntry" id="entry4">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2115,6 +2122,7 @@
               <object class="GtkEntry" id="entry5">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2128,6 +2136,7 @@
               <object class="GtkEntry" id="entry6">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2141,6 +2150,7 @@
               <object class="GtkEntry" id="entry7">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2154,6 +2164,7 @@
               <object class="GtkEntry" id="entry8">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2167,6 +2178,7 @@
               <object class="GtkEntry" id="entry9">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2180,6 +2192,7 @@
               <object class="GtkEntry" id="entry10">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">8</property>
                 <property name="text" translatable="yes">0.00</property>
@@ -2303,6 +2316,7 @@
           <object class="GtkSpinButton" id="spinbutton45">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -2313,6 +2327,7 @@
           <object class="GtkSpinButton" id="spinbutton46">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -2323,6 +2338,7 @@
           <object class="GtkSpinButton" id="spinbutton47">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -2333,6 +2349,7 @@
           <object class="GtkSpinButton" id="spinbutton48">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -2343,6 +2360,7 @@
           <object class="GtkSpinButton" id="spinbutton49">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -2353,6 +2371,7 @@
           <object class="GtkSpinButton" id="spinbutton50">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -2363,6 +2382,7 @@
           <object class="GtkSpinButton" id="spinbutton51">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -2373,6 +2393,7 @@
           <object class="GtkSpinButton" id="spinbutton52">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -6618,8 +6639,6 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
           </object>
           <packing>
             <property name="left_attach">19</property>
@@ -6632,8 +6651,6 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
           </object>
           <packing>
             <property name="left_attach">18</property>
@@ -6646,8 +6663,6 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
           </object>
           <packing>
             <property name="left_attach">17</property>
