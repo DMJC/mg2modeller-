@@ -16,6 +16,7 @@ class scene
 //		iostream file;
 		object GetCurrentObject(void);
 		object GetPrevObject(void);
+		scene();
 		void SetCurrentObject(object obj);
 		void SetPrevObject(object obj);
 		void AddObject(object new_object);

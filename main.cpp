@@ -11,7 +11,6 @@ int main(){
 	preferences prefs;
 	prefs.load_preferences("preferences.ini");
 	scene new_scene;
-	//new_scene.Bind_Preferences(prefs);
 	/*load the GUI*/
 
 	int interface_type = prefs.get_interface_type();

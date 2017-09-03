@@ -6,7 +6,7 @@ void tds_gui::make_gui(preferences &prefs, scene &scene)
 	Gtk::Window*material_editor_window = nullptr;
 	Gtk::Window*rendering_editor_window = nullptr;
 	Gtk::Grid* view_grid = nullptr;
-        Gtk::ImageMenuItem* tds_quit_button = nullptr;
+	Gtk::ImageMenuItem* tds_quit_button = nullptr;
 
 
 	/*3DS Style UI*/
@@ -16,7 +16,7 @@ void tds_gui::make_gui(preferences &prefs, scene &scene)
 	this -> builder->get_widget("rendering_editor_window", rendering_editor_window);
 	this -> builder->get_widget("tds_quit_button", tds_quit_button);
 
-        gtk_builder_connect_signals (this->builder->gobj(), NULL);
+	gtk_builder_connect_signals (this->builder->gobj(), NULL);
 
 //        tds_quit_button->signal_activate().connect(sigc::ptr_fun(&quit_cb));
 

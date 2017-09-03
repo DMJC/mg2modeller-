@@ -2,85 +2,45 @@
 
 void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 {
-	Gtk::Window* main_window = nullptr;
-	Gtk::Window* boolean_window = nullptr;
-	Gtk::Window* cone_window = nullptr;
-	Gtk::Window* copy_tool_window = nullptr;
-	Gtk::Window* cube_window = nullptr;
-	Gtk::Window* cylinder_window = nullptr;
-	Gtk::Window* deformation_window = nullptr;
-	Gtk::Window* edit_window = nullptr;
-	Gtk::Window* edit_window_expanded = nullptr;
-	Gtk::Window* geosphere_window = nullptr;
-	Gtk::Window* lights_window = nullptr;
-	Gtk::Window* mirror_options_window = nullptr;
-	Gtk::Window* object_info_window = nullptr;
-	Gtk::Window* object_movie_window = nullptr;
-	Gtk::Window* object_render_options_window = nullptr;
-	Gtk::Window* ogl_setting_window = nullptr;
-	Gtk::Window* pan_movie_window = nullptr;
-	Gtk::Window* panoramic_camera_window = nullptr;
-	Gtk::Window* plane_window = nullptr;
-	Gtk::Window* point_edit_window = nullptr;
-	Gtk::Window* polygon_reduction_tool_window = nullptr;
-	Gtk::Window* preferences_window = nullptr;
-	Gtk::Window* primitive_parameters_window = nullptr;
-	Gtk::Window* primitive_shape_window = nullptr;
-	Gtk::Window* rounded_cube_window = nullptr;
-	Gtk::Window* rounded_cylinder_window = nullptr;
-	Gtk::Window* scene_editor_preferences_window = nullptr;
-	Gtk::Window* selection_window = nullptr;
-	Gtk::Window* set_keyframe_window = nullptr;
-	Gtk::Window* shell_properties_window = nullptr;
-	Gtk::Window* skin_options_window = nullptr;
-	Gtk::Window* sphere_window = nullptr;
-	Gtk::Window* taper_window = nullptr;
-	Gtk::Window* torus_window = nullptr;
-	Gtk::Window* undo_options_window = nullptr;
-	Gtk::Grid* view_grid = nullptr;
-	Gtk::Grid* main_window_grid = nullptr;
-	Gtk::ImageMenuItem* ts_quit_button = nullptr;
-
-
 		/*TS Style UI*/
-	this -> builder->get_widget("main_window_grid", main_window_grid);
-	this -> builder->get_widget("ts_main_window", main_window);
-	this -> builder->get_widget("edit_window", edit_window);
-	this -> builder->get_widget("boolean_window", boolean_window);
-	this -> builder->get_widget("cone_window", cone_window);
-	this -> builder->get_widget("copy_tool_window", copy_tool_window);
-	this -> builder->get_widget("cube_window", cube_window);
-	this -> builder->get_widget("cylinder_window", cylinder_window);
-	this -> builder->get_widget("deformation_window", deformation_window);
-	this -> builder->get_widget("edit_window", edit_window);
-	this -> builder->get_widget("geosphere_window", geosphere_window);
-	this -> builder->get_widget("lights_window", lights_window);
-	this -> builder->get_widget("mirror_options_window", mirror_options_window);
-	this -> builder->get_widget("object_info_window", object_info_window);
-	this -> builder->get_widget("object_movie_window", object_movie_window);
-	this -> builder->get_widget("object_render_options_window", object_render_options_window);
-	this -> builder->get_widget("ogl_setting_window", ogl_setting_window);
-	this -> builder->get_widget("pan_movie_window", pan_movie_window);
-	this -> builder->get_widget("panoramic_camera_window", panoramic_camera_window);
-	this -> builder->get_widget("plane_window", plane_window);
-	this -> builder->get_widget("point_edit_window", point_edit_window);
-	this -> builder->get_widget("polygon_reduction_tool_window", polygon_reduction_tool_window);
-	this -> builder->get_widget("preferences_window", preferences_window);
-	this -> builder->get_widget("primitive_parameters_window", primitive_parameters_window);
-	this -> builder->get_widget("primitive_shape_window", primitive_shape_window);
-	this -> builder->get_widget("rounded_cube_window", rounded_cube_window);
-	this -> builder->get_widget("rounded_cylinder_window", rounded_cylinder_window);
-	this -> builder->get_widget("scene_editor_preferences_window", scene_editor_preferences_window);
-	this -> builder->get_widget("selection_window", selection_window);
-	this -> builder->get_widget("set_keyframe_window", set_keyframe_window);
-	this -> builder->get_widget("shell_properties_window", shell_properties_window);
-	this -> builder->get_widget("skin_options_window", skin_options_window);
-	this -> builder->get_widget("sphere_window", sphere_window);
-	this -> builder->get_widget("taper_window", taper_window);
-	this -> builder->get_widget("torus_window", torus_window);
-	this -> builder->get_widget("undo_options_window", undo_options_window);
-	this -> builder->get_widget("ts_view_grid", view_grid);
-	this -> builder->get_widget("ts_quit_button", ts_quit_button);
+	this -> builder->get_widget("main_window_grid", this->main_window_grid);
+	this -> builder->get_widget("ts_main_window", this->main_window);
+	this -> builder->get_widget("edit_window", this->edit_window);
+	this -> builder->get_widget("boolean_window", this->boolean_window);
+	this -> builder->get_widget("cone_window", this->cone_window);
+	this -> builder->get_widget("copy_tool_window", this->copy_tool_window);
+	this -> builder->get_widget("cube_window", this->cube_window);
+	this -> builder->get_widget("cylinder_window", this->cylinder_window);
+	this -> builder->get_widget("deformation_window", this->deformation_window);
+	this -> builder->get_widget("edit_window", this->edit_window);
+	this -> builder->get_widget("geosphere_window", this->geosphere_window);
+	this -> builder->get_widget("lights_window", this->lights_window);
+	this -> builder->get_widget("mirror_options_window", this->mirror_options_window);
+	this -> builder->get_widget("object_info_window", this->object_info_window);
+	this -> builder->get_widget("object_movie_window", this->object_movie_window);
+	this -> builder->get_widget("object_render_options_window", this->object_render_options_window);
+	this -> builder->get_widget("ogl_setting_window", this->ogl_setting_window);
+	this -> builder->get_widget("pan_movie_window", this->pan_movie_window);
+	this -> builder->get_widget("panoramic_camera_window", this->panoramic_camera_window);
+	this -> builder->get_widget("plane_window", this->plane_window);
+	this -> builder->get_widget("point_edit_window", this->point_edit_window);
+	this -> builder->get_widget("polygon_reduction_tool_window", this->polygon_reduction_tool_window);
+	this -> builder->get_widget("preferences_window", this->preferences_window);
+	this -> builder->get_widget("primitive_parameters_window", this->primitive_parameters_window);
+	this -> builder->get_widget("primitive_shape_window", this->primitive_shape_window);
+	this -> builder->get_widget("rounded_cube_window", this->rounded_cube_window);
+	this -> builder->get_widget("rounded_cylinder_window", this->rounded_cylinder_window);
+	this -> builder->get_widget("scene_editor_preferences_window", this->scene_editor_preferences_window);
+	this -> builder->get_widget("selection_window", this->selection_window);
+	this -> builder->get_widget("set_keyframe_window", this->set_keyframe_window);
+	this -> builder->get_widget("shell_properties_window", this->shell_properties_window);
+	this -> builder->get_widget("skin_options_window", this->skin_options_window);
+	this -> builder->get_widget("sphere_window", this->sphere_window);
+	this -> builder->get_widget("taper_window", this->taper_window);
+	this -> builder->get_widget("torus_window", this->torus_window);
+	this -> builder->get_widget("undo_options_window", this->undo_options_window);
+	this -> builder->get_widget("ts_view_grid", this->view_grid);
+	this -> builder->get_widget("ts_quit_button", this->ts_quit_button);
 	edit_window->set_keep_above(TRUE);
 	object_info_window->set_keep_above(TRUE);
 	int h_loc = 0;
@@ -575,4 +535,109 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 		
 	main_window->maximize();Gtk::Builder::create_from_file("src/gui.gtkbuilder");
 	this -> app->run(*main_window);
+}
+
+void ts_gui::show_boolean_window(scene curr_scene){
+	this->boolean_window->show();
+}
+void ts_gui::show_cone_window(scene curr_scene){
+	this->cone_window->show();
+}
+void ts_gui::show_copy_tool_window(scene curr_scene){
+	this->copy_tool_window->show();
+}
+void ts_gui::show_cube_window(scene curr_scene){
+	this->cube_window->show();
+}
+void ts_gui::show_cylinder_window(scene curr_scene){
+	this->cylinder_window->show();
+}
+void ts_gui::show_deformation_window(scene curr_scene){
+	this->deformation_window->show();
+}
+void ts_gui::show_edit_window(scene curr_scene){
+	this->edit_window->show();
+}
+void ts_gui::show_edit_window_expanded(scene curr_scene){
+	this->edit_window_expanded->show();
+}
+void ts_gui::show_geosphere_window(scene curr_scene){
+	this->geosphere_window->show();
+}
+void ts_gui::show_lights_window(scene curr_scene){
+	this->lights_window->show();
+}
+void ts_gui::show_mirror_options_window(scene curr_scene){
+	this->mirror_options_window->show();
+}
+void ts_gui::show_object_info_window(scene curr_scene){
+	this->object_info_window->show();
+}
+void ts_gui::show_object_movie_window(scene curr_scene){
+	this->object_movie_window->show();
+}
+void ts_gui::show_object_render_options_window(scene curr_scene){
+	this->object_render_options_window->show();
+}
+void ts_gui::show_ogl_setting_window(scene curr_scene){
+	this->ogl_setting_window->show();
+}
+void ts_gui::show_pan_movie_window(scene curr_scene){
+	this->pan_movie_window->show();
+}
+void ts_gui::show_panoramic_camera_window(scene curr_scene){
+	this->panoramic_camera_window->show();
+}
+void ts_gui::show_plane_window(scene curr_scene){
+	this->plane_window->show();
+}
+void ts_gui::show_point_edit_window(scene curr_scene){
+	this->point_edit_window->show();
+}
+void ts_gui::show_polygon_reduction_tool_window(scene curr_scene){
+	this->polygon_reduction_tool_window->show();
+}
+void ts_gui::show_preferences_window(scene curr_scene){
+	this->preferences_window->show();
+}
+void ts_gui::show_primitive_parameters_window(scene curr_scene){
+	this->primitive_parameters_window->show();
+}
+void ts_gui::show_primitive_shape_window(scene curr_scene){
+	this->primitive_shape_window->show();
+}
+void ts_gui::show_rounded_cube_window(scene curr_scene){
+	this->rounded_cube_window->show();
+}
+void ts_gui::show_rounded_cylinder_window(scene curr_scene){
+	this->rounded_cylinder_window->show();
+}
+void ts_gui::show_scene_editor_preferences_window(scene curr_scene){
+	this->scene_editor_preferences_window->show();
+}
+void ts_gui::show_selection_window(scene curr_scene){
+	this->selection_window->show();
+}
+void ts_gui::show_set_keyframe_window(scene curr_scene){
+	this->set_keyframe_window->show();
+}
+void ts_gui::show_shell_properties_window(scene curr_scene){
+	this->shell_properties_window->show();
+}
+void ts_gui::show_skin_options_window(scene curr_scene){
+	this->skin_options_window->show();
+}
+void ts_gui::show_sphere_window(scene curr_scene){
+	this->sphere_window->show();
+}
+void ts_gui::show_taper_window(scene curr_scene){
+	this->taper_window->show();
+}
+void ts_gui::show_torus_window(scene curr_scene){
+	this->torus_window->show();
+
+}
+void ts_gui::show_undo_options_window(scene curr_scene){
+	this->undo_options_window->show();
+
 }

@@ -1,5 +1,8 @@
 #include "../include/scene.h"
 
+scene::scene(void){
+	cout << "Initialising Scene 1" << endl;
+}
 object scene::GetCurrentObject(void){
 	return this -> current_object;
 }
