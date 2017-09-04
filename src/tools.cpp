@@ -18,6 +18,7 @@ void hierarchy_down (scene curr_scene){
 }
 void create_plane (scene curr_scene){
 	cout << "Current Interface type is: " << curr_scene.prefs.get_interface_type() << endl;
+	
 }
 void create_cube (scene curr_scene){
 }
@@ -212,4 +213,6 @@ void object_ungroup (scene curr_scene){
 void object_erase (scene curr_scene){
 }
 void button_finder (scene curr_scene){
+}
+void display_options(scene curr_scene){
 }

@@ -38,6 +38,9 @@
       <File Name="include/gui/mg2toolbutton.h"/>
     </VirtualDirectory>
     <File Name="include/render.h"/>
+    <File Name="include/nurbs.h"/>
+    <File Name="include/metaball.h"/>
+    <File Name="include/text.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
@@ -68,6 +71,9 @@
       <File Name="src/gui/mg2toolbutton.cpp"/>
     </VirtualDirectory>
     <File Name="src/render.cpp"/>
+    <File Name="src/nurbs.cpp"/>
+    <File Name="src/metaball.cpp"/>
+    <File Name="src/text.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

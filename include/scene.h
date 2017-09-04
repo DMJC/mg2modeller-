@@ -2,7 +2,8 @@
 #define SCENE_H
 #include "preferences.h"
 #include "mg2.h"
-#include "object.h"
+#include "primitive.h"
+#include "nurbs.h"
 #include "animation.h"
 
 class scene

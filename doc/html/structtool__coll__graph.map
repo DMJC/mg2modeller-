@@ -1,0 +1,6 @@
+<map id="tool" name="tool">
+<area shape="rect" id="node2" href="$classscene.html" title="scene" alt="" coords="67,199,127,225"/>
+<area shape="rect" id="node3" href="$classpreferences.html" title="preferences" alt="" coords="5,95,104,121"/>
+<area shape="rect" id="node4" href="$classobject.html" title="object" alt="" coords="128,95,187,121"/>
+<area shape="rect" id="node5" href="$structobject__axes.html" title="object_axes" alt="" coords="109,5,206,32"/>
+</map>

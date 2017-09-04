@@ -123,4 +123,5 @@ void object_group (scene curr_scene);
 void object_ungroup (scene curr_scene);
 void object_erase (scene curr_scene);
 void button_finder (scene curr_scene);
+void display_options (scene curr_scene);
 #endif // TOOLS_H

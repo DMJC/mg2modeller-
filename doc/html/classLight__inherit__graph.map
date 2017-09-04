@@ -1,0 +1,11 @@
+<map id="Light" name="Light">
+<area shape="rect" id="node3" href="$classAreaLight.html" title="AreaLight" alt="" coords="237,5,319,32"/>
+<area shape="rect" id="node4" href="$classGoniometricLight.html" title="GoniometricLight" alt="" coords="213,56,343,83"/>
+<area shape="rect" id="node5" href="$classImageLight.html" title="ImageLight" alt="" coords="232,107,324,133"/>
+<area shape="rect" id="node6" href="$classInfiniteLight.html" title="InfiniteLight" alt="" coords="231,157,325,184"/>
+<area shape="rect" id="node7" href="$classLocalLight.html" title="LocalLight" alt="" coords="235,208,321,235"/>
+<area shape="rect" id="node8" href="$classProjectorLight.html" title="ProjectorLight" alt="" coords="223,259,333,285"/>
+<area shape="rect" id="node9" href="$classSkyLight.html" title="SkyLight" alt="" coords="240,309,316,336"/>
+<area shape="rect" id="node10" href="$classSpotLight.html" title="SpotLight" alt="" coords="237,360,319,387"/>
+<area shape="rect" id="node2" href="$classobject.html" title="object" alt="" coords="5,183,64,209"/>
+</map>

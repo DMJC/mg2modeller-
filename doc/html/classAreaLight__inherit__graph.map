@@ -1,0 +1,4 @@
+<map id="AreaLight" name="AreaLight">
+<area shape="rect" id="node2" href="$classLight.html" title="Light" alt="" coords="20,80,73,107"/>
+<area shape="rect" id="node3" href="$classobject.html" title="object" alt="" coords="17,5,76,32"/>
+</map>

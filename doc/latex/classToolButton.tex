@@ -1,0 +1,101 @@
+\hypertarget{classToolButton}{}\section{Tool\+Button Class Reference}
+\label{classToolButton}\index{Tool\+Button@{Tool\+Button}}
+
+
+Inheritance diagram for Tool\+Button\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{classToolButton__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Tool\+Button\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{classToolButton__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classToolButton_aef450af743cd86f6a7cbda0800d194a5}\label{classToolButton_aef450af743cd86f6a7cbda0800d194a5}} 
+{\bfseries Tool\+Button} (std\+::list$<$ \hyperlink{structtool}{tool} $>$ \&tool\+\_\+list)
+\item 
+\mbox{\Hypertarget{classToolButton_ad46267b739c84cb5d7a51b7d80558c21}\label{classToolButton_ad46267b739c84cb5d7a51b7d80558c21}} 
+void {\bfseries set\+\_\+button} (std\+::list$<$ \hyperlink{structtool}{tool} $>$ \&tool\+\_\+list, int position)
+\item 
+\mbox{\Hypertarget{classToolButton_aaadf099440b0675255b8fae166793575}\label{classToolButton_aaadf099440b0675255b8fae166793575}} 
+unsigned int {\bfseries mg2\+\_\+button\+\_\+press} (Gdk\+Event\+Button $\ast$event)
+\item 
+\mbox{\Hypertarget{classToolButton_ae319a44d3d609be7fa70f6ac74a0fe4a}\label{classToolButton_ae319a44d3d609be7fa70f6ac74a0fe4a}} 
+unsigned int {\bfseries mg2\+\_\+button\+\_\+release} (Gdk\+Event\+Button $\ast$event)
+\item 
+\mbox{\Hypertarget{classToolButton_af3a79285581c2a0b1095bb8f3ad5691b}\label{classToolButton_af3a79285581c2a0b1095bb8f3ad5691b}} 
+void {\bfseries Trigger\+\_\+\+Menu} (std\+::list$<$ \hyperlink{structtool}{tool} $>$ \&tool\+\_\+list, Gdk\+Event\+Button $\ast$event)
+\item 
+\mbox{\Hypertarget{classToolButton_a5bfec67198712d6aeecc0a96fe2563f8}\label{classToolButton_a5bfec67198712d6aeecc0a96fe2563f8}} 
+void {\bfseries Short\+\_\+\+Left\+\_\+\+Click} (void)
+\item 
+\mbox{\Hypertarget{classToolButton_a399c17b718aa8f1d2a5eeac852101e9b}\label{classToolButton_a399c17b718aa8f1d2a5eeac852101e9b}} 
+void {\bfseries Short\+\_\+\+Right\+\_\+\+Click} (void)
+\item 
+\mbox{\Hypertarget{classToolButton_adf5ecb10a5f58f8700b4a256be9b1704}\label{classToolButton_adf5ecb10a5f58f8700b4a256be9b1704}} 
+void {\bfseries Set\+\_\+\+Gravity} (Gdk\+::\+Gravity Gravity\+\_\+\+Menu, Gdk\+::\+Gravity Gravity\+\_\+\+Button)
+\item 
+\mbox{\Hypertarget{classToolButton_a08262d8e864d10adce834a3386b5b8ad}\label{classToolButton_a08262d8e864d10adce834a3386b5b8ad}} 
+Gdk\+::\+Gravity {\bfseries Get\+\_\+\+Gravity\+\_\+\+Menu} (void)
+\item 
+\mbox{\Hypertarget{classToolButton_a73e21b43b53e6fb9781490f7cef87101}\label{classToolButton_a73e21b43b53e6fb9781490f7cef87101}} 
+Gdk\+::\+Gravity {\bfseries Get\+\_\+\+Gravity\+\_\+\+Button} (void)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classToolButton_a381f4cf6944b0e3ea5fcf4dbd1ac491a}\label{classToolButton_a381f4cf6944b0e3ea5fcf4dbd1ac491a}} 
+Gtk\+::\+Image $\ast$ {\bfseries buttonimage}
+\item 
+\mbox{\Hypertarget{classToolButton_a3c683e4a86dc2e76909aefcd71850512}\label{classToolButton_a3c683e4a86dc2e76909aefcd71850512}} 
+std\+::list$<$ \hyperlink{structtool}{tool} $>$ $\ast$ {\bfseries tool\+\_\+list}
+\item 
+\mbox{\Hypertarget{classToolButton_a329e834ebb6cfc7cca1874ab0b47414f}\label{classToolButton_a329e834ebb6cfc7cca1874ab0b47414f}} 
+std\+::string {\bfseries name}
+\item 
+\mbox{\Hypertarget{classToolButton_a834d0cfa761d69ee768b0562e7481339}\label{classToolButton_a834d0cfa761d69ee768b0562e7481339}} 
+std\+::string {\bfseries tooltip}
+\item 
+\mbox{\Hypertarget{classToolButton_a3ce35e8419a6680e5d8e9e5f711f3e71}\label{classToolButton_a3ce35e8419a6680e5d8e9e5f711f3e71}} 
+std\+::string {\bfseries image\+\_\+filename}
+\item 
+\mbox{\Hypertarget{classToolButton_a7f674d19e7d9af3807d94f81cbe71d0b}\label{classToolButton_a7f674d19e7d9af3807d94f81cbe71d0b}} 
+callback {\bfseries left\+\_\+click\+\_\+callback}
+\item 
+\mbox{\Hypertarget{classToolButton_afe0806c31b798314310ad37162369c1b}\label{classToolButton_afe0806c31b798314310ad37162369c1b}} 
+callback {\bfseries right\+\_\+click\+\_\+callback}
+\item 
+\mbox{\Hypertarget{classToolButton_a7d8a68a2fa53753c59704d5169210335}\label{classToolButton_a7d8a68a2fa53753c59704d5169210335}} 
+callback {\bfseries long\+\_\+left\+\_\+click\+\_\+callback}
+\item 
+\mbox{\Hypertarget{classToolButton_abd8b114ecee692ca5ecd50b3e023d514}\label{classToolButton_abd8b114ecee692ca5ecd50b3e023d514}} 
+callback {\bfseries long\+\_\+right\+\_\+click\+\_\+callback}
+\item 
+\mbox{\Hypertarget{classToolButton_a851da747f79c3fe3bacabf47d0744b3e}\label{classToolButton_a851da747f79c3fe3bacabf47d0744b3e}} 
+\hyperlink{classscene}{scene} {\bfseries curr\+\_\+scene}
+\item 
+\mbox{\Hypertarget{classToolButton_a02e9e28b0bd54f8b53e35eb70b77aa24}\label{classToolButton_a02e9e28b0bd54f8b53e35eb70b77aa24}} 
+int {\bfseries start\+\_\+time}
+\item 
+\mbox{\Hypertarget{classToolButton_a20b66e6a259c27e7d3db8b293cafa1e7}\label{classToolButton_a20b66e6a259c27e7d3db8b293cafa1e7}} 
+Gdk\+::\+Gravity {\bfseries Gravity\+\_\+\+Menu}
+\item 
+\mbox{\Hypertarget{classToolButton_a6a80c1eaa5cdb0e59c38630cf6172fde}\label{classToolButton_a6a80c1eaa5cdb0e59c38630cf6172fde}} 
+Gdk\+::\+Gravity {\bfseries Gravity\+\_\+\+Button}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/gui/mg2toolbutton.\+h\item 
+src/gui/mg2toolbutton.\+cpp\end{DoxyCompactItemize}

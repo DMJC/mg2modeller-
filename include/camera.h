@@ -18,5 +18,8 @@ class camera : public object
 
 };
 
+class panoramic_camera : public camera{
+
+};
 
 #endif // CAMERA_H

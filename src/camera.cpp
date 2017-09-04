@@ -9,4 +9,3 @@ void camera::SetCameraType(int camera_type)
 {
 	this -> type = camera_type;
 }
-

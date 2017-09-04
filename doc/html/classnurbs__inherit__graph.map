@@ -1,0 +1,7 @@
+<map id="nurbs" name="nurbs">
+<area shape="rect" id="node3" href="$classnurbs__cone.html" title="nurbs_cone" alt="" coords="5,155,100,181"/>
+<area shape="rect" id="node4" href="$classnurbs__cube.html" title="nurbs_cube" alt="" coords="125,155,218,181"/>
+<area shape="rect" id="node5" href="$classnurbs__plane.html" title="nurbs_plane" alt="" coords="242,155,341,181"/>
+<area shape="rect" id="node6" href="$classnurbs__sphere.html" title="nurbs_sphere" alt="" coords="365,155,473,181"/>
+<area shape="rect" id="node2" href="$classobject.html" title="object" alt="" coords="202,5,261,32"/>
+</map>

@@ -1,0 +1,80 @@
+\hypertarget{classface}{}\section{face Class Reference}
+\label{classface}\index{face@{face}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classface_a308875a2b47d0b3b53e406e1b9310a1c}\label{classface_a308875a2b47d0b3b53e406e1b9310a1c}} 
+void {\bfseries Set\+Num\+Vertices} (int num\+\_\+vertices)
+\item 
+\mbox{\Hypertarget{classface_a345c597eb374c07b8fad51c51b5c9aba}\label{classface_a345c597eb374c07b8fad51c51b5c9aba}} 
+void {\bfseries Set\+Num\+Edges} (int num\+\_\+edges)
+\item 
+\mbox{\Hypertarget{classface_a263f47c5a0714d2f9fb7067d24603b07}\label{classface_a263f47c5a0714d2f9fb7067d24603b07}} 
+int {\bfseries Get\+Num\+Vertices} (void)
+\item 
+\mbox{\Hypertarget{classface_a04921ee060440a416098fd62ad8ed55d}\label{classface_a04921ee060440a416098fd62ad8ed55d}} 
+int {\bfseries Get\+Num\+Edges} (void)
+\item 
+\mbox{\Hypertarget{classface_aed1a53fd90c464622d9ec00b70143c49}\label{classface_aed1a53fd90c464622d9ec00b70143c49}} 
+void {\bfseries Set\+Location} (float X, float Y, float Z)
+\item 
+\mbox{\Hypertarget{classface_a699a579160b5f165bdd4d99c102d8103}\label{classface_a699a579160b5f165bdd4d99c102d8103}} 
+float $\ast$ {\bfseries Get\+Location} ()
+\item 
+\mbox{\Hypertarget{classface_a71969f0627480de1764fcbb13de379c3}\label{classface_a71969f0627480de1764fcbb13de379c3}} 
+void {\bfseries Set\+Rotation} (float X, float Y, float Z)
+\item 
+\mbox{\Hypertarget{classface_a9f3e71973ddda30f0cdddbc288d4e748}\label{classface_a9f3e71973ddda30f0cdddbc288d4e748}} 
+float $\ast$ {\bfseries Get\+Rotation} ()
+\item 
+\mbox{\Hypertarget{classface_a282640bd3aabb05eb7c4a1fa1311db52}\label{classface_a282640bd3aabb05eb7c4a1fa1311db52}} 
+void {\bfseries Set\+Size} (float X, float Y, float Z)
+\item 
+\mbox{\Hypertarget{classface_aa3971953d8cb1688e5d4cce2a466bb58}\label{classface_aa3971953d8cb1688e5d4cce2a466bb58}} 
+float $\ast$ {\bfseries Get\+Size} ()
+\item 
+\mbox{\Hypertarget{classface_a1d191169d815678ce8969b2174359d20}\label{classface_a1d191169d815678ce8969b2174359d20}} 
+void {\bfseries Add\+Vertex\+To\+Face} (\hyperlink{classvertex}{vertex})
+\item 
+\mbox{\Hypertarget{classface_a075797e1980d676cddc1b96e881dbd89}\label{classface_a075797e1980d676cddc1b96e881dbd89}} 
+void {\bfseries Add\+Edge\+To\+Face} ()
+\item 
+\mbox{\Hypertarget{classface_af06f838827ab57ca07b44d6470773410}\label{classface_af06f838827ab57ca07b44d6470773410}} 
+void {\bfseries Del\+Vertex\+From\+Face} (\hyperlink{classface}{face})
+\item 
+\mbox{\Hypertarget{classface_ac04c01fc9775f80e4f051ebd12fa13e3}\label{classface_ac04c01fc9775f80e4f051ebd12fa13e3}} 
+void {\bfseries Del\+Edge\+From\+Face} (\hyperlink{classface}{face})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classface_a2314e1606f18e1646e3699d216972f85}\label{classface_a2314e1606f18e1646e3699d216972f85}} 
+float {\bfseries location} \mbox{[}3\mbox{]}
+\item 
+\mbox{\Hypertarget{classface_a985dcf85600ca0b8263140a494543cda}\label{classface_a985dcf85600ca0b8263140a494543cda}} 
+float {\bfseries rotation} \mbox{[}3\mbox{]}
+\item 
+\mbox{\Hypertarget{classface_a9d9ac2b120c2123e95acfd75e66a8950}\label{classface_a9d9ac2b120c2123e95acfd75e66a8950}} 
+float {\bfseries size} \mbox{[}3\mbox{]}
+\item 
+\mbox{\Hypertarget{classface_a59ed8b29c67536b39b5e7f43f674c721}\label{classface_a59ed8b29c67536b39b5e7f43f674c721}} 
+int {\bfseries num\+\_\+edges}
+\item 
+\mbox{\Hypertarget{classface_abc378bcf2fb620c005f071c83c952fb5}\label{classface_abc378bcf2fb620c005f071c83c952fb5}} 
+int {\bfseries num\+\_\+vertices}
+\item 
+\mbox{\Hypertarget{classface_adf25ae0e541f2fa5e9fa27cdbf6a1cb5}\label{classface_adf25ae0e541f2fa5e9fa27cdbf6a1cb5}} 
+vector$<$ \hyperlink{classtexture}{texture} $>$ {\bfseries textures}
+\item 
+\mbox{\Hypertarget{classface_a2bcf95c5c271ade955be8db5a3a9c9ba}\label{classface_a2bcf95c5c271ade955be8db5a3a9c9ba}} 
+vector$<$ \hyperlink{classvertex}{vertex} $>$ {\bfseries polygons}
+\item 
+\mbox{\Hypertarget{classface_a7558f66892269ccd614ebb3950336d41}\label{classface_a7558f66892269ccd614ebb3950336d41}} 
+vector$<$ \hyperlink{classedge}{edge} $>$ {\bfseries edges}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/geometry.\+h\item 
+src/geometry.\+cpp\end{DoxyCompactItemize}
