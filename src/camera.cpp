@@ -11,54 +11,54 @@ void camera::SetCameraType(int camera_type)
 	this -> type = camera_type;
 }
 
-void panoramic_camera::set_mode(bool)
+void panoramic_camera::set_mode(bool mode)
 {
-	
+	this -> mode = mode;
 }
 
-void panoramic_camera::set_quality(float)
+void panoramic_camera::set_quality(float quality)
 {
-	
+	this -> quality = quality;
 }
 
-void panoramic_camera::set_pan_frames(int)
+void panoramic_camera::set_pan_frames(int frames)
 {
-	
+	this -> pan_frames = frames;
 }
 
-void panoramic_camera::set_pan_min(int)
+void panoramic_camera::set_pan_min(int min)
 {
-	
+	this -> pan_min = min;
 }
 
-void panoramic_camera::set_pan_max(int)
+void panoramic_camera::set_pan_max(int max)
 {
-	
+	this -> pan_max = max;
 }
 
-void panoramic_camera::set_pan_init(int)
+void panoramic_camera::set_pan_init(int pan_init)
 {
-	
+	this -> pan_init = pan_init;
 }
 
-void panoramic_camera::set_tilt_frames(int)
+void panoramic_camera::set_tilt_frames(int tilt_frames)
 {
-	
+	this -> tilt_frames = tilt_frames;
 }
 
-void panoramic_camera::set_tilt_min(int)
+void panoramic_camera::set_tilt_min(int min)
 {
-	
+	this -> tilt_min = min;
 }
 
-void panoramic_camera::set_tilt_max(int)
+void panoramic_camera::set_tilt_max(int max)
 {
-	
+	this -> tilt_max = max;
 }
 
-void panoramic_camera::set_tilt_init(int)
+void panoramic_camera::set_tilt_init(int tilt_init)
 {
-	
+	this -> tilt_init = tilt_init;
 }
 
 bool panoramic_camera::get_mode(void)
