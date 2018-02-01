@@ -15,11 +15,13 @@ if(argc > 1){
     inputfile.open(argv[1], fstream::in);
     while ( !inputfile.eof() ){
 //	getline (ui_mode);
+//eol = ";"
+//delimiter = "=";
     }
     cout << "UI Mode: " << ui_mode <<endl;
     cout << "Loaded Preferences" << endl;
     inputfile.close();
-}else{
-    cout << "No file specified, correct usage: ./preferences file.ini" << endl;
-}
+	}else{
+	    cout << "No file specified, correct usage: ./preferences file.ini" << endl;
+	}
 }

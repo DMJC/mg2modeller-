@@ -1,5 +1,0 @@
-class normal
-{
-	protected:
-	public:
-};

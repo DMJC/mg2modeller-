@@ -4,8 +4,11 @@
 #include "../include/draw.h"
 
 class draw {
-
-}
+public:
+	void create();
+	void edit();
+	void render();
+};
 
 #endif //DRAW_H
 

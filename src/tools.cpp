@@ -1,5 +1,9 @@
 #include "../include/tools.h"
+#include "../include/scene.h"
+#include "../include/primitive.h"
 
+void primitive_parameters (scene curr_scene){
+}
 void view_move (scene curr_scene){
 }
 void view_rotate (scene curr_scene){
@@ -17,24 +21,31 @@ void hierarchy_up (scene curr_scene){
 void hierarchy_down (scene curr_scene){
 }
 void create_plane (scene curr_scene){
-	cout << "Current Interface type is: " << curr_scene.prefs.get_interface_type() << endl;
-	
+    plane(curr_scene.prefs.get_plane_resolution(), curr_scene);
 }
 void create_cube (scene curr_scene){
+    cube(curr_scene.prefs.get_cube_resolution(), curr_scene);
 }
 void create_cylinder (scene curr_scene){
+    cylinder(curr_scene.prefs.get_cylinder_latitude(),curr_scene.prefs.get_cylinder_longitude(),curr_scene.prefs.get_cylinder_top_radius(), curr_scene);
 }
 void create_cone (scene curr_scene){
+    cone(curr_scene.prefs.get_cone_latitude(), curr_scene.prefs.get_cone_longitude(), curr_scene);
 }
 void create_sphere (scene curr_scene){
+    sphere(curr_scene.prefs.get_sphere_latitude(), curr_scene.prefs.get_sphere_longitude(), curr_scene);
 }
 void create_geosphere (scene curr_scene){
+    cube(curr_scene.prefs.get_geosphere_resolution(), curr_scene);
 }
 void create_rounded_cylinder (scene curr_scene){
+    rounded_cylinder(curr_scene.prefs.get_rounded_cylinder_latitude(), curr_scene.prefs.get_rounded_cylinder_longitude(), curr_scene);
 }
 void create_rounded_cube (scene curr_scene){
+    rounded_cube(curr_scene.prefs.get_rounded_cube_longitude(), curr_scene.prefs.get_rounded_cube_latitude(), curr_scene);
 }
 void create_torus (scene curr_scene){
+    torus(curr_scene.prefs.get_torus_longitude(), curr_scene.prefs.get_torus_latitude(), curr_scene.prefs.get_torus_inner_radius(), curr_scene);
 }
 void create_nurbs_plane (scene curr_scene){
 }

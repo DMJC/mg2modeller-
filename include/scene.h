@@ -1,10 +1,12 @@
 #ifndef SCENE_H
 #define SCENE_H
 #include "preferences.h"
+#include "guide.h"
 #include "mg2.h"
-#include "primitive.h"
 #include "nurbs.h"
 #include "animation.h"
+
+class tsgui;
 
 class scene
 {
@@ -12,9 +14,9 @@ class scene
 		object previous_object;
 		object current_object;
 		list<object> object_list;
+		list<guide> guide_list;
 		list<frame> frames_list;
 		preferences prefs;
-//		iostream file;
 		object GetCurrentObject(void);
 		object GetPrevObject(void);
 		scene();

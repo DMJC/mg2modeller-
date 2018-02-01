@@ -27,7 +27,6 @@
     <File Name="include/animation.h"/>
     <File Name="include/geometry.h"/>
     <File Name="include/material.h"/>
-    <File Name="include/normal.h"/>
     <File Name="include/texture.h"/>
     <VirtualDirectory Name="gui">
       <File Name="include/gui/tsgui.h"/>
@@ -41,6 +40,8 @@
     <File Name="include/nurbs.h"/>
     <File Name="include/metaball.h"/>
     <File Name="include/text.h"/>
+    <File Name="include/draw.h"/>
+    <File Name="include/guide.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
@@ -59,7 +60,6 @@
     <File Name="src/camera.cpp"/>
     <File Name="src/geometry.cpp"/>
     <File Name="src/material.cpp"/>
-    <File Name="src/normal.cpp"/>
     <File Name="src/animation.cpp"/>
     <File Name="src/texture.cpp"/>
     <VirtualDirectory Name="gui">
@@ -74,6 +74,8 @@
     <File Name="src/nurbs.cpp"/>
     <File Name="src/metaball.cpp"/>
     <File Name="src/text.cpp"/>
+    <File Name="src/draw.cpp"/>
+    <File Name="include/guide.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

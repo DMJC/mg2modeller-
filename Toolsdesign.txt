@@ -1,3 +1,28 @@
+plane
+    resolution
+cube
+    resolution
+geosphere
+    resolution
+sphere
+    latitude
+    longitude
+cone
+    latitude
+    longitude
+cylinder
+    latitude
+    longitude
+    top_radius
+torus
+    latitude 16
+    longitude 16
+    inner_radius 0.04
+rounded_cube
+    
+rounded_cylinder
+
+
 sweep
 	face
 	faces

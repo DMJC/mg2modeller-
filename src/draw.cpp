@@ -1,5 +1,13 @@
 #include "../include/draw.h"
 
-class draw {
+void draw::create(){
+	
+}
 
+void draw::edit(){
+	
+}
+
+void draw::render(){
+	
 }

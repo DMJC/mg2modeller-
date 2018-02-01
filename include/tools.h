@@ -1,10 +1,10 @@
 #ifndef TOOLS_H
 #define TOOLS_H
 #include "scene.h"
+#include "primitive.h"
 #include "mg2.h"
 
 typedef void (*callback)(scene curr_scene);
-//typedef void (*tool_callback)(scene curr_scene);
 
 struct tool{
     string name;
@@ -16,7 +16,7 @@ struct tool{
     callback long_right_click_callback;
 	scene curr_scene;
 };
-
+void primitive_parameters (scene curr_scene);
 void view_move (scene curr_scene);
 void view_rotate (scene curr_scene);
 void view_zoom (scene curr_scene);

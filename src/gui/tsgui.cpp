@@ -206,7 +206,7 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	view_object_tool_window.show();
 
 	list<tool> polygon_tool_list = {
-		{ "Plane", "Create a Plane Object", "pix/poly_plane.xpm", create_plane, nullptr, nullptr, nullptr, curr_scene }, 
+		{ "Plane", "Create a Plane Object", "pix/poly_plane.xpm", create_plane, primitive_parameters, nullptr, nullptr, curr_scene }, 
 		{ "Cube", "Create a Cube Object", "pix/poly_cube.xpm", create_cube, nullptr, nullptr, nullptr, curr_scene }, 
 		{ "Cylinder", "Create a Cylinder Object", "pix/poly_cylinder.xpm", create_cylinder, nullptr, nullptr, nullptr, curr_scene }, 
 		{ "Cone", "Create a Cone Object", "pix/poly_cone.xpm", create_cone, nullptr, nullptr, nullptr, curr_scene }, 
@@ -219,13 +219,13 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	ToolButton polgon_tools = ToolButton(polygon_tool_list);
 
 	list<tool> nurbs_tool_list = {
-		{ "NURBS Plane", "Create a NURBS Plane", "pix/nurbs_plane.xpm", create_nurbs_plane, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "NURBS Cylinder (half)", "Create a NURBS Cylinder Half Pipe", "pix/nurbs_halfpipe.xpm", create_nurbs_halfpipe, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "NURBS Saddle", "Create a NURBS Saddle", "pix/nurbs_saddle.xpm", create_nurbs_saddle, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "NURBS Cube", "Create a NURBS Cube", "pix/nurbs_cube.xpm", create_nurbs_cube, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "NURBS Cylinder", "Create a NURBS Cylinder", "pix/nurbs_cylinder.xpm", create_nurbs_cylinder, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "NURBS Cone", "Create a NURBS Cone", "pix/nurbs_cone.xpm", create_nurbs_cone, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "NURBS Sphere", "Create a NURBS Sphere", "pix/nurbs_sphere.xpm", create_nurbs_sphere, nullptr, nullptr, nullptr, curr_scene }, 
+		{ "NURBS Plane", "Create a NURBS Plane", "pix/nurbs_plane.xpm", create_nurbs_plane, nullptr, nullptr, nullptr, curr_scene },
+		{ "NURBS Cylinder (half)", "Create a NURBS Cylinder Half Pipe", "pix/nurbs_halfpipe.xpm", create_nurbs_halfpipe, nullptr, nullptr, nullptr, curr_scene },
+		{ "NURBS Saddle", "Create a NURBS Saddle", "pix/nurbs_saddle.xpm", create_nurbs_saddle, nullptr, nullptr, nullptr, curr_scene },
+		{ "NURBS Cube", "Create a NURBS Cube", "pix/nurbs_cube.xpm", create_nurbs_cube, nullptr, nullptr, nullptr, curr_scene },
+		{ "NURBS Cylinder", "Create a NURBS Cylinder", "pix/nurbs_cylinder.xpm", create_nurbs_cylinder, nullptr, nullptr, nullptr, curr_scene },
+		{ "NURBS Cone", "Create a NURBS Cone", "pix/nurbs_cone.xpm", create_nurbs_cone, nullptr, nullptr, nullptr, curr_scene },
+		{ "NURBS Sphere", "Create a NURBS Sphere", "pix/nurbs_sphere.xpm", create_nurbs_sphere, nullptr, nullptr, nullptr, curr_scene },
 		{ "NURBS Torus", "Create a NURBS Torus", "pix/nurbs_torus.xpm", create_nurbs_torus, nullptr, nullptr, nullptr, curr_scene }
 	};
 	ToolButton nurbs_tools = ToolButton(nurbs_tool_list);

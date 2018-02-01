@@ -37,12 +37,13 @@ void ToolButton::set_button(std::list<tool>& tool_list, int position){
 
 
 unsigned int ToolButton::mg2_button_press(GdkEventButton * event){
-    std::cout << "Button Pressed at: " << event->time << std::endl;
+//    std::cout << "Button Pressed at: " << event->time << std::endl;
     this->start_time = event->time;
+    return event->time;
 }
 
 unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
-    std::cout << "Button Released at: " << event->time << std::endl;
+//    std::cout << "Button Released at: " << event->time << std::endl;
     unsigned int finish_time = 0;
     finish_time = event->time;
 	std::cout << "Finish Time: " << finish_time << std::endl;
@@ -76,6 +77,7 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 	    }
 	}
 	std::cout << "Click Took: " << finish_time - this->start_time << std::endl;
+    return event->time;
 }
 
 void ToolButton::Trigger_Menu(std::list<tool>& tool_list, GdkEventButton * event){

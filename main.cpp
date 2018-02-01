@@ -1,6 +1,7 @@
 #include "include/mg2.h"
 #include "include/scene.h"
 #include "include/gui.h"
+#include "include/tools.h"
 #include "include/gui/tsgui.h"
 #include "include/gui/tdsgui.h"
 

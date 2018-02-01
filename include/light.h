@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "view.h"
 #include "object.h"
+#include "geometry.h"
 /*
 class image_light : public light
 {
