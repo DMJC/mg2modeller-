@@ -1,6 +1,9 @@
 #ifndef METABALL_H
 #define METABALL_H
 #include "object.h"
+
+enum metaball_type {METABALL_CUBE, METABALL_Cylinder, METABALL_SPHERE, METABALL_ROUNDED_CYLINDER, METABALL_ROUND_CUBE, METABALL_MUSCLE };
+
 class metaball : public object
 {
 

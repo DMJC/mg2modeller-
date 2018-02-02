@@ -5,8 +5,6 @@
 #include "callbacks.h"
 #include "tdsgui_callbacks.h"
 
-enum object_type { TORUS, TEAPOT, TUBE, SPHERE, PYRAMID, PLANE, GEOSPHERE, CYLINDER, CUBE, CONE };
-
 class tds_gui : public gui
 {
 private:

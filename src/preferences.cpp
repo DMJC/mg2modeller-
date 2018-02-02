@@ -5,7 +5,7 @@ void preferences::default_preferences(void)
 	this -> interface_type = 1;
 	this -> grid_resolution = 32;
 	this -> draw_axes = TRUE;
-	this -> draw_ground_plane = FALSE;
+	this -> draw_ground_plane = TRUE;
 	this -> background_color[0] = 0.6;
 	this -> background_color[1] = 0.6;
 	this -> background_color[2] = 0.6;

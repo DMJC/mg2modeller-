@@ -6,12 +6,12 @@
 #include "scene.h"
 
 enum primitive_edit_mode { CREATE_MODE, EDIT_MODE, RENDER_MODE };
+enum primitive_type { TORUS, TEAPOT, TUBE, SPHERE, PYRAMID, PLANE, GEOSPHERE, CYLINDER, CUBE, CONE };
+
 
 class primitive: public object
 {
     protected:
-		int num_faces;
-		int num_verts;
 	    primitive_edit_mode edit_mode;
     public:
         primitive();

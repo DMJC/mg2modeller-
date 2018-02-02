@@ -1,6 +1,9 @@
 #ifndef NURBS_H
 #define NURBS_H
 #include "object.h"
+
+enum nurbs_type { NURBS_PLANE, NURBS_CUBE, NURBS_SPHERE, NURBS_CONE };
+
 class nurbs : public object
 {
 

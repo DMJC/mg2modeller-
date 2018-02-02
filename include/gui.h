@@ -8,7 +8,7 @@
 class gui
 {
 	protected:
-		float location[3];
+		double location[3];
 		float rotation[3];
 		float scale[3];
 		Glib::RefPtr<Gtk::Builder> builder;
@@ -19,10 +19,10 @@ class gui
 		virtual ~gui();
 		void setbuilder(string);
 
-		void setlocation(float X, float Y, float Z);
+		void setlocation(double X, double Y, double Z);
 		void setrotation(float X, float Y, float Z);
 		void setscale(float X, float Y, float Z);
-		float* getlocation(void);
+		double* getlocation(void);
 		float* getrotation(void);
 		float* getscale(void);
 		int quit(void);

@@ -2,7 +2,15 @@
 
 GLuint wireframe_object_bo;
 
-void object::set_name(string name){
+void object::set_object_type(type_of_object object_type){
+	this -> object_type = object_type;
+}
+
+type_of_object object::get_object_type(void){
+	return this -> object_type;		
+}
+
+void object::object::set_name(string name){
     this -> name = name;
 }
 
@@ -17,31 +25,31 @@ void object::set_location(double loc_X, double loc_Y, double loc_Z)
 	this -> location[2] = loc_Z;
 }
 
-void object::set_rotation(double rot_X, double rot_Y, double rot_Z)
+void object::set_rotation(float rot_X, float rot_Y, float rot_Z)
 {
 	this -> rotation[0] = rot_X;
 	this -> rotation[1] = rot_Y;
 	this -> rotation[2] = rot_Z;
 }
 
-void object::set_scale(double sca_X, double sca_Y, double sca_Z)
+void object::set_scale(float sca_X, float sca_Y, float sca_Z)
 {
 	this -> scale[0] = sca_X;
 	this -> scale[1] = sca_Y;
 	this -> scale[2] = sca_Z;
 }
 
-int* object::get_location()
+double* object::get_location()
 {
 	return this -> location;
 }
 
-int* object::get_rotation()
+float* object::get_rotation()
 {
 	return this -> rotation;
 }
 
-int* object::get_scale()
+float* object::get_scale()
 {
 	return this -> scale;
 }
@@ -65,14 +73,42 @@ void object::set_num_faces(int num_faces)
 	this -> num_faces = num_faces;
 }
 
-void object::AddChild(object *child){}
+void object::add_child(object *child)
+{
+	
+}
 
-void object::RemoveChild(object *child){}
+void object::remove_child(object *child)
+{
+	
+}
 
-void object::EnableAxes(bool show_axes){}
+void object::add_sibling(object *sibling)
+{
+	
+}
 
-void object::EnableOrigin(bool show_origin){}
+void object::remove_sibling(object *sibling)
+{
+	
+}
 
-void object::AddFrame(void){}
+void object::enable_axes(bool state)
+{
+	this -> show_axes = state;
+}
 
-void object::RemoveFrame(frame *frame){}
+void object::enable_origin(bool state)
+{
+	this -> show_origin = state;
+}
+
+void object::add_frame(void)
+{
+	
+}
+
+void object::remove_frame(frame *frame)
+{
+	
+}

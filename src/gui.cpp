@@ -17,7 +17,7 @@ void gui::setbuilder(string filename)
 	this -> builder = Gtk::Builder::create_from_file(filename);
 }
 
-void gui::setlocation(float X, float Y, float Z)
+void gui::setlocation(double X, double Y, double Z)
 {
 	this -> location[0] = X;
 	this -> location[1] = Y;
@@ -38,7 +38,7 @@ void gui::setscale(float X, float Y, float Z)
 	this -> scale[2] = Z;
 }
 
-float* gui::getlocation(void)
+double* gui::getlocation(void)
 {
 	return this -> location;
 }

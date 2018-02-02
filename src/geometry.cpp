@@ -1,6 +1,6 @@
 #include "../include/geometry.h"
 
-float* edge::get_location()
+double* edge::get_location()
 {
 	return this -> location;
 }
@@ -21,19 +21,19 @@ vertex::vertex(float X, float Y, float Z){
 //    this->set_color(0.0, 0.0, 0.0);
 }*/
 
-void edge::set_location(float X, float Y, float Z)
+void edge::set_location(double X, double Y, double Z)
 {
 	this -> location[0] = X;
 	this -> location[1] = Y;
 	this -> location[2]	= Z;
 }
 
-float* vertex::get_location()
+double* vertex::get_location()
 {
 	return this -> location;
 }
 
-void vertex::set_location(float X, float Y, float Z)
+void vertex::set_location(double X, double Y, double Z)
 {
 	this -> location[0] = X;
 	this -> location[1] = Y;
@@ -89,14 +89,14 @@ int face::get_num_edges(void)
 	return this -> num_edges;
 }
 
-void face::set_location(float X, float Y, float Z)
+void face::set_location(double X, double Y, double Z)
 {
 	this -> location[0] = X;
 	this -> location[1] = Y;
 	this -> location[2] = Z;
 }
 
-float* face::get_location()
+double* face::get_location()
 {
 	return this -> location;
 }

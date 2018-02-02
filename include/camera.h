@@ -3,24 +3,37 @@
 
 #include "../include/object.h"
 
-enum camera_type { CAMERA, PANORAMIC };
+//enum camera_type { CAMERA, PANORAMIC };
 
 class camera : public object
 {
+	protected:
 		string name;
 		int type;
 		
 	public:
-		camera();
-        void SetCameraType(int camera_type);
-		void SetCameraName(string camera_name);
-
+		camera() {
+			this -> type = CAMERA;
+			this -> name = "Camera";
+			this -> location[0] = 0.0;
+			this -> location[1] = 0.0;
+			this -> location[2] = 0.0;
+			this -> rotation[0] = 0.0;
+			this -> rotation[1] = 0.0;
+			this -> rotation[2] = 0.0;
+			this -> scale[0] = 1.0;
+			this -> scale[1] = 1.0;
+			this -> scale[2] = 1.0;
+		};
+        void set_camera_type(int camera_type);
+		void set_camera_name(string camera_name);
         virtual ~camera();
 
 };
 
-class panoramic_camera : public camera{
-	private:
+class panoramic_camera : public camera
+{
+	protected:
 		bool mode;
 		float quality;
 		int pan_frames;
@@ -31,8 +44,20 @@ class panoramic_camera : public camera{
 		int tilt_min;
 		int tilt_max;
 		int tilt_init;
-	public:
-		panoramic_camera();
+	public:			
+		panoramic_camera() {
+			this -> type = PANORAMIC;
+			this -> name = "Panoramic Camera";
+			this -> location[0] = 0.0;
+			this -> location[1] = 0.0;
+			this -> location[2] = 0.0;
+			this -> rotation[0] = 0.0;
+			this -> rotation[1] = 0.0;
+			this -> rotation[2] = 0.0;
+			this -> scale[0] = 1.0;
+			this -> scale[1] = 1.0;
+			this -> scale[2] = 1.0;
+		};
 		void set_mode(bool);
 		void set_quality(float);
 		void set_pan_frames(int);

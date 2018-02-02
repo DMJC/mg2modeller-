@@ -1,7 +1,15 @@
 #include "../include/primitive.h"
 
 primitive::primitive(){
-
+/*	this -> location[0] = 0.0;
+	this -> location[1] = 0.0;
+	this -> location[2] = 0.0;
+	this -> location[0] = 0.0;
+	this -> location[1] = 0.0;
+	this -> location[2] = 0.0;
+	this -> scale[0] = 1.0;
+	this -> scale[1] = 1.0;
+	this -> scale[2] = 1.0;*/
 }
 
 primitive::~primitive(){
@@ -16,13 +24,14 @@ plane::plane(int resolution, scene curr_scene){
 	this->set_scale(1.0, 1.0, 1.0);
 	this->set_num_vertices(((resolution + 1) * (resolution + 1)));
 	this->set_num_faces((resolution * resolution));
-	cout << this->get_name() << endl;
+	//cout << this -> get_name() << endl;
 	cout << "faces: " << this->get_num_faces() << endl;
 	cout << "verts: " << this->get_num_vertices() << endl;
-	
+//	cout << "location X: " << this -> location[0] << " location Y: " << this -> location[1] << " location Z: " << this -> location[2] << endl;
 }
 plane::plane(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int torus_angle, int top_radius, int bot_radius, int radius, int spherical_radius, int conic_angle, int height, int rot_subdiv, scene curr_scene){
 	cout << "Making Plane for real" << endl;
+//	cout << "location X: " << this -> location[0] << " location Y: " << this -> location[1] << " location Z: " << this -> location[2] << endl;
 }
 
 cube::cube(int resolution, scene curr_scene){
