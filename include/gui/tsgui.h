@@ -1,5 +1,5 @@
-#ifndef TSGUI_H
-#define TSGUI_H
+#ifndef TS_GUI_H
+#define TS_GUI_H
 #include "../gui.h"
 #include "../scene.h"
 #include "callbacks.h"
@@ -45,7 +45,7 @@ private:
 	Gtk::Window* torus_window = nullptr;
 	Gtk::Window* undo_options_window = nullptr;
 	Gtk::Grid* view_grid = nullptr;
-	Gtk::Grid* main_window_grid = nullptr;
+	Gtk::Grid* main_window_tools_grid = nullptr;
 	Gtk::ImageMenuItem* ts_quit_button = nullptr;
 public:
 	void make_gui(preferences &prefs, scene &curr_scene);

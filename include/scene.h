@@ -5,8 +5,9 @@
 #include "mg2.h"
 #include "nurbs.h"
 #include "animation.h"
+//#include "gui.h"
 
-class tsgui;
+class ts_gui;
 
 class scene
 {

@@ -3,7 +3,7 @@
 void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 {
 		/*TS Style UI*/
-	this -> builder->get_widget("main_window_grid", this->main_window_grid);
+	this -> builder->get_widget("main_window_tools_grid", this->main_window_tools_grid);
 	this -> builder->get_widget("ts_main_window", this->main_window);
 	this -> builder->get_widget("edit_window", this->edit_window);
 	this -> builder->get_widget("boolean_window", this->boolean_window);
@@ -126,15 +126,14 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	};
 	ToolButton renderer_tools = ToolButton(renderer_list);
 
-	main_window_grid->attach(render_tools,4,1,1,1);
-	main_window_grid->attach(draw_mode_tools,5,1,1,1);
-	main_window_grid->attach(splitscreen_tools,6,1,1,1);
-	main_window_grid->attach(view_tools,7,1,1,1);
-	main_window_grid->attach(new_view_tools,8,1,1,1);
-	main_window_grid->attach(coordinates_tools,9,1,1,1);
-	main_window_grid->attach(renderer_tools,12,1,1,1);
-	main_window_grid->show();
-
+	main_window_tools_grid->attach(render_tools,0,1,1,1);
+	main_window_tools_grid->attach(draw_mode_tools,1,1,1,1);
+	main_window_tools_grid->attach(splitscreen_tools,2,1,1,1);
+	main_window_tools_grid->attach(view_tools,3,1,1,1);
+	main_window_tools_grid->attach(new_view_tools,4,1,1,1);
+	main_window_tools_grid->attach(coordinates_tools,5,1,1,1);
+	main_window_tools_grid->attach(renderer_tools,6,1,1,1);
+	main_window_tools_grid->show();
 	main_window->show();
 	int num_views = 1;
 	view_grid->show();
@@ -430,7 +429,8 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	main_tool_grid.show();
 	main_tool_window.set_keep_above(TRUE);
 	main_tool_window.add(main_tool_grid);
-	main_tool_window.move(0, h_loc-40);
+//	main_tool_window.move(0, h_loc-40);
+	cout << "Showing Main Tool Window" << endl;
 	main_tool_window.show();
 
 

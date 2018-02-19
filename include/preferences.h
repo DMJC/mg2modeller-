@@ -37,6 +37,9 @@ class preferences
 		int rounded_cylinder_latitude = 0;
 		int rounded_cylinder_longitude = 0;
 		
+		
+		
+		
     public:
 		void default_preferences(void);
 		void load_preferences(string filename);

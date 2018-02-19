@@ -165,6 +165,8 @@ void show_axes (scene curr_scene){
 }
 void select_object (scene curr_scene){
 }
+void clear_selection (scene curr_scene){
+}
 void global_panel (scene curr_scene){
 }
 void unhide_objects (scene curr_scene){

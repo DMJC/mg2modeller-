@@ -2,7 +2,7 @@
 #define TDSGUI_CALLBACKS_H
 #include "../mg2.h"
 
-void object_droplist_callback(Gtk::Builder* builder);
+extern "C" void object_droplist_callback(Gtk::Builder* builder);
 
 void select_sphere_tool(void);
 void select_box_tool(void);

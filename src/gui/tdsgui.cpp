@@ -2,25 +2,29 @@
 
 void tds_gui::make_gui(preferences &prefs, scene &scene)
 {
-	Gtk::Window* main_window = nullptr;
-	Gtk::Window*material_editor_window = nullptr;
-	Gtk::Window*rendering_editor_window = nullptr;
-	Gtk::Grid* view_grid = nullptr;
-	Gtk::ImageMenuItem* tds_quit_button = nullptr;
-
-
 	/*3DS Style UI*/
 	this -> builder->get_widget("tds_main_window", main_window);
 	this -> builder->get_widget("tds_view_grid", view_grid);
 	this -> builder->get_widget("material_editor_window", material_editor_window);
 	this -> builder->get_widget("rendering_editor_window", rendering_editor_window);
 	this -> builder->get_widget("tds_quit_button", tds_quit_button);
-
+	this -> builder->get_widget("standard_primitive_button_grid", standard_primitive_button_grid);
+	this -> builder->get_widget("extended_primitive_button_grid", extended_primitive_button_grid);
+	this -> builder->get_widget("compound_object_button_grid", compound_object_button_grid);
+	this -> builder->get_widget("nurbs_button_grid",nurbs_button_grid);
+	this -> builder->get_widget("particle_button_grid",particle_button_grid);
+	this -> builder->get_widget("patch_button_grid",patch_button_grid);
+	this -> builder->get_widget("doors_button_grid",doors_button_grid);
+	this -> builder->get_widget("windows_button_grid",windows_button_grid);
+	this -> builder->get_widget("dynamics_button_grid",dynamics_button_grid);
+	this -> builder->get_widget("object_type_combo", object_type_combo);
+	this -> builder->get_widget("object_expander", object_expander);
 	gtk_builder_connect_signals (this->builder->gobj(), NULL);
 
 //        tds_quit_button->signal_activate().connect(sigc::ptr_fun(&quit_cb));
-
-
+	this->object_type_combo->signal_changed().connect(sigc::mem_fun(this, &tds_gui::object_droplist_callback), false);
+	this->object_expander->add(*this->standard_primitive_button_grid);
+	
 	int num_views = 4;
 	view_grid->set_hexpand();
 	view_grid->set_vexpand();
@@ -58,7 +62,45 @@ void tds_gui::make_gui(preferences &prefs, scene &scene)
 		this -> app->run(*main_window);
 }
 
-
+void tds_gui::object_droplist_callback(){
+	cout << this -> object_type_combo -> get_active_id() << " " << this -> object_type_combo -> get_active_text() << endl;
+	this -> object_expander -> remove();
+	
+	switch (this -> object_type_combo -> get_active_row_number())
+	{
+	case 0:
+		this -> object_expander -> add(*this->standard_primitive_button_grid);
+	break;
+	case 1:
+		this -> object_expander -> add(*this->extended_primitive_button_grid);
+	break;
+	case 2:
+		this -> object_expander -> add(*this->compound_object_button_grid);
+	break;
+	case 3:
+		this -> object_expander -> add(*this->particle_button_grid);
+	break;
+	case 4:
+		this -> object_expander -> add(*this->patch_button_grid);
+	break;
+	case 5:
+		this -> object_expander -> add(*this->nurbs_button_grid);
+	break;
+	case 7:
+		this -> object_expander -> add(*this->dynamics_button_grid);
+	break;
+	case 8:
+		this -> object_expander -> add(*this->windows_button_grid);
+	break;
+	case 9:
+		this -> object_expander -> add(*this->doors_button_grid);
+	break;
+	default:
+		this -> object_expander -> add(*this->extended_primitive_button_grid);
+	break;
+	}
+	this -> object_expander->show_all();
+}
 
 void show_material_win(preferences &prefs, scene &scene);
 

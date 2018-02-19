@@ -2,6 +2,7 @@
 #define MG2TOOLBUTTON_H
 #include <gtkmm.h>
 #include "../tools.h"
+#include "../gui/tsgui.h"
 #include <iostream>
 #include <list>
 #include <string>
@@ -15,7 +16,6 @@ class ToolButton : public Gtk::Button
 {
 protected:
     Gtk::Image *buttonimage;
-
     std::list<tool> *tool_list;
     std::string name;
     std::string tooltip;
@@ -25,6 +25,7 @@ protected:
     callback long_left_click_callback;
     callback long_right_click_callback;
 	scene curr_scene;
+//	ts_gui *curr_gui;
     int start_time;
 	Gdk::Gravity Gravity_Menu;
 	Gdk::Gravity Gravity_Button;

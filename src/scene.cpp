@@ -1,8 +1,16 @@
 #include "../include/scene.h"
 
 scene::scene(){
-
+	
 }
+/*scene::scene(gui app_gui){
+	this -> gui = app_gui;
+}
+
+void scene::set_gui(gui app_gui){
+		this -> gui = app_gui;
+}*/
+
 object scene::GetCurrentObject(void){
 	return this -> current_object;
 }
