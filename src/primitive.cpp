@@ -143,7 +143,7 @@ cylinder::cylinder(int horizontal_subdiv, int vertical_subdiv, int top_radius, s
 	this->set_rotation(0.0, 0.0, 0.0);
 	this->set_scale(1.0, 1.0, 1.0);
 	this->set_num_vertices(horizontal_subdiv * 2 * vertical_subdiv);
-	this->set_num_faces(horizontal_subdiv * vertical_subdiv + 2);  
+	this->set_num_faces(hoadminpak reactosrizontal_subdiv * vertical_subdiv + 2);  
 	cout << this->get_name() << endl;
 	cout << "faces: " << this->get_num_faces() << endl;
 	cout << "verts: " << this->get_num_vertices() << endl;
@@ -173,7 +173,30 @@ cylinder::cylinder(int horizontal_subdiv, int vertical_subdiv, int top_radius, s
 }
 
 cylinder::cylinder(int cylinder_horizontal_subdiv, int cylinder_vertical_subdiv, int cylinder_conic_subdiv, int cylinder_spherical_long_subdiv, int cylinder_spherical_lat_subdiv, int cylinder_x_rotation, int cylinder_torus_angle, int cylinder_top_radius, int cylinder_bot_radius, int cylinder_radius, int cylinder_spherical_radius, int cylinder_conic_angle, int cylinder_height, int cylinder_rot_subdiv, scene curr_scene){
+/*int cylinder_horizontal_subdiv
+ *int cylinder_vertical_subdiv
+ *int cylinder_conic_subdiv
+ *int cylinder_spherical_long_subdiv //ignore
+ *int cylinder_spherical_lat_subdiv //ignore
+ *int cylinder_x_rotation //Works
+ *int cylinder_torus_angle //ignore
+ *
+ *int cylinder_top_radius
+ *int cylinder_bot_radius
+ *int cylinder_radius
+ *int cylinder_spherical_radius
+ *int cylinder_conic_angle
+ *int cylinder_height
+ *int cylinder_rot_subdiv //
+*/
+
+	//float rotation = 45.0;
+	degree = 360 / cylinder_rot_subdiv;
 	
+/*	x = cylinder_radius * cos(degree); y = cylinder_radius * sin(degree); z = 0.0;
+	x = cylinder_radius * cos(degree); y = cylinder_radius * sin(degree); z = 2.0;*/
+
+//	rotate(this, cylinder_x_rotation, 0.0, 0.0);
 }
 
 geosphere::geosphere(int resolution, scene curr_scene){
@@ -197,10 +220,29 @@ torus::torus(int torus_horizontal_subdiv, int torus_vertical_subdiv, int torus_c
 }
 
 rounded_cube::rounded_cube(int horizontal_subdiv, int vertical_subdiv, scene curr_scene){
-
+	
+	
 }
 rounded_cube::rounded_cube(int rounded_cube_horizontal_subdiv, int rounded_cube_vertical_subdiv, int rounded_cube_conic_subdiv, int rounded_cube_spherical_long_subdiv, int rounded_cube_spherical_lat_subdiv, int rounded_cube_x_rotation, int rounded_cube_torus_angle, int rounded_cube_top_radius, int rounded_cube_bot_radius, int rounded_cube_radius, int rounded_cube_spherical_radius, int rounded_cube_conic_angle, int rounded_cube_height, int rounded_cube_rot_subdiv, scene curr_scene){
-	
+/*int rounded_cube_horizontal_subdiv
+int rounded_cube_vertical_subdiv
+int rounded_cube_conic_subdiv
+int rounded_cube_spherical_long_subdiv
+int rounded_cube_spherical_lat_subdiv
+int rounded_cube_x_rotation
+int rounded_cube_torus_angle
+
+int rounded_cube_top_radius
+int rounded_cube_bot_radius
+int rounded_cube_radius
+int rounded_cube_spherical_radius
+int rounded_cube_conic_angle
+int rounded_cube_height
+int rounded_cube_rot_subdiv*/
+
+	//float rotation = 45.0;
+/*	x = r * cos(a); y = r * sin(a); z = 0.0;
+	x = r * cos(a); y = r * sin(a); z = 2.0;*/
 }
 
 rounded_cylinder::rounded_cylinder(int horizontal_subdiv, int vertical_subdiv, scene curr_scene){
