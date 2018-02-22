@@ -143,33 +143,11 @@ cylinder::cylinder(int horizontal_subdiv, int vertical_subdiv, int top_radius, s
 	this->set_rotation(0.0, 0.0, 0.0);
 	this->set_scale(1.0, 1.0, 1.0);
 	this->set_num_vertices(horizontal_subdiv * 2 * vertical_subdiv);
-	this->set_num_faces(hoadminpak reactosrizontal_subdiv * vertical_subdiv + 2);  
+	this->set_num_faces(horizontal_subdiv * vertical_subdiv + 2);  
 	cout << this->get_name() << endl;
 	cout << "faces: " << this->get_num_faces() << endl;
 	cout << "verts: " << this->get_num_vertices() << endl;
-	int horizontal_increment = 0;
-	int vertical_increment = 0;
-	int horizontal_step = 0;
-	horizontal_increment = 360/horizontal_subdiv;
-	vertical_increment = 1 / vertical_subdiv;
-	horizontal_step = horizontal_increment;
-	float horizontal_count = 0.0;
-	int vertical_count = 0;
-	horizontal_count = horizontal_subdiv + 1;
 
-	while (horizontal_count != 0)
-		{
-			horizontal_count--;
-			vertical_count = vertical_subdiv;
-			while (vertical_count != 0)
-			{
-				cout << cos(horizontal_step) << ", " << sin(horizontal_step) << ", " << horizontal_count << endl;
-				horizontal_step = horizontal_step + horizontal_increment;
-				vertical_count--;
-			}
-
-		}
-	cout << "finished" << endl;
 }
 
 cylinder::cylinder(int cylinder_horizontal_subdiv, int cylinder_vertical_subdiv, int cylinder_conic_subdiv, int cylinder_spherical_long_subdiv, int cylinder_spherical_lat_subdiv, int cylinder_x_rotation, int cylinder_torus_angle, int cylinder_top_radius, int cylinder_bot_radius, int cylinder_radius, int cylinder_spherical_radius, int cylinder_conic_angle, int cylinder_height, int cylinder_rot_subdiv, scene curr_scene){
@@ -238,10 +216,10 @@ int rounded_cube_radius
 int rounded_cube_spherical_radius
 int rounded_cube_conic_angle
 int rounded_cube_height
-int rounded_cube_rot_subdiv*/
+int rounded_cube_rot_subdiv
 
 	//float rotation = 45.0;
-/*	x = r * cos(a); y = r * sin(a); z = 0.0;
+	x = r * cos(a); y = r * sin(a); z = 0.0;
 	x = r * cos(a); y = r * sin(a); z = 2.0;*/
 }
 
@@ -250,4 +228,67 @@ rounded_cylinder::rounded_cylinder(int horizontal_subdiv, int vertical_subdiv, s
 }
 rounded_cylinder::rounded_cylinder(int rounded_cylinder_horizontal_subdiv, int rounded_cylinder_vertical_subdiv, int rounded_cylinder_conic_subdiv, int rounded_cylinder_spherical_long_subdiv, int rounded_cylinder_spherical_lat_subdiv, int rounded_cylinder_x_rotation, int rounded_cylinder_torus_angle, int rounded_cylinder_top_radius, int rounded_cylinder_bot_radius, int rounded_cylinder_radius, int rounded_cylinder_spherical_radius, int rounded_cylinder_conic_angle, int rounded_cylinder_height, int rounded_cylinder_rot_subdiv, scene curr_scene){
 	
+}
+
+shape(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int angle, float top_radius, float bot_radius, float radius, int spherical_radius, float conic_angle, float height, int rot_subdiv, scene curr_scene){
+	vertical_subdiv = vertical_subdiv + 1;
+	float radius_step = 0;
+	radius_step = (top_radius - bottom_radius) / (vertical_subdiv -1);
+	float vertical_step = 0;
+	vertical_step = height / (vertical_subdiv -1);
+	int tmp_rot_subdiv = 0;
+	float degree = 360 / rot_subdiv;
+	float deg_count = 0;
+	float X = 0.0;
+	float Y = 0.0;
+	float Z = 0.0;
+	radius = bottom_radius;
+
+	if (conic_angle != 0){
+		//add bottom centre vertex here
+		//X = 0; Y = 0, Z = height - 1/conic_angle;
+	}
+	while (vertical_subdiv != 0){
+		cout << vertical_subdiv << endl;
+		tmp_rot_subdiv = rot_subdiv;
+		deg_count = 0;
+		while (tmp_rot_subdiv != 0){
+			float Xin = 0;
+			Xin = (deg_count * (M_PI/180));
+			float Yin = 0;
+			Yin = (deg_count * (M_PI/180));
+			X = cosf(Xin);
+			Y = sinf(Yin);
+			X = fabs(X);
+			Y = fabs(Y);
+			float diff = fmod(X, 1.0f);
+			if(abs(diff < 0.001f))
+			X -= diff;
+			float diff2 = fmod(Y, 1.0f);
+			if(abs(diff2 < 0.001f))
+			Y -= diff2;
+			if (deg_count > 180){
+				Y = -Y;
+			}
+			if (deg_count > 90 && deg_count < 270){
+				X = -X;
+			}
+			if(radius == 0){
+				X = 0; Y = 0;
+			}else{
+				X = X * radius;
+				Y = Y * radius;
+			}
+			cout << "vertex" << tmp_rot_subdiv << " Radius: " << radius << " degree " << deg_count << " X: " << X << " Y: " 				<< Y << " Z: " << Z << endl;
+			deg_count = deg_count + degree;
+			tmp_rot_subdiv--;
+		}
+	radius = radius + radius_step;
+	Z = Z + vertical_step;
+	vertical_subdiv--;
+	}
+	if (conic_angle != 0){
+		//add top vertex here
+		//X = 0; Y = 0, Z = height + 1/conic_angle;
+	}
 }

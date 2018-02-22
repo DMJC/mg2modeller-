@@ -11,34 +11,37 @@ using namespace std;
 
 main(){
 
-//	#define PI 3.14159265
-//	#define PI 3.141592653589793
-//#define M_PI 3.14159265358979323846
-
+	//	#define PI 3.14159265
+	//	#define PI 3.141592653589793
+	//	#define M_PI 3.14159265358979323846
 
 	int vert_subdiv = 2;
 	vert_subdiv = vert_subdiv + 1;
-	int radius = 1;
+	float radius = 1;
+	float top_radius = 4;
+	float bottom_radius = 1;
+	float radius_step = 0;
+	radius_step = (top_radius - bottom_radius) / (vert_subdiv -1);
 	float height = 2;
 	float vertical_step = 0;
 	vertical_step = height / (vert_subdiv -1);
-	int horiz_subdiv = 4;
-	int tmp_horiz_subdiv = 0;
-	float degree = 360 / horiz_subdiv;
+	int horiz_rotate = 4;
+	int tmp_horiz_rotate = 0;
+	float degree = 360 / horiz_rotate;
 	float deg_count = 0;
 	float X = 0.0;
 	float Y = 0.0;
 	float Z = 0.0;
-
+	radius = bottom_radius;
 	while (vert_subdiv != 0){
 		cout << vert_subdiv << endl;
-		tmp_horiz_subdiv = horiz_subdiv;
+		tmp_horiz_rotate = horiz_rotate;
 		deg_count = 0;
-		while (tmp_horiz_subdiv != 0){
+		while (tmp_horiz_rotate != 0){
 			float Xin = 0;
-			Xin = deg_count * (M_PI/180);
+			Xin = (deg_count * (M_PI/180));
 			float Yin = 0;
-			Yin = deg_count * (M_PI/180);
+			Yin = (deg_count * (M_PI/180));
 			X = cosf(Xin);
 			Y = sinf(Yin);
 			X = fabs(X);
@@ -55,10 +58,17 @@ main(){
 			if (deg_count > 90 && deg_count < 270){
 				X = -X;
 			}
-			cout << "vertex" << tmp_horiz_subdiv << " degree " << deg_count /*<< setprecision(0)*/ << " X: " << X << " Y: " 				<< Y << " Z: " << Z << endl;
+			if(radius == 0){
+				X = 0; Y = 0;
+			}else{
+				X = X * radius;
+				Y = Y * radius;
+			}
+			cout << "vertex" << tmp_horiz_rotate << " Radius: " << radius << " degree " << deg_count << " X: " << X << " Y: " 				<< Y << " Z: " << Z << endl;
 			deg_count = deg_count + degree;
-			tmp_horiz_subdiv--;
+			tmp_horiz_rotate--;
 		}
+	radius = radius + radius_step;
 	Z = Z + vertical_step;
 	vert_subdiv--;
 	}
