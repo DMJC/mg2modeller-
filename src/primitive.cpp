@@ -27,38 +27,14 @@ plane::plane(int resolution, scene curr_scene){
 	//cout << this -> get_name() << endl;
 	cout << "faces: " << this->get_num_faces() << endl;
 	cout << "verts: " << this->get_num_vertices() << endl;
-	
+
 	float iter_amount = 0.0;
 	float next = 0.0;
 	int count = 0;
-	/*
-	iter_amount = (1 / resolution) *2;
-	while ( count !=0 )
-	{
-		count = resolution -1;
-		for (){
-			for (){
-			
-			}	
-		}
-		
-	}*/
-/*
-	if (resolution > 1){
-		
-	}
-	else {
-		/*make_vertex( 1, -1, 0 );
-		make_vertex( 1, 1, 0 );
-		make_vertex( -1, -1, 0 );
-		make_vertex( -1, 1, 0 );
-	} */
-	
-//	cout << "location X: " << this -> location[0] << " location Y: " << this -> location[1] << " location Z: " << this -> location[2] << endl;
+
 }
 plane::plane(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int torus_angle, int top_radius, int bot_radius, int radius, int spherical_radius, int conic_angle, int height, int rot_subdiv, scene curr_scene){
 	cout << "Making Plane for real" << endl;
-//	cout << "location X: " << this -> location[0] << " location Y: " << this -> location[1] << " location Z: " << this -> location[2] << endl;
 }
 
 cube::cube(int resolution, scene curr_scene){
@@ -151,30 +127,6 @@ cylinder::cylinder(int horizontal_subdiv, int vertical_subdiv, int top_radius, s
 }
 
 cylinder::cylinder(int cylinder_horizontal_subdiv, int cylinder_vertical_subdiv, int cylinder_conic_subdiv, int cylinder_spherical_long_subdiv, int cylinder_spherical_lat_subdiv, int cylinder_x_rotation, int cylinder_torus_angle, int cylinder_top_radius, int cylinder_bot_radius, int cylinder_radius, int cylinder_spherical_radius, int cylinder_conic_angle, int cylinder_height, int cylinder_rot_subdiv, scene curr_scene){
-/*int cylinder_horizontal_subdiv
- *int cylinder_vertical_subdiv
- *int cylinder_conic_subdiv
- *int cylinder_spherical_long_subdiv //ignore
- *int cylinder_spherical_lat_subdiv //ignore
- *int cylinder_x_rotation //Works
- *int cylinder_torus_angle //ignore
- *
- *int cylinder_top_radius
- *int cylinder_bot_radius
- *int cylinder_radius
- *int cylinder_spherical_radius
- *int cylinder_conic_angle
- *int cylinder_height
- *int cylinder_rot_subdiv //
-*/
-
-	//float rotation = 45.0;
-	degree = 360 / cylinder_rot_subdiv;
-	
-/*	x = cylinder_radius * cos(degree); y = cylinder_radius * sin(degree); z = 0.0;
-	x = cylinder_radius * cos(degree); y = cylinder_radius * sin(degree); z = 2.0;*/
-
-//	rotate(this, cylinder_x_rotation, 0.0, 0.0);
 }
 
 geosphere::geosphere(int resolution, scene curr_scene){
@@ -230,7 +182,7 @@ rounded_cylinder::rounded_cylinder(int rounded_cylinder_horizontal_subdiv, int r
 	
 }
 
-shape(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int angle, float top_radius, float bot_radius, float radius, int spherical_radius, float conic_angle, float height, int rot_subdiv, scene curr_scene){
+shape::shape(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int angle, float top_radius, float bottom_radius, float radius, int spherical_radius, float conic_angle, float height, int rot_subdiv, scene curr_scene){
 	vertical_subdiv = vertical_subdiv + 1;
 	float radius_step = 0;
 	radius_step = (top_radius - bottom_radius) / (vertical_subdiv -1);

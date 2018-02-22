@@ -95,6 +95,6 @@ class shape : primitive{
     private:
 
     public:
-		shape(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int angle, float top_radius, float bot_radius, float radius, int spherical_radius, int conic_angle, float height, int rot_subdiv, scene curr_scene);
+		shape(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int angle, float top_radius, float bottom_radius, float radius, int spherical_radius, float conic_angle, float height, int rot_subdiv, scene curr_scene);
 };
 #endif // PRIMITIVE_H
