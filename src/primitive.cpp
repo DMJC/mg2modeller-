@@ -27,11 +27,11 @@ plane::plane(int resolution, scene curr_scene){
 	//cout << this -> get_name() << endl;
 	cout << "faces: " << this->get_num_faces() << endl;
 	cout << "verts: " << this->get_num_vertices() << endl;
-
 	float iter_amount = 0.0;
 	float next = 0.0;
 	int count = 0;
-
+				//	horizontal_subdiv, vertical_subdiv, conic_subdiv, spherical_long_subdiv, spherical_lat_subdiv, x_rotation, angle, top_radius, bottom_radius, radius, 0, 0, height, rot_subdiv,
+	shape new_shape(0, 0, 0, 0, 0, 45, 0, 1, 1, 1, 0, 0, 0, 4, curr_scene);
 }
 plane::plane(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int torus_angle, int top_radius, int bot_radius, int radius, int spherical_radius, int conic_angle, int height, int rot_subdiv, scene curr_scene){
 	cout << "Making Plane for real" << endl;
