@@ -41,6 +41,7 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	this -> builder->get_widget("undo_options_window", this->undo_options_window);
 	this -> builder->get_widget("ts_view_grid", this->view_grid);
 	this -> builder->get_widget("ts_quit_button", this->ts_quit_button);
+	curr_scene.SetGui(this);
 	edit_window->set_keep_above(TRUE);
 	object_info_window->set_keep_above(TRUE);
 	int h_loc = 0;
@@ -205,15 +206,15 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	view_object_tool_window.show();
 
 	list<tool> polygon_tool_list = {
-		{ "Plane", "Create a Plane Object", "pix/poly_plane.xpm", create_plane, primitive_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Cube", "Create a Cube Object", "pix/poly_cube.xpm", create_cube, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Cylinder", "Create a Cylinder Object", "pix/poly_cylinder.xpm", create_cylinder, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Cone", "Create a Cone Object", "pix/poly_cone.xpm", create_cone, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Sphere", "Create a Sphere Object", "pix/poly_sphere.xpm", create_sphere, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "GeoSphere", "Create a GeoSphere Object", "pix/poly_geosphere.xpm", create_geosphere, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Rounded Cylinder", "Create a Rounded Cylinder Object", "pix/poly_rounded_cylinder.xpm", create_rounded_cylinder, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Rounded Cube", "Create a Rounded Cube Object", "pix/poly_rounded_cube.xpm", create_rounded_cube, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Torus", "Create a Torus Object", "pix/poly_torus.xpm", create_torus, nullptr, nullptr, nullptr, curr_scene }
+		{ "Plane", "Create a Plane Object", "pix/poly_plane.xpm", create_plane, plane_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Cube", "Create a Cube Object", "pix/poly_cube.xpm", create_cube, cube_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Cylinder", "Create a Cylinder Object", "pix/poly_cylinder.xpm", create_cylinder, cylinder_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Cone", "Create a Cone Object", "pix/poly_cone.xpm", create_cone, cone_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Sphere", "Create a Sphere Object", "pix/poly_sphere.xpm", create_sphere, sphere_parameters, nullptr, nullptr, curr_scene }, 
+		{ "GeoSphere", "Create a GeoSphere Object", "pix/poly_geosphere.xpm", create_geosphere, geosphere_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Rounded Cylinder", "Create a Rounded Cylinder Object", "pix/poly_rounded_cylinder.xpm", create_rounded_cylinder, rounded_cylinder_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Rounded Cube", "Create a Rounded Cube Object", "pix/poly_rounded_cube.xpm", create_rounded_cube, rounded_cube_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Torus", "Create a Torus Object", "pix/poly_torus.xpm", create_torus, torus_parameters, nullptr, nullptr, curr_scene }
 	};
 	ToolButton polgon_tools = ToolButton(polygon_tool_list);
 
@@ -240,14 +241,14 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	ToolButton metaball_tools = ToolButton(metaball_tool_list);
 	
 	list<tool> light_tool_list = {
-		{ "Image Based Light", "Create an Image Based Light", "pix/image_light.xpm", create_image_light, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Spot Light", "Create a Spot Light", "pix/spot_light.xpm", create_spot_light, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Local Light", "Create a Local Light", "pix/local_light.xpm", create_local_light, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Infinite Light", "Create an Infinite Light", "pix/infinite_light.xpm", create_infinite_light, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Projector Light", "Create a Projector Light", "pix/projector_light.xpm", create_projector_light, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Sky Light", "Create a Sky Light", "pix/sky_light.xpm", create_sky_light, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Goniometric Light", "Create a Goniometric Light", "pix/goniometric_light.xpm", create_goniometric_light, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Area Light", "Create an Area Light", "pix/area_light.xpm", create_area_light, nullptr, nullptr, nullptr, curr_scene }
+		{ "Image Based Light", "Create an Image Based Light", "pix/image_light.xpm", create_image_light, light_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Spot Light", "Create a Spot Light", "pix/spot_light.xpm", create_spot_light, light_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Local Light", "Create a Local Light", "pix/local_light.xpm", create_local_light, light_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Infinite Light", "Create an Infinite Light", "pix/infinite_light.xpm", create_infinite_light, light_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Projector Light", "Create a Projector Light", "pix/projector_light.xpm", create_projector_light, light_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Sky Light", "Create a Sky Light", "pix/sky_light.xpm", create_sky_light, light_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Goniometric Light", "Create a Goniometric Light", "pix/goniometric_light.xpm", create_goniometric_light, light_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Area Light", "Create an Area Light", "pix/area_light.xpm", create_area_light, light_parameters, nullptr, nullptr, curr_scene }
 	};
 	ToolButton light_tools = ToolButton(light_tool_list);
 
@@ -535,6 +536,7 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 		
 	main_window->maximize();Gtk::Builder::create_from_file("src/gui.gtkbuilder");
 	this -> app->run(*main_window);
+
 }
 
 void ts_gui::show_boolean_window(scene curr_scene){
@@ -576,21 +578,28 @@ void ts_gui::show_object_info_window(scene curr_scene){
 void ts_gui::show_object_movie_window(scene curr_scene){
 	this->object_movie_window->show();
 }
+
 void ts_gui::show_object_render_options_window(scene curr_scene){
 	this->object_render_options_window->show();
 }
+
 void ts_gui::show_ogl_setting_window(scene curr_scene){
 	this->ogl_setting_window->show();
 }
+
 void ts_gui::show_pan_movie_window(scene curr_scene){
 	this->pan_movie_window->show();
 }
+
 void ts_gui::show_panoramic_camera_window(scene curr_scene){
 	this->panoramic_camera_window->show();
 }
+
 void ts_gui::show_plane_window(scene curr_scene){
+	cout << "showing plane window" << endl;
 	this->plane_window->show();
 }
+
 void ts_gui::show_point_edit_window(scene curr_scene){
 	this->point_edit_window->show();
 }
@@ -600,44 +609,55 @@ void ts_gui::show_polygon_reduction_tool_window(scene curr_scene){
 void ts_gui::show_preferences_window(scene curr_scene){
 	this->preferences_window->show();
 }
+
 void ts_gui::show_primitive_parameters_window(scene curr_scene){
 	this->primitive_parameters_window->show();
 }
+
 void ts_gui::show_primitive_shape_window(scene curr_scene){
 	this->primitive_shape_window->show();
 }
+
 void ts_gui::show_rounded_cube_window(scene curr_scene){
 	this->rounded_cube_window->show();
 }
+
 void ts_gui::show_rounded_cylinder_window(scene curr_scene){
 	this->rounded_cylinder_window->show();
 }
+
 void ts_gui::show_scene_editor_preferences_window(scene curr_scene){
 	this->scene_editor_preferences_window->show();
 }
+
 void ts_gui::show_selection_window(scene curr_scene){
 	this->selection_window->show();
 }
+
 void ts_gui::show_set_keyframe_window(scene curr_scene){
 	this->set_keyframe_window->show();
 }
+
 void ts_gui::show_shell_properties_window(scene curr_scene){
 	this->shell_properties_window->show();
 }
+
 void ts_gui::show_skin_options_window(scene curr_scene){
 	this->skin_options_window->show();
 }
+
 void ts_gui::show_sphere_window(scene curr_scene){
 	this->sphere_window->show();
 }
+
 void ts_gui::show_taper_window(scene curr_scene){
 	this->taper_window->show();
 }
+
 void ts_gui::show_torus_window(scene curr_scene){
 	this->torus_window->show();
-
 }
+
 void ts_gui::show_undo_options_window(scene curr_scene){
 	this->undo_options_window->show();
-
 }

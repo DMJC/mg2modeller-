@@ -2,7 +2,6 @@
 #define TOOLS_H
 #include "scene.h"
 #include "primitive.h"
-//#include "gui/tsgui.h"
 #include "mg2.h"
 
 typedef void (*callback)(scene curr_scene);
@@ -16,9 +15,18 @@ struct tool{
     callback long_left_click_callback;
     callback long_right_click_callback;
 	scene curr_scene;
-//	ts_gui curr_gui;
 };
+void light_parameters (scene curr_scene);
 void primitive_parameters (scene curr_scene);
+void plane_parameters (scene curr_scene);
+void cube_parameters (scene curr_scene);
+void sphere_parameters (scene curr_scene);
+void geosphere_parameters (scene curr_scene);
+void cylinder_parameters (scene curr_scene);
+void cone_parameters (scene curr_scene);
+void torus_parameters (scene curr_scene);
+void rounded_cube_parameters (scene curr_scene);
+void rounded_cylinder_parameters (scene curr_scene);
 void view_move (scene curr_scene);
 void view_rotate (scene curr_scene);
 void view_zoom (scene curr_scene);

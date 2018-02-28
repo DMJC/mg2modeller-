@@ -5,13 +5,14 @@
 #include "mg2.h"
 #include "nurbs.h"
 #include "animation.h"
-//#include "gui.h"
+//#include "gui/tsgui.h"
 
 class ts_gui;
 
 class scene
 {
 		public:
+		ts_gui *curr_gui;
 		object previous_object;
 		object current_object;
 		list<object> object_list;
@@ -21,10 +22,13 @@ class scene
 		object GetCurrentObject(void);
 		object GetPrevObject(void);
 		scene();
+		
+		void SetGui(ts_gui *curr_gui);
+		ts_gui *GetGui(void);
 		void SetCurrentObject(object obj);
 		void SetPrevObject(object obj);
 		void AddObject(object new_object);
-		void DeleteObject(int object_to_delete);
+		void DeleteObject(object obj);
 		void Draw_Axes(void);
 		void Draw_Solid_Grid(preferences &prefs);
 		void Draw_Wire_Grid(preferences &prefs);

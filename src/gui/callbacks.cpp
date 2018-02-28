@@ -2,7 +2,9 @@
 //file contains callbacks universal to both tds/ts style interfaces.
 extern "C" {
     void quit_cb (Gtk::Application app){
-        cout << "Quitting" << endl;
+        cout << "Have we saved recently?" << endl;
+		
+		cout << "Quitting" << endl;
 		app.quit();
     }
 

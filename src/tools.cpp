@@ -1,9 +1,52 @@
 #include "../include/tools.h"
 #include "../include/scene.h"
 #include "../include/primitive.h"
+#include "../include/gui/tsgui.h"
+void light_parameters (scene curr_scene){
+	curr_scene.curr_gui->show_lights_window(curr_scene);
+}
 
 void primitive_parameters (scene curr_scene){
+	curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
+    curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
 }
+
+void plane_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_plane_window(curr_scene);
+}
+
+void cube_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_cube_window(curr_scene);
+}
+
+void sphere_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_sphere_window(curr_scene);
+}
+
+void geosphere_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_geosphere_window(curr_scene);
+}
+
+void cylinder_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_cylinder_window(curr_scene);
+}
+
+void cone_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_cone_window(curr_scene);
+}
+
+void torus_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_torus_window(curr_scene);
+}
+
+void rounded_cube_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_rounded_cube_window(curr_scene);
+}
+
+void rounded_cylinder_parameters (scene curr_scene){
+    curr_scene.curr_gui->show_rounded_cylinder_window(curr_scene);
+}
+
 void view_move (scene curr_scene){
 }
 void view_rotate (scene curr_scene){

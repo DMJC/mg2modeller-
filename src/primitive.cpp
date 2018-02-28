@@ -17,21 +17,19 @@ primitive::~primitive(){
 }
 
 plane::plane(int resolution, scene curr_scene){
+	object new_object;
+	new_object.set_name("plane");
 	cout << "Making a Plane" << endl;
-	this->set_name("plane");
-	this->set_location(0.0, 0.0, 0.0);
-	this->set_rotation(0.0, 0.0, 0.0);
-	this->set_scale(1.0, 1.0, 1.0);
-	this->set_num_vertices(((resolution + 1) * (resolution + 1)));
-	this->set_num_faces((resolution * resolution));
-	//cout << this -> get_name() << endl;
-	cout << "faces: " << this->get_num_faces() << endl;
-	cout << "verts: " << this->get_num_vertices() << endl;
-	float iter_amount = 0.0;
-	float next = 0.0;
-	int count = 0;
-				//	horizontal_subdiv, vertical_subdiv, conic_subdiv, spherical_long_subdiv, spherical_lat_subdiv, x_rotation, angle, top_radius, bottom_radius, radius, 0, 0, height, rot_subdiv,
+	new_object.set_location(0.0, 0.0, 0.0);
+	new_object.set_rotation(0.0, 0.0, 0.0);
+	new_object.set_scale(1.0, 1.0, 1.0);
+	new_object.set_num_vertices(((resolution + 1) * (resolution + 1)));
+	new_object.set_num_faces((resolution * resolution));
+	cout << "faces: " << new_object.get_num_faces() << endl;
+	cout << "verts: " << new_object.get_num_vertices() << endl;
+	//	horizontal_subdiv, vertical_subdiv, conic_subdiv, spherical_long_subdiv, spherical_lat_subdiv, x_rotation, angle, top_radius, bottom_radius, radius, 0, 0, height, rot_subdiv,
 	shape new_shape(0, 0, 0, 0, 0, 45, 0, 1, 1, 1, 0, 0, 0, 4, curr_scene);
+	curr_scene.AddObject(new_object);
 }
 plane::plane(int horizontal_subdiv, int vertical_subdiv, int conic_subdiv, int spherical_long_subdiv, int spherical_lat_subdiv, int x_rotation, int torus_angle, int top_radius, int bot_radius, int radius, int spherical_radius, int conic_angle, int height, int rot_subdiv, scene curr_scene){
 	cout << "Making Plane for real" << endl;

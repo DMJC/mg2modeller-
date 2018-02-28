@@ -1,4 +1,6 @@
+#include "../include/gui/tsgui.h"
 #include "../include/scene.h"
+
 
 scene::scene(){
 	
@@ -10,6 +12,14 @@ scene::scene(){
 void scene::set_gui(gui app_gui){
 		this -> gui = app_gui;
 }*/
+
+void scene::SetGui(ts_gui *curr_gui){
+	this -> curr_gui = curr_gui;
+}
+
+ts_gui *scene::GetGui(void){
+	return this -> curr_gui;
+}
 
 object scene::GetCurrentObject(void){
 	return this -> current_object;
@@ -28,12 +38,13 @@ void scene::SetPrevObject(object obj){
 }
 
 void scene::AddObject(object obj){
-//	this->object_list.append(obj);
+	cout << "adding " << obj.get_name() << " to scene" << endl;
+	this->object_list.push_back(obj);
 }
 
-void scene::DeleteObject(int object_to_delete){
-//	this->object_list.delete(object_number);
-
+void scene::DeleteObject(object obj){
+	cout << "deleting " /*<< obj.get_name()*/ << " from scene" << endl;
+//	this->object_list.remove(obj);
 }
 
 void scene::Draw_Axes(void){

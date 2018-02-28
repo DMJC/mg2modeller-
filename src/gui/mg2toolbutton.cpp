@@ -46,16 +46,15 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 //    std::cout << "Button Released at: " << event->time << std::endl;
     unsigned int finish_time = 0;
     finish_time = event->time;
-	std::cout << "Finish Time: " << finish_time << std::endl;
+//	std::cout << "Finish Time: " << finish_time << std::endl;
 
 	switch (event->button){
 
 	case 3:
 	    if ((finish_time - this->start_time) >= 200 && this->tool_list->size() > 1){
-		    std::cout << "Menu click" << std::endl;
 			this->Trigger_Menu(*this->tool_list, event);
 	    } else {
-		    std::cout << "short right click" << std::endl;
+//		    std::cout << "short right click" << std::endl;
 			if(this->right_click_callback != nullptr){
 			    this->right_click_callback(this->curr_scene);
 			}else{
@@ -65,18 +64,17 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 	break;
 	default:
 	    if ((finish_time - this->start_time) >= 200 && this->tool_list->size() > 1){
-		    std::cout << "Menu click" << std::endl;
 			this->Trigger_Menu(*this->tool_list, event);
 	    } else {
-		    std::cout << "short left click" << std::endl;
 			if(this->left_click_callback != nullptr){
 			    this->left_click_callback(this->curr_scene);
+			    std::cout << this->name << std::endl;
 			}else{
 			    std::cout << "No Left Click Action" << std::endl;
 			}
 	    }
 	}
-	std::cout << "Click Took: " << finish_time - this->start_time << std::endl;
+//	std::cout << "Click Took: " << finish_time - this->start_time << std::endl;
     return event->time;
 }
 
@@ -85,18 +83,17 @@ void ToolButton::Trigger_Menu(std::list<tool>& tool_list, GdkEventButton * event
     int list_size = 0;
     list_size = tool_list.size();
     list<string>::const_iterator current_tool;
-    std::cout << "list is: " << list_size << " elements long" <<std::endl;
+    std::cout << "Menu contains: " << /*list_size << " elements long" << */std::endl;
     Gtk::Menu *Menu;
     Menu = Gtk::manage(new Gtk::Menu);
     int i = 0;
     for(list<tool>::const_iterator current_tool = tool_list.begin(); current_tool != tool_list.end(); current_tool++){
-        std::cout << (*current_tool).name << std::endl;
+//        std::cout << "Adding tool to list: " << (*current_tool).name << std::endl;
     	Gtk::Image *ButtonImage = Gtk::manage(new Gtk::Image((*current_tool).image_filename));
         Gtk::MenuItem *MenuItem = Gtk::manage(new Gtk::MenuItem(*ButtonImage));
-	MenuItem->set_size_request(32, 24);
+		MenuItem->set_size_request(32, 24);
         MenuItem->signal_activate().connect(sigc::bind(sigc::mem_fun(*this, &ToolButton::set_button), tool_list, i));
-        std::cout << (*current_tool).tooltip << std::endl;
-    	std::cout << (*current_tool).image_filename << std::endl;
+        std::cout << (*current_tool).tooltip << ", " << (*current_tool).image_filename << std::endl;
     	Menu->attach(*MenuItem,0,1,i,i+1);
         i++;
     }
