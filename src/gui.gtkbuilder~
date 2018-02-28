@@ -256,9 +256,6 @@
         </child>
       </object>
     </child>
-    <child>
-      <placeholder/>
-    </child>
   </object>
   <object class="GtkWindow" id="animation_toolbar_window">
     <property name="can_focus">False</property>
@@ -1949,6 +1946,13 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="geosphere_resolution">
+    <property name="lower">1</property>
+    <property name="upper">9999</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="geosphere_window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Geosphere</property>
@@ -1971,6 +1975,7 @@
           <object class="GtkSpinButton" id="spinbutton25">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="adjustment">geosphere_resolution</property>
             <property name="climb_rate">1</property>
           </object>
           <packing>
@@ -5068,6 +5073,20 @@
       <placeholder/>
     </child>
   </object>
+  <object class="GtkAdjustment" id="sphere_latitude">
+    <property name="lower">2</property>
+    <property name="upper">9999</property>
+    <property name="value">8</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="sphere_longitude">
+    <property name="lower">3</property>
+    <property name="upper">9999</property>
+    <property name="value">16</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="sphere_window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Sphere</property>
@@ -5101,6 +5120,7 @@
           <object class="GtkSpinButton" id="spinbutton23">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="adjustment">sphere_latitude</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -5111,6 +5131,7 @@
           <object class="GtkSpinButton" id="spinbutton24">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="adjustment">sphere_longitude</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -5124,12 +5145,12 @@
     </child>
   </object>
   <object class="GtkAdjustment" id="spherical_latitude">
-    <property name="upper">100</property>
+    <property name="upper">9999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="spherical_longitude">
-    <property name="upper">100</property>
+    <property name="upper">9999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -8512,6 +8533,26 @@
       <placeholder/>
     </child>
   </object>
+  <object class="GtkAdjustment" id="torus_inner_radius">
+    <property name="upper">9999</property>
+    <property name="value">0.5</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="torus_latitude">
+    <property name="lower">1</property>
+    <property name="upper">100</property>
+    <property name="value">16</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="torus_longitude">
+    <property name="lower">1</property>
+    <property name="upper">100</property>
+    <property name="value">16</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="torus_window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Torus</property>
@@ -8556,6 +8597,7 @@
           <object class="GtkSpinButton" id="spinbutton30">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="adjustment">torus_latitude</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -8566,6 +8608,7 @@
           <object class="GtkSpinButton" id="spinbutton31">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="adjustment">torus_longitude</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -8576,6 +8619,9 @@
           <object class="GtkSpinButton" id="spinbutton32">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="adjustment">torus_inner_radius</property>
+            <property name="climb_rate">0.01</property>
+            <property name="digits">2</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
