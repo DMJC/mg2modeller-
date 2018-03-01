@@ -79,3 +79,11 @@ void scene::RemoveFrame(int frame_to_delete){
 //	this->frame_list.delete(frame_to_delete);
 }
 
+int scene::Get_Current_Tool(void){
+	return this->current_tool;
+}
+
+
+void scene::Set_Current_Tool(int curr_tool){
+	this->current_tool = curr_tool;
+}

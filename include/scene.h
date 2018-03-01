@@ -21,6 +21,7 @@ class scene
 		preferences prefs;
 		object GetCurrentObject(void);
 		object GetPrevObject(void);
+		int current_tool = 0;
 		scene();
 		
 		void SetGui(ts_gui *curr_gui);
@@ -38,6 +39,8 @@ class scene
 		void Bind_Preferences(preferences &prefs);
 		void AddFrame(frame new_frame);
 		void RemoveFrame(int frame_to_delete);
+		int Get_Current_Tool(void);
+		void Set_Current_Tool(int curr_tool);
 		virtual ~scene(){};
 };
 #endif // SCENE_H
