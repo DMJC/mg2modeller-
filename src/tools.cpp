@@ -6,6 +6,22 @@ void light_parameters (scene &curr_scene){
 	curr_scene.curr_gui->show_lights_window(curr_scene);
 }
 
+void mirror_options_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_mirror_options_window(curr_scene);
+}
+
+void smooth_quad_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_smooth_quad_window(curr_scene);
+}
+
+void polygon_reduction_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_polygon_reduction_tool_window(curr_scene);
+}
+
+void coords_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_coords_window(curr_scene);
+}
+
 void primitive_parameters (scene &curr_scene){
 	curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
     curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
@@ -265,6 +281,31 @@ void lathe (scene &curr_scene){
 }
 void tip (scene &curr_scene){
 }
+
+void bevel_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_bevel_window(curr_scene);
+}
+
+void chamfer_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_chamfer_window(curr_scene);
+}
+
+void fillet_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_fillet_window(curr_scene);
+}
+
+void lathe_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_lathe_window(curr_scene);
+}
+
+void macro_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_macro_window(curr_scene);
+}
+
+void sweep_tip_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_sweep_tip_window(curr_scene);
+}
+
 void create_object_grid (scene &curr_scene){
 }
 void create_object_spline (scene &curr_scene){
@@ -382,4 +423,9 @@ void object_erase (scene &curr_scene){
 void button_finder (scene &curr_scene){
 }
 void display_options(scene &curr_scene){
+
+}
+
+void wind_parameters(scene &curr_scene){
+	curr_scene.curr_gui->show_wind_window(curr_scene);
 }

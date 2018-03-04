@@ -5,16 +5,21 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 		/*TS Style UI*/
 	this -> builder->get_widget("main_window_tools_grid", this->main_window_tools_grid);
 	this -> builder->get_widget("ts_main_window", this->main_window);
-	this -> builder->get_widget("edit_window", this->edit_window);
+	this -> builder->get_widget("bevel_window", this->bevel_window);
 	this -> builder->get_widget("boolean_window", this->boolean_window);
+	this -> builder->get_widget("chamfer_window", this->chamfer_window);
+	this -> builder->get_widget("coords_window", this->coords_window);
 	this -> builder->get_widget("cone_window", this->cone_window);
 	this -> builder->get_widget("copy_tool_window", this->copy_tool_window);
 	this -> builder->get_widget("cube_window", this->cube_window);
 	this -> builder->get_widget("cylinder_window", this->cylinder_window);
 	this -> builder->get_widget("deformation_window", this->deformation_window);
 	this -> builder->get_widget("edit_window", this->edit_window);
+	this -> builder->get_widget("fillet_window", this->fillet_window);
 	this -> builder->get_widget("geosphere_window", this->geosphere_window);
+	this -> builder->get_widget("lathe_window", this->lathe_window);
 	this -> builder->get_widget("lights_window", this->lights_window);
+	this -> builder->get_widget("macro_window", this->macro_window);
 	this -> builder->get_widget("metaball_options_window", this->metaball_options_window);
 	this -> builder->get_widget("mirror_options_window", this->mirror_options_window);
 	this -> builder->get_widget("nurbs_plane_window", this->nurbs_plane_window);
@@ -43,10 +48,13 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	this -> builder->get_widget("set_keyframe_window", this->set_keyframe_window);
 	this -> builder->get_widget("shell_properties_window", this->shell_properties_window);
 	this -> builder->get_widget("skin_options_window", this->skin_options_window);
+	this -> builder->get_widget("smooth_quad_window", this->smooth_quad_window);
 	this -> builder->get_widget("sphere_window", this->sphere_window);
+	this -> builder->get_widget("sweep_tip_window", this->sweep_tip_window);
 	this -> builder->get_widget("taper_window", this->taper_window);
 	this -> builder->get_widget("torus_window", this->torus_window);
 	this -> builder->get_widget("undo_options_window", this->undo_options_window);
+	this -> builder->get_widget("wind_window", this->wind_window);
 	this -> builder->get_widget("ts_view_grid", this->view_grid);
 	this -> builder->get_widget("ts_quit_button", this->ts_quit_button);
 	curr_scene.SetGui(this);
@@ -177,12 +185,12 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 		view_grid->show_all();
 		object_info_window->show();
 
-	list<tool> view_move_tool_list = {{ "Eye Move", "Move View Around Scene", "pix/view_move.xpm", 37, view_move, nullptr, nullptr, nullptr, curr_scene }};
-	list<tool> view_rotate_tool_list = {{ "Eye Rotate", "Rotate View Around Scene", "pix/view_rotate.xpm", 38, &view_rotate, nullptr, nullptr, nullptr, curr_scene }};
+	list<tool> view_move_tool_list = {{ "Eye Move", "Move View Around Scene", "pix/view_move.xpm", 37, view_move, coords_parameters, nullptr, nullptr, curr_scene }};
+	list<tool> view_rotate_tool_list = {{ "Eye Rotate", "Rotate View Around Scene", "pix/view_rotate.xpm", 38, &view_rotate, coords_parameters, nullptr, nullptr, curr_scene }};
 	list<tool> view_zoom_tool_list = {{ "Zoom", "Zoom View of Scene", "pix/view_zoom.xpm", 39, &view_zoom, nullptr, nullptr, nullptr, curr_scene }};
-	list<tool> object_move_tool_list = {{ "Object Move", "Move Object Around Scene", "pix/object_move.xpm", 40, &object_move, nullptr, nullptr, nullptr, curr_scene }};
-	list<tool> object_rotate_tool_list = {{ "Object Rotate", "Rotate Object Within Scene", "pix/object_rotate.xpm", 41, &object_rotate, nullptr, nullptr, nullptr, curr_scene }};
-	list<tool> object_scale_tool_list = {{ "Object Scale", "Scale Object in Relation to Scene", "pix/object_scale.xpm", 42, &object_scale, nullptr, nullptr, nullptr, curr_scene }};
+	list<tool> object_move_tool_list = {{ "Object Move", "Move Object Around Scene", "pix/object_move.xpm", 40, &object_move, coords_parameters, nullptr, nullptr, curr_scene }};
+	list<tool> object_rotate_tool_list = {{ "Object Rotate", "Rotate Object Within Scene", "pix/object_rotate.xpm", 41, &object_rotate, coords_parameters, nullptr, nullptr, curr_scene }};
+	list<tool> object_scale_tool_list = {{ "Object Scale", "Scale Object in Relation to Scene", "pix/object_scale.xpm", 42, &object_scale, coords_parameters, nullptr, nullptr, curr_scene }};
 	list<tool> object_hierarchy_up_tool_list = {{ "Move Up in Hierarchy","Move Up in Hierarchy: Use Arrow Keys to move within hierarchy", "pix/hierarchy_up.xpm", 43, &hierarchy_up, nullptr, nullptr, nullptr, curr_scene }};
 	list<tool> object_hierarchy_down_tool_list = {{ "Move Down in Hierarchy","Move Down in Hierarchy: Use Arrow Keys to move within hierarchy", "pix/hierarchy_down.xpm", 44, &hierarchy_down, nullptr, nullptr, nullptr, curr_scene }};
 
@@ -263,8 +271,8 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	list<tool> camera_tool_list = {
 		{ "Camera", "Create a Camera", "pix/camera.xpm", 100, create_camera, nullptr, nullptr, nullptr, curr_scene }, 
 		{ "Panoramic Camera", "Create a Camera", "pix/panoramic_camera.xpm", 101, create_panoramic_camera, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Global Physical Wind", "Create a Global Physical Wind", "pix/global_wind.xpm", 102, create_global_physical_wind, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Local Physical Wind", "Create a Local Physical Wind", "pix/local_wind.xpm", 103, create_local_physical_wind, nullptr, nullptr, nullptr, curr_scene }, 
+		{ "Global Physical Wind", "Create a Global Physical Wind", "pix/global_wind.xpm", 102, create_global_physical_wind, wind_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Local Physical Wind", "Create a Local Physical Wind", "pix/local_wind.xpm", 103, create_local_physical_wind, wind_parameters, nullptr, nullptr, curr_scene }, 
 		{ "Standalone Deformation Plane", "Create a Standalone Deformation Plane", "pix/deformation_plane.xpm", 104, deformation_plane, nullptr, nullptr, nullptr, curr_scene }, 
 		{ "Standalone Deformation Pipe", "Create a Standalone Deformation Pipe", "pix/deformation_pipe.xpm", 105, deformation_pipe, nullptr, nullptr, nullptr, curr_scene }, 
 		{ "Standalone Deformation Object", "Create a Standalone Deformation Object", "pix/deformation_object.xpm", 106, deformation_object, nullptr, nullptr, nullptr, curr_scene }
@@ -272,13 +280,13 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	ToolButton camera_tools = ToolButton(camera_tool_list);
 
 	list<tool> sweep_tool_list = {
-		{ "Sweep", "Sweep", "pix/sweep.xpm", 110, sweep, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Fillet Tool", "Fillet", "pix/fillet.xpm", 111, fillet, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Chamfer Tool", "Chamfer", "pix/chamfer.xpm", 112, chamfer, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Bevel", "Bevel", "pix/bevel.xpm", 113, bevel, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Macro/Sweep", "Macro/Sweep", "pix/macro_sweep.xpm", 114, macro_sweep, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Lathe", "Lathe", "pix/lathe.xpm", 115, lathe, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Tip", "Tip", "pix/tip.xpm", 116, tip, nullptr, nullptr, nullptr, curr_scene }
+		{ "Sweep", "Sweep", "pix/sweep.xpm", 110, sweep, sweep_tip_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Fillet Tool", "Fillet", "pix/fillet.xpm", 111, fillet, fillet_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Chamfer Tool", "Chamfer", "pix/chamfer.xpm", 112, chamfer, chamfer_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Bevel", "Bevel", "pix/bevel.xpm", 113, bevel, bevel_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Macro/Sweep", "Macro/Sweep", "pix/macro_sweep.xpm", 114, macro_sweep, macro_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Lathe", "Lathe", "pix/lathe.xpm", 115, lathe, lathe_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Tip", "Tip", "pix/tip.xpm", 116, tip, sweep_tip_parameters, nullptr, nullptr, curr_scene }
 	};
 	ToolButton sweep_tools = ToolButton(sweep_tool_list);
 
@@ -392,16 +400,16 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	ToolButton normalisation_tools = ToolButton(normalisation_tool_list);
 
 	list<tool> geometry_tool_list = {
-		{ "Polygon Reduction Tool", "Polygon Reduction Tool", "pix/lod.xpm", 210, nullptr, nullptr, nullptr, nullptr, curr_scene },
+		{ "Polygon Reduction Tool", "Polygon Reduction Tool", "pix/lod.xpm", 210, nullptr, polygon_reduction_parameters, nullptr, nullptr, curr_scene },
 		{ "Dimensioning Tool", "Dimensioning Tool", "pix/dimensioning.xpm", 211, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Mirror Modelling", "Mirror Modelling", "pix/mirror.xpm", 212, nullptr, nullptr, nullptr, nullptr, curr_scene },
+		{ "Mirror Modelling", "Mirror Modelling", "pix/mirror.xpm", 212, nullptr, mirror_options_parameters, nullptr, nullptr, curr_scene },
 		{ "Split Hierarchy", "Split hierarchy into polyhedra and IK linked branches", "pix/split_hierarchy.xpm", 213, nullptr, nullptr, nullptr, nullptr, curr_scene },
 		{ "Decompose Object", "Decompose into objects", "pix/decompose.xpm", 214, nullptr, nullptr, nullptr, nullptr, curr_scene },
 		{ "Flip Normals", "Flip all normals", "pix/flip_normals.xpm", 215, nullptr, nullptr, nullptr, nullptr, curr_scene },	
 		{ "Flip Object Faces", "Select object and flip faces", "pix/flip_object_faces.xpm", 216, nullptr, nullptr, nullptr, nullptr, curr_scene },
 		{ "Fix Geometry", "Try to fix bad geometry", "pix/fix_geometry.xpm", 217, nullptr, nullptr, nullptr, nullptr, curr_scene },
 		{ "Quad Divide", "Quad Divide", "pix/quad_divide.xpm", 218, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Smooth Quad Divide", "Smooth Quad Divide", "pix/smooth_quad_divide.xpm", 219, nullptr, nullptr, nullptr, nullptr, curr_scene },
+		{ "Smooth Quad Divide", "Smooth Quad Divide", "pix/smooth_quad_divide.xpm", 219, nullptr, smooth_quad_parameters, nullptr, nullptr, curr_scene },
 		{ "Triangulate", "Triangulate", "pix/triangulate.xpm", 220, nullptr, nullptr, nullptr, nullptr, curr_scene }
 	};
 	ToolButton geometry_tools = ToolButton(geometry_tool_list);
@@ -547,8 +555,20 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 
 }
 
+void ts_gui::show_bevel_window(scene &curr_scene){
+	this->bevel_window->show();
+}
+
 void ts_gui::show_boolean_window(scene &curr_scene){
 	this->boolean_window->show();
+}
+
+void ts_gui::show_chamfer_window(scene &curr_scene){
+	this->chamfer_window->show();
+}
+
+void ts_gui::show_coords_window(scene &curr_scene){
+	this->coords_window->show();
 }
 
 void ts_gui::show_cone_window(scene &curr_scene){
@@ -583,12 +603,24 @@ void ts_gui::show_edit_window_expanded(scene &curr_scene){
 	this->edit_window_expanded->show();
 }
 
+void ts_gui::show_fillet_window(scene &curr_scene){
+	this->fillet_window->show();
+}
+
 void ts_gui::show_geosphere_window(scene &curr_scene){
 	this->geosphere_window->show();
 }
 
+void ts_gui::show_lathe_window(scene &curr_scene){
+	this->lathe_window->show();
+}
+
 void ts_gui::show_lights_window(scene &curr_scene){
 	this->lights_window->show();
+}
+
+void ts_gui::show_macro_window(scene &curr_scene){
+	this->macro_window->show();
 }
 
 void ts_gui::show_mirror_options_window(scene &curr_scene){
@@ -699,8 +731,17 @@ void ts_gui::show_skin_options_window(scene &curr_scene){
 	this->skin_options_window->show();
 }
 
+void ts_gui::show_smooth_quad_window(scene &curr_scene){
+	this->smooth_quad_window->show();
+}
+
+
 void ts_gui::show_sphere_window(scene &curr_scene){
 	this->sphere_window->show();
+}
+
+void ts_gui::show_sweep_tip_window(scene &curr_scene){
+	this->sweep_tip_window->show();
 }
 
 void ts_gui::show_taper_window(scene &curr_scene){
@@ -713,4 +754,8 @@ void ts_gui::show_torus_window(scene &curr_scene){
 
 void ts_gui::show_undo_options_window(scene &curr_scene){
 	this->undo_options_window->show();
+}
+
+void ts_gui::show_wind_window(scene &curr_scene){
+	this->wind_window->show();
 }
