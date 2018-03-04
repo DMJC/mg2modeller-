@@ -15,7 +15,15 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	this -> builder->get_widget("edit_window", this->edit_window);
 	this -> builder->get_widget("geosphere_window", this->geosphere_window);
 	this -> builder->get_widget("lights_window", this->lights_window);
+	this -> builder->get_widget("metaball_options_window", this->metaball_options_window);
 	this -> builder->get_widget("mirror_options_window", this->mirror_options_window);
+	this -> builder->get_widget("nurbs_plane_window", this->nurbs_plane_window);
+	this -> builder->get_widget("nurbs_saddle_window", this->nurbs_saddle_window);
+	this -> builder->get_widget("nurbs_cube_window", this->nurbs_cube_window);
+	this -> builder->get_widget("nurbs_cone_window", this->nurbs_cone_window);
+	this -> builder->get_widget("nurbs_cylinder_window", this->nurbs_cylinder_window);
+	this -> builder->get_widget("nurbs_sphere_window", this->nurbs_sphere_window);
+	this -> builder->get_widget("nurbs_torus_window", this->nurbs_torus_window);
 	this -> builder->get_widget("object_info_window", this->object_info_window);
 	this -> builder->get_widget("object_movie_window", this->object_movie_window);
 	this -> builder->get_widget("object_render_options_window", this->object_render_options_window);
@@ -219,24 +227,24 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	ToolButton polgon_tools = ToolButton(polygon_tool_list);
 
 	list<tool> nurbs_tool_list = {
-		{ "NURBS Plane", "Create a NURBS Plane", "pix/nurbs_plane.xpm", 60, create_nurbs_plane, nullptr, nullptr, nullptr, curr_scene },
+		{ "NURBS Plane", "Create a NURBS Plane", "pix/nurbs_plane.xpm", 60, create_nurbs_plane, nurbs_plane_parameters, nullptr, nullptr, curr_scene },
 		{ "NURBS Cylinder (half)", "Create a NURBS Cylinder Half Pipe", "pix/nurbs_halfpipe.xpm", 61, create_nurbs_halfpipe, nullptr, nullptr, nullptr, curr_scene },
-		{ "NURBS Saddle", "Create a NURBS Saddle", "pix/nurbs_saddle.xpm", 62, create_nurbs_saddle, nullptr, nullptr, nullptr, curr_scene },
-		{ "NURBS Cube", "Create a NURBS Cube", "pix/nurbs_cube.xpm", 63, create_nurbs_cube, nullptr, nullptr, nullptr, curr_scene },
-		{ "NURBS Cylinder", "Create a NURBS Cylinder", "pix/nurbs_cylinder.xpm", 64, create_nurbs_cylinder, nullptr, nullptr, nullptr, curr_scene },
-		{ "NURBS Cone", "Create a NURBS Cone", "pix/nurbs_cone.xpm", 65, create_nurbs_cone, nullptr, nullptr, nullptr, curr_scene },
-		{ "NURBS Sphere", "Create a NURBS Sphere", "pix/nurbs_sphere.xpm", 66, create_nurbs_sphere, nullptr, nullptr, nullptr, curr_scene },
-		{ "NURBS Torus", "Create a NURBS Torus", "pix/nurbs_torus.xpm", 67, create_nurbs_torus, nullptr, nullptr, nullptr, curr_scene }
+		{ "NURBS Saddle", "Create a NURBS Saddle", "pix/nurbs_saddle.xpm", 62, create_nurbs_saddle, nurbs_saddle_parameters, nullptr, nullptr, curr_scene },
+		{ "NURBS Cube", "Create a NURBS Cube", "pix/nurbs_cube.xpm", 63, create_nurbs_cube, nurbs_cube_parameters, nullptr, nullptr, curr_scene },
+		{ "NURBS Cylinder", "Create a NURBS Cylinder", "pix/nurbs_cylinder.xpm", 64, create_nurbs_cylinder, nurbs_cylinder_parameters, nullptr, nullptr, curr_scene },
+		{ "NURBS Cone", "Create a NURBS Cone", "pix/nurbs_cone.xpm", 65, create_nurbs_cone, nurbs_cone_parameters, nullptr, nullptr, curr_scene },
+		{ "NURBS Sphere", "Create a NURBS Sphere", "pix/nurbs_sphere.xpm", 66, create_nurbs_sphere, nurbs_sphere_parameters, nullptr, nullptr, curr_scene },
+		{ "NURBS Torus", "Create a NURBS Torus", "pix/nurbs_torus.xpm", 67, create_nurbs_torus, nurbs_torus_parameters, nullptr, nullptr, curr_scene }
 	};
 	ToolButton nurbs_tools = ToolButton(nurbs_tool_list);
 
 	list<tool> metaball_tool_list = {
-		{ "Metaball Cube", "Create a Metaball Cube", "pix/metaball_cube.xpm", 70, create_metaball_cube, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Cylinder", "Create a Metaball Cylinder", "pix/metaball_cylinder.xpm", 71, create_metaball_cylinder, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Sphere", "Create a Metaball Sphere", "pix/metaball_sphere.xpm", 72, create_metaball_sphere, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Rounded Cylinder", "Create a Metaball Rounded Cylinder", "pix/metaball_rounded_cylinder.xpm", 73, create_metaball_rounded_cylinder, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Rounded Cube", "Create a Metaball Rounded Cube", "pix/metaball_rounded_cube.xpm", 74, create_metaball_rounded_cube, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Metamuscle", "Create a Metaball Metamuscle", "pix/metaball_muscle.xpm", 75, create_metaball_metamuscle, nullptr, nullptr, nullptr, curr_scene }
+		{ "Metaball Cube", "Create a Metaball Cube", "pix/metaball_cube.xpm", 70, create_metaball_cube, metaball_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Metaball Cylinder", "Create a Metaball Cylinder", "pix/metaball_cylinder.xpm", 71, create_metaball_cylinder, metaball_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Metaball Sphere", "Create a Metaball Sphere", "pix/metaball_sphere.xpm", 72, create_metaball_sphere, metaball_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Metaball Rounded Cylinder", "Create a Metaball Rounded Cylinder", "pix/metaball_rounded_cylinder.xpm", 73, create_metaball_rounded_cylinder, metaball_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Metaball Rounded Cube", "Create a Metaball Rounded Cube", "pix/metaball_rounded_cube.xpm", 74, create_metaball_rounded_cube, metaball_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Metaball Metamuscle", "Create a Metaball Metamuscle", "pix/metaball_muscle.xpm", 75, create_metaball_metamuscle, metaball_parameters, nullptr, nullptr, curr_scene }
 	};
 	ToolButton metaball_tools = ToolButton(metaball_tool_list);
 	
@@ -437,7 +445,7 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 
 
 	list<tool> select_tool_list = {
-		{ "Select", "Selection Tool", "pix/select.xpm", 0, select_object, nullptr, nullptr, nullptr, curr_scene }, 
+		{ "Select", "Selection Tool", "pix/select.xpm", 0, select_object, show_object_info, nullptr, nullptr, curr_scene }, 
 		{ "Global Panel", "Global Panel", "pix/normalise_rotation.xpm", 241, global_panel, nullptr, nullptr, nullptr, curr_scene }, 
 		{ "Unhide All Objects", "Unhide All Objects in Scene", "pix/normalise_scale.xpm", 242, unhide_objects, nullptr, nullptr, nullptr, curr_scene }, 
 		{ "Object Notes", "Open Object Notes Editor", "pix/center_axes.xpm", 243, object_notes, nullptr, nullptr, nullptr, curr_scene }, 
@@ -539,125 +547,170 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 
 }
 
-void ts_gui::show_boolean_window(scene curr_scene){
+void ts_gui::show_boolean_window(scene &curr_scene){
 	this->boolean_window->show();
 }
-void ts_gui::show_cone_window(scene curr_scene){
+
+void ts_gui::show_cone_window(scene &curr_scene){
 	this->cone_window->show();
 }
-void ts_gui::show_copy_tool_window(scene curr_scene){
+
+void ts_gui::show_copy_tool_window(scene &curr_scene){
 	this->copy_tool_window->show();
 }
-void ts_gui::show_cube_window(scene curr_scene){
+
+void ts_gui::show_cube_window(scene &curr_scene){
 	this->cube_window->show();
 }
-void ts_gui::show_cylinder_window(scene curr_scene){
+
+void ts_gui::show_metaball_window(scene &curr_scene){
+	this->metaball_options_window->show();
+}
+
+void ts_gui::show_cylinder_window(scene &curr_scene){
 	this->cylinder_window->show();
 }
-void ts_gui::show_deformation_window(scene curr_scene){
+
+void ts_gui::show_deformation_window(scene &curr_scene){
 	this->deformation_window->show();
 }
-void ts_gui::show_edit_window(scene curr_scene){
+
+void ts_gui::show_edit_window(scene &curr_scene){
 	this->edit_window->show();
 }
-void ts_gui::show_edit_window_expanded(scene curr_scene){
+
+void ts_gui::show_edit_window_expanded(scene &curr_scene){
 	this->edit_window_expanded->show();
 }
-void ts_gui::show_geosphere_window(scene curr_scene){
+
+void ts_gui::show_geosphere_window(scene &curr_scene){
 	this->geosphere_window->show();
 }
-void ts_gui::show_lights_window(scene curr_scene){
+
+void ts_gui::show_lights_window(scene &curr_scene){
 	this->lights_window->show();
 }
-void ts_gui::show_mirror_options_window(scene curr_scene){
+
+void ts_gui::show_mirror_options_window(scene &curr_scene){
 	this->mirror_options_window->show();
 }
-void ts_gui::show_object_info_window(scene curr_scene){
+
+void ts_gui::show_nurbs_plane_window(scene &curr_scene){
+	this->nurbs_plane_window->show();
+}
+
+void ts_gui::show_nurbs_saddle_window(scene &curr_scene){
+	this->nurbs_saddle_window->show();
+}
+
+void ts_gui::show_nurbs_cube_window(scene &curr_scene){
+	this->nurbs_cube_window->show();
+}
+
+void ts_gui::show_nurbs_cone_window(scene &curr_scene){
+	this->nurbs_cone_window->show();
+}
+
+void ts_gui::show_nurbs_cylinder_window(scene &curr_scene){
+	this->nurbs_cylinder_window->show();
+}
+
+void ts_gui::show_nurbs_sphere_window(scene &curr_scene){
+	this->nurbs_sphere_window->show();
+}
+
+void ts_gui::show_nurbs_torus_window(scene &curr_scene){
+	this->nurbs_torus_window->show();
+}
+
+void ts_gui::show_object_info_window(scene &curr_scene){
 	this->object_info_window->show();
 }
-void ts_gui::show_object_movie_window(scene curr_scene){
+
+void ts_gui::show_object_movie_window(scene &curr_scene){
 	this->object_movie_window->show();
 }
 
-void ts_gui::show_object_render_options_window(scene curr_scene){
+void ts_gui::show_object_render_options_window(scene &curr_scene){
 	this->object_render_options_window->show();
 }
 
-void ts_gui::show_ogl_setting_window(scene curr_scene){
+void ts_gui::show_ogl_setting_window(scene &curr_scene){
 	this->ogl_setting_window->show();
 }
 
-void ts_gui::show_pan_movie_window(scene curr_scene){
+void ts_gui::show_pan_movie_window(scene &curr_scene){
 	this->pan_movie_window->show();
 }
 
-void ts_gui::show_panoramic_camera_window(scene curr_scene){
+void ts_gui::show_panoramic_camera_window(scene &curr_scene){
 	this->panoramic_camera_window->show();
 }
 
-void ts_gui::show_plane_window(scene curr_scene){
-	cout << "showing plane window" << endl;
+void ts_gui::show_plane_window(scene &curr_scene){
 	this->plane_window->show();
 }
 
-void ts_gui::show_point_edit_window(scene curr_scene){
+void ts_gui::show_point_edit_window(scene &curr_scene){
 	this->point_edit_window->show();
 }
-void ts_gui::show_polygon_reduction_tool_window(scene curr_scene){
+
+void ts_gui::show_polygon_reduction_tool_window(scene &curr_scene){
 	this->polygon_reduction_tool_window->show();
 }
-void ts_gui::show_preferences_window(scene curr_scene){
+
+void ts_gui::show_preferences_window(scene &curr_scene){
 	this->preferences_window->show();
 }
 
-void ts_gui::show_primitive_parameters_window(scene curr_scene){
+void ts_gui::show_primitive_parameters_window(scene &curr_scene){
 	this->primitive_parameters_window->show();
 }
 
-void ts_gui::show_primitive_shape_window(scene curr_scene){
+void ts_gui::show_primitive_shape_window(scene &curr_scene){
 	this->primitive_shape_window->show();
 }
 
-void ts_gui::show_rounded_cube_window(scene curr_scene){
+void ts_gui::show_rounded_cube_window(scene &curr_scene){
 	this->rounded_cube_window->show();
 }
 
-void ts_gui::show_rounded_cylinder_window(scene curr_scene){
+void ts_gui::show_rounded_cylinder_window(scene &curr_scene){
 	this->rounded_cylinder_window->show();
 }
 
-void ts_gui::show_scene_editor_preferences_window(scene curr_scene){
+void ts_gui::show_scene_editor_preferences_window(scene &curr_scene){
 	this->scene_editor_preferences_window->show();
 }
 
-void ts_gui::show_selection_window(scene curr_scene){
+void ts_gui::show_selection_window(scene &curr_scene){
 	this->selection_window->show();
 }
 
-void ts_gui::show_set_keyframe_window(scene curr_scene){
+void ts_gui::show_set_keyframe_window(scene &curr_scene){
 	this->set_keyframe_window->show();
 }
 
-void ts_gui::show_shell_properties_window(scene curr_scene){
+void ts_gui::show_shell_properties_window(scene &curr_scene){
 	this->shell_properties_window->show();
 }
 
-void ts_gui::show_skin_options_window(scene curr_scene){
+void ts_gui::show_skin_options_window(scene &curr_scene){
 	this->skin_options_window->show();
 }
 
-void ts_gui::show_sphere_window(scene curr_scene){
+void ts_gui::show_sphere_window(scene &curr_scene){
 	this->sphere_window->show();
 }
 
-void ts_gui::show_taper_window(scene curr_scene){
+void ts_gui::show_taper_window(scene &curr_scene){
 	this->taper_window->show();
 }
 
-void ts_gui::show_torus_window(scene curr_scene){
+void ts_gui::show_torus_window(scene &curr_scene){
 	this->torus_window->show();
 }
 
-void ts_gui::show_undo_options_window(scene curr_scene){
+void ts_gui::show_undo_options_window(scene &curr_scene){
 	this->undo_options_window->show();
 }

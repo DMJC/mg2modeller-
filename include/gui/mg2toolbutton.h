@@ -24,7 +24,7 @@ protected:
     callback right_click_callback;
     callback long_left_click_callback;
     callback long_right_click_callback;
-	scene curr_scene;
+	scene *curr_scene;
 //	ts_gui *curr_gui;
     int start_time;
 	Gdk::Gravity Gravity_Menu;

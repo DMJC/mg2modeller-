@@ -12,7 +12,13 @@ void primitive_parameters (scene &curr_scene){
 }
 
 void plane_parameters (scene &curr_scene){
-    curr_scene.curr_gui->show_plane_window(curr_scene);
+    cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	if (curr_scene.Get_Current_Tool() == 50 ){
+		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
+		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
+	}else{
+		curr_scene.curr_gui->show_plane_window(curr_scene);
+	}
 }
 
 void cube_parameters (scene &curr_scene){
@@ -27,7 +33,13 @@ void cube_parameters (scene &curr_scene){
 
 
 void sphere_parameters (scene &curr_scene){
-    curr_scene.curr_gui->show_sphere_window(curr_scene);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	if (curr_scene.Get_Current_Tool() == 54 ){
+		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
+		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
+	}else{
+		curr_scene.curr_gui->show_sphere_window(curr_scene);
+	}
 }
 
 void geosphere_parameters (scene &curr_scene){
@@ -35,23 +47,86 @@ void geosphere_parameters (scene &curr_scene){
 }
 
 void cylinder_parameters (scene &curr_scene){
-    curr_scene.curr_gui->show_cylinder_window(curr_scene);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	if (curr_scene.Get_Current_Tool() == 52 ){
+		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
+		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
+	}else{
+		curr_scene.curr_gui->show_cylinder_window(curr_scene);
+	}
 }
 
+
 void cone_parameters (scene &curr_scene){
-    curr_scene.curr_gui->show_cone_window(curr_scene);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	if (curr_scene.Get_Current_Tool() == 53 ){
+		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
+		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
+	}else{
+		curr_scene.curr_gui->show_cone_window(curr_scene);
+	}
 }
 
 void torus_parameters (scene &curr_scene){
-    curr_scene.curr_gui->show_torus_window(curr_scene);
+		cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	if (curr_scene.Get_Current_Tool() == 58 ){
+		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
+		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
+	}else{
+		curr_scene.curr_gui->show_torus_window(curr_scene);
+	}
 }
 
 void rounded_cube_parameters (scene &curr_scene){
-    curr_scene.curr_gui->show_rounded_cube_window(curr_scene);
+		cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	if (curr_scene.Get_Current_Tool() == 57 ){
+		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
+		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
+	}else{
+		curr_scene.curr_gui->show_rounded_cube_window(curr_scene);
+	}
 }
 
 void rounded_cylinder_parameters (scene &curr_scene){
-    curr_scene.curr_gui->show_rounded_cylinder_window(curr_scene);
+		cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	if (curr_scene.Get_Current_Tool() == 56 ){
+		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
+		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
+	}else{
+		curr_scene.curr_gui->show_rounded_cylinder_window(curr_scene);
+	}
+}
+
+void metaball_parameters (scene &curr_scene){
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	curr_scene.curr_gui->show_metaball_window(curr_scene);
+}
+
+void nurbs_plane_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_nurbs_plane_window(curr_scene);
+}
+
+void nurbs_saddle_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_nurbs_saddle_window(curr_scene);
+}
+
+void nurbs_cube_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_nurbs_cube_window(curr_scene);
+}
+
+void nurbs_cylinder_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_nurbs_cylinder_window(curr_scene);
+}
+
+void nurbs_cone_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_nurbs_cone_window(curr_scene);
+}
+void nurbs_sphere_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_nurbs_sphere_window(curr_scene);
+}
+
+void nurbs_torus_parameters (scene &curr_scene){
+	curr_scene.curr_gui->show_nurbs_torus_window(curr_scene);
 }
 
 void view_move (scene &curr_scene){
@@ -71,35 +146,53 @@ void hierarchy_up (scene &curr_scene){
 void hierarchy_down (scene &curr_scene){
 }
 void create_plane (scene &curr_scene){
+	curr_scene.Set_Current_Tool(50);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     plane(curr_scene.prefs.get_plane_resolution(), curr_scene);
 }
 void create_cube (scene &curr_scene){
-	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
 	curr_scene.Set_Current_Tool(51);
 	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     cube(curr_scene.prefs.get_cube_resolution(), curr_scene);
 }
 void create_cylinder (scene &curr_scene){
+	curr_scene.Set_Current_Tool(52);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     cylinder(curr_scene.prefs.get_cylinder_latitude(),curr_scene.prefs.get_cylinder_longitude(),curr_scene.prefs.get_cylinder_top_radius(), curr_scene);
 }
 void create_cone (scene &curr_scene){
+	curr_scene.Set_Current_Tool(53);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     cone(curr_scene.prefs.get_cone_latitude(), curr_scene.prefs.get_cone_longitude(), curr_scene);
 }
 void create_sphere (scene &curr_scene){
+	curr_scene.Set_Current_Tool(54);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     sphere(curr_scene.prefs.get_sphere_latitude(), curr_scene.prefs.get_sphere_longitude(), curr_scene);
 }
 void create_geosphere (scene &curr_scene){
+	curr_scene.Set_Current_Tool(55);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     cube(curr_scene.prefs.get_geosphere_resolution(), curr_scene);
 }
 void create_rounded_cylinder (scene &curr_scene){
+	curr_scene.Set_Current_Tool(56);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     rounded_cylinder(curr_scene.prefs.get_rounded_cylinder_latitude(), curr_scene.prefs.get_rounded_cylinder_longitude(), curr_scene);
 }
 void create_rounded_cube (scene &curr_scene){
+	curr_scene.Set_Current_Tool(57);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     rounded_cube(curr_scene.prefs.get_rounded_cube_longitude(), curr_scene.prefs.get_rounded_cube_latitude(), curr_scene);
 }
 void create_torus (scene &curr_scene){
+	curr_scene.Set_Current_Tool(58);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
     torus(curr_scene.prefs.get_torus_longitude(), curr_scene.prefs.get_torus_latitude(), curr_scene.prefs.get_torus_inner_radius(), curr_scene);
 }
+
+
+
 void create_nurbs_plane (scene &curr_scene){
 }
 void create_nurbs_halfpipe (scene &curr_scene){
@@ -218,10 +311,16 @@ void show_axes (scene &curr_scene){
 }
 void select_object (scene &curr_scene){
 	curr_scene.Set_Current_Tool(0);
+	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
 }
 void clear_selection (scene &curr_scene){
 	curr_scene.Set_Current_Tool(0);
 }
+
+void show_object_info(scene &curr_scene){
+	curr_scene.curr_gui->show_object_info_window(curr_scene);
+}
+
 void global_panel (scene &curr_scene){
 }
 void unhide_objects (scene &curr_scene){

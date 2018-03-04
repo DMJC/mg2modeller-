@@ -2313,6 +2313,7 @@
           <object class="GtkExpander" id="expander1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="resize_toplevel">True</property>
             <child>
               <object class="GtkGrid" id="grid6">
                 <property name="visible">True</property>

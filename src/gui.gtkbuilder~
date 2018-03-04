@@ -2313,6 +2313,7 @@
           <object class="GtkExpander" id="expander1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="resize_toplevel">True</property>
             <child>
               <object class="GtkGrid" id="grid6">
                 <property name="visible">True</property>
@@ -8133,7 +8134,7 @@
           <object class="GtkImage" id="top_radius_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_rotary_top.xpm</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -8145,7 +8146,7 @@
           <object class="GtkImage" id="bottom_radius_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_rotary_bot.xpm</property>
           </object>
           <packing>
             <property name="left_attach">2</property>
@@ -8157,7 +8158,7 @@
           <object class="GtkImage" id="radius_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_rotary_width.xpm</property>
           </object>
           <packing>
             <property name="left_attach">4</property>
@@ -8169,7 +8170,7 @@
           <object class="GtkImage" id="height_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_height.xpm</property>
           </object>
           <packing>
             <property name="left_attach">6</property>
@@ -8181,7 +8182,7 @@
           <object class="GtkImage" id="conic_angle_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_cone_angle.xpm</property>
           </object>
           <packing>
             <property name="left_attach">8</property>
@@ -8193,7 +8194,7 @@
           <object class="GtkImage" id="spherical_radius_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_spherical_radius.xpm</property>
           </object>
           <packing>
             <property name="left_attach">10</property>
@@ -8205,7 +8206,7 @@
           <object class="GtkImage" id="rotary_longitude_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_rotate.xpm</property>
           </object>
           <packing>
             <property name="left_attach">12</property>
@@ -8345,7 +8346,7 @@
           <object class="GtkImage" id="face_longitude_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">pix/prim_rotate.xpm</property>
+            <property name="pixbuf">../pix/prim_vert_subdiv.xpm</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -8357,7 +8358,7 @@
           <object class="GtkImage" id="face_latitude_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">pix/prim_rotate.xpm</property>
+            <property name="pixbuf">../pix/prim_horiz_subdiv.xpm</property>
           </object>
           <packing>
             <property name="left_attach">2</property>
@@ -8369,7 +8370,7 @@
           <object class="GtkImage" id="conic_latitude_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="stock">gtk-missing-image</property>
+            <property name="pixbuf">../pix/prim_spherical_subdiv.xpm</property>
           </object>
           <packing>
             <property name="left_attach">4</property>
@@ -8381,7 +8382,7 @@
           <object class="GtkImage" id="spherical_longitude_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_spherical_long.xpm</property>
           </object>
           <packing>
             <property name="left_attach">6</property>
@@ -8393,7 +8394,7 @@
           <object class="GtkImage" id="spherical_latitude_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_spherical_lat.xpm</property>
           </object>
           <packing>
             <property name="left_attach">8</property>
@@ -8405,7 +8406,7 @@
           <object class="GtkImage" id="rotary_start_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_rotary_start.xpm</property>
           </object>
           <packing>
             <property name="left_attach">10</property>
@@ -8417,7 +8418,7 @@
           <object class="GtkImage" id="torus_angle_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">../pix/prim_rotary_bottom.xpm</property>
+            <property name="pixbuf">../pix/prim_torus_angle.xpm</property>
           </object>
           <packing>
             <property name="left_attach">12</property>

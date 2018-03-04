@@ -13,7 +13,7 @@ ToolButton::ToolButton(std::list<tool>& tool_list)
     this->right_click_callback = tool_list.front().right_click_callback;
     this->long_left_click_callback = tool_list.front().long_left_click_callback;
     this->long_right_click_callback = tool_list.front().long_right_click_callback;
-	this->curr_scene = tool_list.front().curr_scene;
+	this->curr_scene = &tool_list.front().curr_scene;
     this->tool_list = &tool_list;
     this->set_size_request(32, 24);
     this->Set_Gravity( Gdk::GRAVITY_NORTH, Gdk::GRAVITY_SOUTH );
@@ -49,14 +49,13 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 //	std::cout << "Finish Time: " << finish_time << std::endl;
 
 	switch (event->button){
-
 	case 3:
 	    if ((finish_time - this->start_time) >= 200 && this->tool_list->size() > 1){
 			this->Trigger_Menu(*this->tool_list, event);
 	    } else {
-//		    std::cout << "short right click" << std::endl;
+		    std::cout << "short right click" << std::endl;
 			if(this->right_click_callback != nullptr){
-			    this->right_click_callback(this->curr_scene);
+			    this->right_click_callback(*this->curr_scene);
 			}else{
 			    std::cout << "No Right Click Action" << std::endl;
 			}
@@ -67,7 +66,7 @@ unsigned int ToolButton::mg2_button_release(GdkEventButton * event){
 			this->Trigger_Menu(*this->tool_list, event);
 	    } else {
 			if(this->left_click_callback != nullptr){
-			    this->left_click_callback(this->curr_scene);
+			    this->left_click_callback(*this->curr_scene);
 			    std::cout << this->name << std::endl;
 			}else{
 			    std::cout << "No Left Click Action" << std::endl;
