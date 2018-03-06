@@ -297,10 +297,10 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	ToolButton subdivision_tools = ToolButton(subdivision_tool_list);
 
 	list<tool> boolean_tool_list = {
-		{ "Object Shell", "Object Shell", "pix/object_shell.xpm", 130, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Object Subtraction", "Object Subtraction", "pix/object_subtraction.xpm", 131, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Object Intersection", "Object Intersection", "pix/object_intersection.xpm", 132, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Object Union", "Object Union", "pix/object_union.xpm", 133, nullptr, nullptr, nullptr, nullptr, curr_scene }
+		{ "Object Shell", "Object Shell", "pix/object_shell.xpm", 130, nullptr, shell_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Object Subtraction", "Object Subtraction", "pix/object_subtraction.xpm", 131, nullptr, boolean_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Object Intersection", "Object Intersection", "pix/object_intersection.xpm", 132, nullptr, boolean_parameters, nullptr, nullptr, curr_scene }, 
+		{ "Object Union", "Object Union", "pix/object_union.xpm", 133, nullptr, boolean_parameters, nullptr, nullptr, curr_scene }
 	};
 	ToolButton boolean_tools = ToolButton(boolean_tool_list);
 

@@ -20,6 +20,7 @@ struct tool{
 void array_to_group (scene &curr_scene);
 void bevel_parameters (scene &curr_scene);
 void bevel (scene &curr_scene);
+void boolean_parameters(scene &curr_scene);
 void button_finder (scene &curr_scene);
 void center_axes (scene &curr_scene);
 void chamfer_parameters (scene &curr_scene);
@@ -132,6 +133,7 @@ void select_edges (scene &curr_scene);
 void select_faces (scene &curr_scene);
 void select_object (scene &curr_scene);
 void select_vertices (scene &curr_scene);
+void shell_parameters(scene &curr_scene);
 void show_axes (scene &curr_scene);
 void show_object_info(scene &curr_scene);
 void shrinkwrap_uv (scene &curr_scene);

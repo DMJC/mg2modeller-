@@ -2,6 +2,11 @@
 #include "../include/scene.h"
 #include "../include/primitive.h"
 #include "../include/gui/tsgui.h"
+
+void boolean_parameters(scene &curr_scene){
+	curr_scene.curr_gui->show_boolean_window(curr_scene);
+}
+
 void light_parameters (scene &curr_scene){
 	curr_scene.curr_gui->show_lights_window(curr_scene);
 }
@@ -376,9 +381,16 @@ void select_edges (scene &curr_scene){
 }
 void select_faces (scene &curr_scene){
 }
+
+void shell_parameters(scene &curr_scene){
+	curr_scene.curr_gui->show_shell_properties_window(curr_scene);
+}
+
 void named_selection (scene &curr_scene){
+
 }
 void lasso_selection (scene &curr_scene){
+
 }
 void rectangle_selection (scene &curr_scene){
 }
