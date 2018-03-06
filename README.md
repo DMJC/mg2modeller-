@@ -7,5 +7,5 @@ Development Notes:
 Primarily developed using CodeLite IDE, can be built using either the CLI or CodeLite. Simply type Make in the toplevel. Requirs GTKMM 3.0, and glade/gtkbuilder.
 
 Coding Style:
-Indentation should use four spaces. Callback functions are declared using extern "C". This is to work around a limitation with gtkbuilder files and C++.
+Indentation should use four spaces.
 

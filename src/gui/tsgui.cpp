@@ -61,9 +61,9 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	edit_window->set_keep_above(TRUE);
 	object_info_window->set_keep_above(TRUE);
 	int h_loc = 0;
-    int w_loc = 0;
+	int w_loc = 0;
 	int s_width = 0;
-    int s_height = 0;
+	int s_height = 0;
 
 	Glib::RefPtr <Gdk::Screen> cur_screen = Gdk::Screen::get_default();
     cur_screen = main_window->get_screen();

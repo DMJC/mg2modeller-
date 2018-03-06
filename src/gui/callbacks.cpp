@@ -3,14 +3,12 @@
 extern "C" {
     void quit_cb (Gtk::Application app){
         cout << "Have we saved recently?" << endl;
-		
 		cout << "Quitting" << endl;
 		app.quit();
     }
 
 	void file_new_cb (void){
 	    cout << "Creating New Scene File" << endl;
-		
     }
     void file_open_scene_cb (void){
     	cout << "Opening Scene" << endl;

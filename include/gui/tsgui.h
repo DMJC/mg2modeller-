@@ -50,7 +50,7 @@ private:
 	Gtk::Window* rounded_cube_window = nullptr;
 	Gtk::Window* rounded_cylinder_window = nullptr;
 	Gtk::Window* scene_editor_preferences_window = nullptr;
-	Gtk::Window* selection_window = nullptr;inheritance c++
+	Gtk::Window* selection_window = nullptr;
 	Gtk::Window* set_keyframe_window = nullptr;
 	Gtk::Window* shell_properties_window = nullptr;
 	Gtk::Window* smooth_quad_window = nullptr;

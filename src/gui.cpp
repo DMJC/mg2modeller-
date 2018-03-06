@@ -56,8 +56,6 @@ float* gui::getscale(void)
 int gui::quit(void)
 {
 	cout << "Closing Application." << endl;
-	
 	this -> app->quit();
-	
 	return 0;
 };

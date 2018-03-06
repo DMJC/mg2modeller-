@@ -5,7 +5,6 @@
 #include "mg2.h"
 #include "nurbs.h"
 #include "animation.h"
-//#include "gui/tsgui.h"
 
 class ts_gui;
 
