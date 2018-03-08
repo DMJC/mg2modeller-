@@ -6,6 +6,8 @@
 #include <GL/gl.h>
 #include <list>
 #include <string>
+#include <cstring>
+#include <map>
 #include <iostream>
 #include <fstream>
 #include <cmath>

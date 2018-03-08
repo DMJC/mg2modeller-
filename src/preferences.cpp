@@ -51,14 +51,213 @@ void preferences::default_preferences(void)
 
 void preferences::load_preferences(string filename)
 {
-	string line;
-	ifstream pref_file (filename);
+	fstream inputfile;
+	string buffer;
+    cout << "Loading Preferences" << endl;
+    inputfile.open(filename, fstream::in);
+	string token;
+	string token2;
+	string discard;
+    int quit = 0;
+    	while ( !inputfile.eof()){
+			getline (inputfile, buffer);
+    		size_t pos = 0;
+    		string delimiter = " = ";
+    			while ((pos = buffer.find(delimiter)) != string::npos) {
+    			    token = buffer.substr(0, pos);
+    			    token2 = buffer.substr(pos+3, string::npos);
+    			    token2 = token2.erase(token2.length()-1);
+	    		    cout << token << " " << token2 << endl;
+	    		    buffer.erase(0, pos + delimiter.length());
+	    		}
 
-	if (pref_file.is_open())
-	{
-        pref_file.close();
+	        map<string,int>	m1;
+				m1.insert(pair<string, int>("interface type", 1));
+				m1.insert(pair<string, int>("grid resolution", 2));
+				m1.insert(pair<string, int>("draw axes", 3));
+				m1.insert(pair<string, int>("draw ground plane", 4));
+				m1.insert(pair<string, int>("background color red", 5));
+				m1.insert(pair<string, int>("background color green", 6));
+				m1.insert(pair<string, int>("background color blue", 7));
+				m1.insert(pair<string, int>("grid color red", 8));
+				m1.insert(pair<string, int>("grid color green", 9));
+				m1.insert(pair<string, int>("grid color blue", 10));
+				m1.insert(pair<string, int>("highlight color red", 11));
+				m1.insert(pair<string, int>("highlight color green", 12));
+				m1.insert(pair<string, int>("highlight color blue", 13));
+				m1.insert(pair<string, int>("pesel color red", 14));
+				m1.insert(pair<string, int>("pesel color green", 15));
+				m1.insert(pair<string, int>("pesel color blue", 16));
+				m1.insert(pair<string, int>("selected color red", 17));
+				m1.insert(pair<string, int>("selected color green", 18));
+				m1.insert(pair<string, int>("selected color blue", 19));
+				m1.insert(pair<string, int>("unselected color red", 20));
+				m1.insert(pair<string, int>("unselected color green", 21));
+				m1.insert(pair<string, int>("unselected color blue", 22));
+				m1.insert(pair<string, int>("light color red", 23));
+				m1.insert(pair<string, int>("light color green", 24));
+				m1.insert(pair<string, int>("light color blue", 25));
+				m1.insert(pair<string, int>("camera color red", 26));
+				m1.insert(pair<string, int>("camera color green", 27));
+				m1.insert(pair<string, int>("camera color blue", 28));
+				m1.insert(pair<string, int>("plane resolution", 29));
+				m1.insert(pair<string, int>("cube resolution", 30));
+				m1.insert(pair<string, int>("geosphere resolution", 31));
+				m1.insert(pair<string, int>("sphere latitude", 32));
+				m1.insert(pair<string, int>("sphere longitude", 33));
+				m1.insert(pair<string, int>("cone latitude", 34));
+				m1.insert(pair<string, int>("cone longitude", 35));
+				m1.insert(pair<string, int>("cylinder latitude", 36));
+				m1.insert(pair<string, int>("cylinder longitude", 37));
+				m1.insert(pair<string, int>("cylinder top radius", 38));
+				m1.insert(pair<string, int>("torus latitude", 39));
+				m1.insert(pair<string, int>("torus longitude", 40));
+				m1.insert(pair<string, int>("torus inner radius", 41));
+				m1.insert(pair<string, int>("rounded cube latitude", 42));
+				m1.insert(pair<string, int>("rounded cube longitude", 43));
+				m1.insert(pair<string, int>("rounded cylinder latitude", 44));
+				m1.insert(pair<string, int>("rounded cylinder longitude", 45));
+
+	   	switch (m1[token]){
+			case 1 :
+				this->interface_type = atoi(token2.c_str());
+			break;
+			case 2 :
+				this -> grid_resolution = atoi(token2.c_str());
+			break;
+			case 3 :
+				this -> draw_axes = TRUE;
+			break;
+			case 4 :
+				this -> draw_ground_plane = TRUE;
+			break;
+			case 5 :
+				this -> background_color[0] = strtof(token2.c_str(), nullptr);
+			break;
+			case 6 :
+				this -> background_color[1] = strtof(token2.c_str(), nullptr);
+			break;
+			case 7 :
+				this -> background_color[2] = strtof(token2.c_str(), nullptr);
+			break;
+			case 8 :
+				this -> grid_color[0] = strtof(token2.c_str(), nullptr);
+			break;
+			case 9 :
+				this -> grid_color[1] = strtof(token2.c_str(), nullptr);
+			break;
+			case 10 :
+				this -> grid_color[2] = strtof(token2.c_str(), nullptr);
+			break;
+			case 11 :
+				this -> highlight_color[0] = strtof(token2.c_str(), nullptr);
+			break;
+			case 12 :
+				this -> highlight_color[1] = strtof(token2.c_str(), nullptr);
+			break;
+			case 13 :
+				this -> highlight_color[2] = strtof(token2.c_str(), nullptr);
+			break;
+			case 14 :
+				this -> pesel_color[0] = strtof(token2.c_str(), nullptr);
+			break;
+			case 15 :
+				this -> pesel_color[1] = strtof(token2.c_str(), nullptr);
+			break;
+			case 16 :
+				this -> pesel_color[2] = strtof(token2.c_str(), nullptr);
+			break;
+			case 17 :
+				this -> selected_color[0] = strtof(token2.c_str(), nullptr);
+			break;
+			case 18 :
+				this -> selected_color[1] = strtof(token2.c_str(), nullptr);
+			break;
+			case 19 :
+				this -> selected_color[2] = strtof(token2.c_str(), nullptr);
+			break;
+			case 20 :
+				this -> unselected_color[0] = strtof(token2.c_str(), nullptr);
+			break;
+			case 21 :
+				this -> unselected_color[1] = strtof(token2.c_str(), nullptr);
+			break;
+			case 22 :
+				this -> unselected_color[2] = strtof(token2.c_str(), nullptr);
+			break;
+			case 23 :
+				this -> light_color[0] = strtof(token2.c_str(), nullptr);
+			break;
+			case 24 :
+				this -> light_color[1] = strtof(token2.c_str(), nullptr);
+			break;
+			case 25 :
+				this -> light_color[2] = strtof(token2.c_str(), nullptr);
+			break;
+			case 26 :
+				this -> camera_color[0] = strtof(token2.c_str(), nullptr);
+			break;
+			case 27 :
+				this -> camera_color[1] = strtof(token2.c_str(), nullptr);
+			break;
+			case 28 :
+				this -> camera_color[2] = strtof(token2.c_str(), nullptr);
+			break;
+			case 29 :
+				this -> plane_resolution = atoi(token2.c_str());
+			break;
+			case 30 :
+				this -> cube_resolution = atoi(token2.c_str());
+			break;
+			case 31 :
+				this -> geosphere_resolution = atoi(token2.c_str());
+			break;
+			case 32 :
+				this -> sphere_latitude = atoi(token2.c_str());
+			break;
+			case 33 :
+				this -> sphere_longitude = atoi(token2.c_str());
+			break;
+			case 34 :
+				this -> cone_latitude = atoi(token2.c_str());
+			break;
+			case 35 :
+				this -> cone_longitude = atoi(token2.c_str());
+			break;
+			case 36 :
+				this -> cylinder_latitude = atoi(token2.c_str());
+			break;
+			case 37 :
+				this -> cylinder_longitude = atoi(token2.c_str());
+			break;
+			case 38 :
+				this -> cylinder_top_radius = strtof(token2.c_str(), nullptr);
+			break;
+			case 39 :
+				this -> torus_latitude = atoi(token2.c_str());
+			break;
+			case 40 :
+				this -> torus_longitude = atoi(token2.c_str());
+			break;
+			case 41 :
+				this -> torus_inner_radius = strtof(token2.c_str(), nullptr);
+			break;
+			case 42 :
+				this -> rounded_cube_latitude = atoi(token2.c_str());
+			break;
+			case 43 :
+				this -> rounded_cube_longitude = atoi(token2.c_str());
+			break;
+			case 44 :
+				this -> rounded_cylinder_latitude = atoi(token2.c_str());
+			break;
+			case 45 :
+				this -> rounded_cylinder_longitude = atoi(token2.c_str());
+			break;
+		}
 	}
-	cout << "Loaded Preferences\n" << endl;
+	cout << "Loaded Preferences" << endl;
+	inputfile.close();
 };
 
 void preferences::save_preferences(string filename){
