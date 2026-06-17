@@ -353,14 +353,31 @@ printf("%f %f %f %f\n\n", m[3], m[7], m[11], m[15]);
 
 void RotateMatrix( float x, float y, float z, float *rotmat )
 {
-glMatrixMode(GL_MODELVIEW);
+float rx = x * M_PI / 180.0f;
+float ry = y * M_PI / 180.0f;
+float rz = z * M_PI / 180.0f;
 
-glLoadMatrixf(rotmat);
-glRotatef(y, 0.0, 1.0, 0.0);
-glRotatef(x, 1.0, 0.0, 0.0);
-glRotatef(z, 0.0, 0.0, 1.0);
+float ry_mat[16], rx_mat[16], rz_mat[16], temp[16];
 
-glGetFloatv(GL_MODELVIEW_MATRIX, rotmat);
+// Y rotation
+IdentityMatrix(ry_mat);
+ry_mat[0]  =  cosf(ry); ry_mat[8]  = sinf(ry);
+ry_mat[2]  = -sinf(ry); ry_mat[10] = cosf(ry);
+
+// X rotation
+IdentityMatrix(rx_mat);
+rx_mat[5]  =  cosf(rx); rx_mat[9]  = -sinf(rx);
+rx_mat[6]  =  sinf(rx); rx_mat[10] =  cosf(rx);
+
+// Z rotation
+IdentityMatrix(rz_mat);
+rz_mat[0] =  cosf(rz); rz_mat[4] = -sinf(rz);
+rz_mat[1] =  sinf(rz); rz_mat[5] =  cosf(rz);
+
+// rotmat = rotmat * Ry * Rx * Rz
+MultMatrices(rotmat, ry_mat, temp);
+MultMatrices(temp, rx_mat, temp);
+MultMatrices(temp, rz_mat, rotmat);
 
 }// end RotateMatrix()
 
@@ -567,7 +584,7 @@ multiplications. i just don't feel like debugging this right now :P
 */
 void InvertMatrix( float *in, float *i )
 {
-float temp, a[16];
+float a[16];
 
 memmove( a, in, sizeof(float)*16 );
 

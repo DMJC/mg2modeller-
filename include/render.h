@@ -1,6 +1,6 @@
 #ifndef RENDER_H
 #define RENDER_H
-#include "GL/gl.h"
+#include <epoxy/gl.h>
 enum render_frames { RENDER_ONE, RENDER_ALL };
 enum render_mode { WIREFRAME, SOLID, SOLID_WIRE, SOLID_TRANS, SOLID_TRANS_WIRE };
 

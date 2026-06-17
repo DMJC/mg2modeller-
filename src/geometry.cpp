@@ -1,5 +1,18 @@
 #include "../include/geometry.h"
 
+vertex::vertex() {
+	this->location[0] = 0.0;
+	this->location[1] = 0.0;
+	this->location[2] = 0.0;
+	this->color[0] = 1.0;
+	this->color[1] = 1.0;
+	this->color[2] = 1.0;
+}
+
+edge::edge() : v1(vertex()), v2(vertex()) {}
+
+edge::edge(vertex vert1, vertex vert2) : v1(vert1), v2(vert2) {}
+
 double* edge::get_location()
 {
 	return this -> location;
@@ -13,13 +26,6 @@ vertex::vertex(float X, float Y, float Z){
     this -> color[1] = 1.0;
     this -> color[2] = 1.0;
 }
-
-/*edge::edge(vertex vert1, vertex vert2)
-{
-    this->v1 = vert1;
-    this->v2 = vert2;
-//    this->set_color(0.0, 0.0, 0.0);
-}*/
 
 void edge::set_location(double X, double Y, double Z)
 {
@@ -39,6 +45,8 @@ void vertex::set_location(double X, double Y, double Z)
 	this -> location[1] = Y;
 	this -> location[2]	= Z;
 }
+
+face::face() : type(0), num_edges(0), num_vertices(0) {}
 
 void face::add_vertex_to_face(vertex selected_vertex, int position)
 {

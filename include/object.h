@@ -2,12 +2,14 @@
 #define OBJECT_H
 #include <string>
 #include <list>
-#include <GL/glew.h>
-#include <GL/gl.h>
+#include <set>
+#include <memory>
+#include <epoxy/gl.h>
 #include "animation.h"
 #include "geometry.h"
 #include "texture.h"
 #include "material.h"
+#include "mesh.h"
 
 using namespace std;
 
@@ -17,37 +19,45 @@ class object
 {
 	protected:
 		double location[3] = { 0.0, 0.0, 0.0 };
-		float rotation[3], scale[3] = { 0.0, 0.0, 0.0 };
+		float rotation[3] = { 0.0, 0.0, 0.0 };
+		float scale[3] = { 1.0, 1.0, 1.0 };
 		string name;
-		float selected_color[3] = { 0.0, 0.0, 0.0 };
-		float unselected_color[3] = { 0.0, 0.0, 0.0 };
-		//virtual ~object obj_type;
+		float selected_color[3] = { 1.0, 1.0, 1.0 };
+		float unselected_color[3] = { 0.75, 0.75, 0.75 };
 		type_of_object object_type;
 		int num_vertices = 0;
 		int num_edges = 0;
 		int num_faces = 0;
 		int num_frames = 0;
 		/////////// Hierarcy
-		bool is_parent_only; /* invisible parent object */
-		object *parent;
-		list<object> children;
-		list<object> sibling;
+		bool is_parent_only = false;
+		object *parent = nullptr;
+		list<shared_ptr<object>> children;
+		list<shared_ptr<object>> sibling;
 		/////////// Geometry
-		list<vertex> vertices; // vertex data
-		list<edge> edges; // edge data
-		list<face> faces; // surface faces (replace with list)
-		list<normal> normals; //unimplemented - DMJC
-		float origin[3]; // current offset of object origin
-		bool show_axes; // object axes
-		object_axes axes; // object axes
-		bool show_origin;
-		float compensation[16]; // used when offset is changed
-		float rot_origin[16]; // rotation of origin
+		list<vertex> vertices;
+		list<edge> edges;
+		list<face> faces;
+		list<normal> normals;
+		float origin[3] = { 0.0, 0.0, 0.0 };
+		bool show_axes = false;
+		object_axes axes;
+		bool show_origin = false;
+		float compensation[16];
+		float rot_origin[16];
 		/////////// Animation
-		frame *curr_frame; // pointer to current frame
-		list<frame> frames; // linked list of frames
-		
+		frame *curr_frame = nullptr;
+		list<frame> frames;
+		/////////// GPU
+		Mesh mesh;
+		/////////// Sub-element selection
+		std::set<int> selected_vertices;
+		std::set<int> selected_edges;
+		std::set<int> selected_faces;
+
 	public:
+		object();
+		virtual ~object();
 	    void set_name(string);
 	    string get_name(void);
 		void set_object_type(type_of_object);
@@ -67,9 +77,29 @@ class object
 		void add_sibling(object *sibling);
 		void remove_sibling(object *sibling);
 		void enable_axes(bool state);
+		bool get_show_axes(void);
 		void enable_origin(bool state);
 		void add_frame(void);
 		void remove_frame(frame *frame);
+
+		virtual shared_ptr<object> clone();
+		virtual void generateMesh();
+		void buildModelMatrix(float* out);
+		Mesh& getMesh();
+		list<vertex>& getVertices();
+		list<face>& getFaces();
+		float* getSelectedColor();
+		float* getUnselectedColor();
+		void setSelectedColor(float r, float g, float b);
+		void setUnselectedColor(float r, float g, float b);
+
+		void clearSubSelection();
+		void selectFace(int idx, bool shift);
+		void selectEdge(int idx, bool shift);
+		void selectVertex(int idx, bool shift);
+		const std::set<int>& getSelectedFaces() const;
+		const std::set<int>& getSelectedEdges() const;
+		const std::set<int>& getSelectedVertices() const;
 };
 
 #endif // OBJECT_H

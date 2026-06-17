@@ -151,20 +151,34 @@ void nurbs_torus_parameters (scene &curr_scene){
 }
 
 void view_move (scene &curr_scene){
+	curr_scene.Set_Current_Tool(37);
+	cout << "Tool: View Move" << endl;
 }
 void view_rotate (scene &curr_scene){
+	curr_scene.Set_Current_Tool(38);
+	cout << "Tool: View Rotate" << endl;
 }
 void view_zoom (scene &curr_scene){
+	curr_scene.Set_Current_Tool(39);
+	cout << "Tool: View Zoom" << endl;
 }
 void object_move (scene &curr_scene){
+	curr_scene.Set_Current_Tool(40);
+	cout << "Tool: Object Move" << endl;
 }
 void object_rotate (scene &curr_scene){
+	curr_scene.Set_Current_Tool(41);
+	cout << "Tool: Object Rotate" << endl;
 }
 void object_scale (scene &curr_scene){
+	curr_scene.Set_Current_Tool(42);
+	cout << "Tool: Object Scale" << endl;
 }
 void hierarchy_up (scene &curr_scene){
+	curr_scene.Set_Current_Tool(43);
 }
 void hierarchy_down (scene &curr_scene){
+	curr_scene.Set_Current_Tool(44);
 }
 void create_plane (scene &curr_scene){
 	curr_scene.Set_Current_Tool(50);
@@ -179,27 +193,27 @@ void create_cube (scene &curr_scene){
 void create_cylinder (scene &curr_scene){
 	curr_scene.Set_Current_Tool(52);
 	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-    cylinder(curr_scene.prefs.get_cylinder_latitude(),curr_scene.prefs.get_cylinder_longitude(),curr_scene.prefs.get_cylinder_top_radius(), curr_scene);
+    cylinder(curr_scene.prefs.get_cylinder_longitude(),curr_scene.prefs.get_cylinder_latitude(),curr_scene.prefs.get_cylinder_top_radius(), curr_scene);
 }
 void create_cone (scene &curr_scene){
 	curr_scene.Set_Current_Tool(53);
 	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-    cone(curr_scene.prefs.get_cone_latitude(), curr_scene.prefs.get_cone_longitude(), curr_scene);
+    cone(curr_scene.prefs.get_cone_longitude(), curr_scene.prefs.get_cone_latitude(), curr_scene);
 }
 void create_sphere (scene &curr_scene){
 	curr_scene.Set_Current_Tool(54);
 	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-    sphere(curr_scene.prefs.get_sphere_latitude(), curr_scene.prefs.get_sphere_longitude(), curr_scene);
+    sphere(curr_scene.prefs.get_sphere_longitude(), curr_scene.prefs.get_sphere_latitude(), curr_scene);
 }
 void create_geosphere (scene &curr_scene){
 	curr_scene.Set_Current_Tool(55);
 	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-    cube(curr_scene.prefs.get_geosphere_resolution(), curr_scene);
+    geosphere(curr_scene.prefs.get_geosphere_resolution(), curr_scene);
 }
 void create_rounded_cylinder (scene &curr_scene){
 	curr_scene.Set_Current_Tool(56);
 	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-    rounded_cylinder(curr_scene.prefs.get_rounded_cylinder_latitude(), curr_scene.prefs.get_rounded_cylinder_longitude(), curr_scene);
+    rounded_cylinder(curr_scene.prefs.get_rounded_cylinder_longitude(), curr_scene.prefs.get_rounded_cylinder_latitude(), curr_scene);
 }
 void create_rounded_cube (scene &curr_scene){
 	curr_scene.Set_Current_Tool(57);
@@ -354,6 +368,12 @@ void normalise_scale (scene &curr_scene){
 void center_axes (scene &curr_scene){
 }
 void show_axes (scene &curr_scene){
+	auto obj = curr_scene.GetCurrentObject();
+	if (obj) {
+		bool current = obj->get_show_axes();
+		obj->enable_axes(!current);
+		cout << "Object axes: " << (!current ? "on" : "off") << endl;
+	}
 }
 void select_object (scene &curr_scene){
 	curr_scene.Set_Current_Tool(0);
@@ -374,12 +394,24 @@ void unhide_objects (scene &curr_scene){
 void object_notes (scene &curr_scene){
 }
 void select_context (scene &curr_scene){
+	curr_scene.Set_Current_Tool(250);
+	curr_scene.Set_Edit_Mode(0);
+	cout << "Edit Mode: Object" << endl;
 }
 void select_vertices (scene &curr_scene){
+	curr_scene.Set_Current_Tool(251);
+	curr_scene.Set_Edit_Mode(1);
+	cout << "Edit Mode: Vertex" << endl;
 }
 void select_edges (scene &curr_scene){
+	curr_scene.Set_Current_Tool(252);
+	curr_scene.Set_Edit_Mode(2);
+	cout << "Edit Mode: Edge" << endl;
 }
 void select_faces (scene &curr_scene){
+	curr_scene.Set_Current_Tool(253);
+	curr_scene.Set_Edit_Mode(3);
+	cout << "Edit Mode: Face" << endl;
 }
 
 void shell_parameters(scene &curr_scene){
@@ -397,6 +429,9 @@ void rectangle_selection (scene &curr_scene){
 void freehand_selection (scene &curr_scene){
 }
 void toggle_grid (scene &curr_scene){
+	bool current = curr_scene.prefs.get_draw_ground_plane();
+	curr_scene.prefs.set_draw_ground_plane(!current);
+	cout << "Grid: " << (!current ? "on" : "off") << endl;
 }
 void snap_vertex (scene &curr_scene){
 }
@@ -431,11 +466,39 @@ void object_group (scene &curr_scene){
 void object_ungroup (scene &curr_scene){
 }
 void object_erase (scene &curr_scene){
+	auto obj = curr_scene.GetCurrentObject();
+	if (obj) {
+		curr_scene.DeleteObject(obj);
+		cout << "Object deleted" << endl;
+	}
 }
 void button_finder (scene &curr_scene){
 }
+void draw_as_wireframe(scene &curr_scene){
+	curr_scene.current_draw_mode = 1;
+	cout << "Draw Mode: Wireframe" << endl;
+}
+void draw_as_transparent_wireframe(scene &curr_scene){
+	curr_scene.current_draw_mode = 3;
+	cout << "Draw Mode: Transparent Wireframe" << endl;
+}
+void draw_as_solid_wireframe(scene &curr_scene){
+	curr_scene.current_draw_mode = 4;
+	cout << "Draw Mode: Solid + Wireframe" << endl;
+}
+void draw_as_transparent(scene &curr_scene){
+	curr_scene.current_draw_mode = 2;
+	cout << "Draw Mode: Transparent Solid" << endl;
+}
+void draw_as_solid(scene &curr_scene){
+	curr_scene.current_draw_mode = 0;
+	cout << "Draw Mode: Solid" << endl;
+}
+void draw_as_radiosity(scene &curr_scene){
+	curr_scene.current_draw_mode = 5;
+	cout << "Draw Mode: Radiosity" << endl;
+}
 void display_options(scene &curr_scene){
-
 }
 
 void wind_parameters(scene &curr_scene){

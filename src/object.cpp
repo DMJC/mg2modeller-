@@ -1,6 +1,15 @@
 #include "../include/object.h"
+#include "../include/math3d.h"
+#include <unordered_map>
 
 GLuint wireframe_object_bo;
+
+object::object() {
+	IdentityMatrix(compensation);
+	IdentityMatrix(rot_origin);
+}
+
+object::~object() {}
 
 void object::set_object_type(type_of_object object_type){
 	this -> object_type = object_type;
@@ -98,6 +107,11 @@ void object::enable_axes(bool state)
 	this -> show_axes = state;
 }
 
+bool object::get_show_axes(void)
+{
+	return this -> show_axes;
+}
+
 void object::enable_origin(bool state)
 {
 	this -> show_origin = state;
@@ -110,5 +124,137 @@ void object::add_frame(void)
 
 void object::remove_frame(frame *frame)
 {
-	
+
 }
+
+shared_ptr<object> object::clone() {
+	auto copy = make_shared<object>();
+	copy->set_name(name + " copy");
+	copy->set_location(location[0], location[1], location[2]);
+	copy->set_rotation(rotation[0], rotation[1], rotation[2]);
+	copy->set_scale(scale[0], scale[1], scale[2]);
+	copy->setSelectedColor(selected_color[0], selected_color[1], selected_color[2]);
+	copy->setUnselectedColor(unselected_color[0], unselected_color[1], unselected_color[2]);
+	copy->set_object_type(object_type);
+	copy->set_num_vertices(num_vertices);
+	copy->set_num_faces(num_faces);
+	copy->vertices = vertices;
+	copy->edges = edges;
+	copy->faces = faces;
+
+	Mesh& src = mesh;
+	Mesh& dst = copy->getMesh();
+	dst.vertex_data = src.vertex_data;
+	dst.triangle_indices = src.triangle_indices;
+	dst.line_indices = src.line_indices;
+	dst.markDirty();
+	return copy;
+}
+
+void object::generateMesh() {
+	mesh.vertex_data.clear();
+	mesh.triangle_indices.clear();
+	mesh.line_indices.clear();
+
+	if (vertices.empty()) return;
+
+	int idx = 0;
+	std::unordered_map<vertex*, int> vert_index_map;
+
+	for (auto& v : vertices) {
+		double* loc = v.get_location();
+		mesh.vertex_data.push_back((float)loc[0]);
+		mesh.vertex_data.push_back((float)loc[1]);
+		mesh.vertex_data.push_back((float)loc[2]);
+		// default normal pointing up
+		mesh.vertex_data.push_back(0.0f);
+		mesh.vertex_data.push_back(1.0f);
+		mesh.vertex_data.push_back(0.0f);
+		vert_index_map[&v] = idx++;
+	}
+
+	mesh.markDirty();
+}
+
+void object::buildModelMatrix(float* out) {
+	IdentityMatrix(out);
+	TranslateMatrix((float)location[0], (float)location[1], (float)location[2], out);
+	if (rotation[0] != 0.0f || rotation[1] != 0.0f || rotation[2] != 0.0f) {
+		RotateMatrix(rotation[0], rotation[1], rotation[2], out);
+	}
+	ScaleMatrix(scale[0], scale[1], scale[2], out);
+}
+
+Mesh& object::getMesh() {
+	return mesh;
+}
+
+list<vertex>& object::getVertices() {
+	return vertices;
+}
+
+list<face>& object::getFaces() {
+	return faces;
+}
+
+float* object::getSelectedColor() {
+	return selected_color;
+}
+
+float* object::getUnselectedColor() {
+	return unselected_color;
+}
+
+void object::setSelectedColor(float r, float g, float b) {
+	selected_color[0] = r; selected_color[1] = g; selected_color[2] = b;
+}
+
+void object::setUnselectedColor(float r, float g, float b) {
+	unselected_color[0] = r; unselected_color[1] = g; unselected_color[2] = b;
+}
+
+void object::clearSubSelection() {
+	selected_vertices.clear();
+	selected_edges.clear();
+	selected_faces.clear();
+}
+
+void object::selectFace(int idx, bool shift) {
+	if (shift) {
+		if (selected_faces.count(idx))
+			selected_faces.erase(idx);
+		else
+			selected_faces.insert(idx);
+	} else {
+		selected_faces.clear();
+		selected_faces.insert(idx);
+	}
+}
+
+void object::selectEdge(int idx, bool shift) {
+	if (shift) {
+		if (selected_edges.count(idx))
+			selected_edges.erase(idx);
+		else
+			selected_edges.insert(idx);
+	} else {
+		selected_edges.clear();
+		selected_edges.insert(idx);
+	}
+}
+
+void object::selectVertex(int idx, bool shift) {
+	if (shift) {
+		if (selected_vertices.count(idx))
+			selected_vertices.erase(idx);
+		else
+			selected_vertices.insert(idx);
+	} else {
+		selected_vertices.clear();
+		selected_vertices.insert(idx);
+	}
+}
+
+const std::set<int>& object::getSelectedFaces() const { return selected_faces; }
+const std::set<int>& object::getSelectedEdges() const { return selected_edges; }
+const std::set<int>& object::getSelectedVertices() const { return selected_vertices; }

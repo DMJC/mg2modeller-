@@ -2,8 +2,7 @@
 #define MG2_H
 
 #include <gtkmm.h>
-#include <GL/glew.h>
-#include <GL/gl.h>
+#include <epoxy/gl.h>
 #include <list>
 #include <string>
 #include <cstring>

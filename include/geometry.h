@@ -20,6 +20,7 @@ class vertex
 		double location[3] = { 0.0,0.0,0.0 };
 		float color[3] = { 0.0,0.0,0.0 };
 	public:
+		vertex();
         vertex(float X, float Y, float Z);
 		void set_color(float X, float Y, float Z);
 		int* get_color();
@@ -45,6 +46,7 @@ class edge
 		float scale[3] = { 0.0, 0.0, 0.0 };
 		float color[3] = { 0.0, 0.0, 0.0 };
 	public:
+		edge();
 	    edge(vertex vert1, vertex vert2);
 		void set_color(float X, float Y, float Z);
 		int* get_color();

@@ -2,6 +2,7 @@
 #define TS_GUI_H
 #include "../gui.h"
 #include "../scene.h"
+#include <set>
 #include "callbacks.h"
 #include "tsgui_callbacks.h"
 #include "mg2toolbutton.h"
@@ -64,6 +65,47 @@ private:
 	Gtk::Grid* view_grid = nullptr;
 	Gtk::Grid* main_window_tools_grid = nullptr;
 	Gtk::ImageMenuItem* ts_quit_button = nullptr;
+
+	// Object Info widgets
+	Gtk::Entry* obj_info_name = nullptr;
+	Gtk::Entry* obj_info_loc_x = nullptr;
+	Gtk::Entry* obj_info_loc_y = nullptr;
+	Gtk::Entry* obj_info_loc_z = nullptr;
+	Gtk::Entry* obj_info_rot_x = nullptr;
+	Gtk::Entry* obj_info_rot_y = nullptr;
+	Gtk::Entry* obj_info_rot_z = nullptr;
+	Gtk::Entry* obj_info_sca_x = nullptr;
+	Gtk::Entry* obj_info_sca_y = nullptr;
+	Gtk::Entry* obj_info_sca_z = nullptr;
+	Gtk::Label* obj_info_verts = nullptr;
+	Gtk::Label* obj_info_faces = nullptr;
+
+	// Shape parameter spin buttons
+	Gtk::SpinButton* plane_resolution_spin = nullptr;
+	Gtk::SpinButton* cube_resolution_spin = nullptr;
+	Gtk::SpinButton* cone_lat_spin = nullptr;
+	Gtk::SpinButton* cone_long_spin = nullptr;
+	Gtk::SpinButton* cylinder_lat_spin = nullptr;
+	Gtk::SpinButton* cylinder_long_spin = nullptr;
+	Gtk::SpinButton* cylinder_top_radius_spin = nullptr;
+	Gtk::SpinButton* sphere_lat_spin = nullptr;
+	Gtk::SpinButton* sphere_long_spin = nullptr;
+	Gtk::SpinButton* geosphere_resolution_spin = nullptr;
+	Gtk::SpinButton* rounded_cube_lat_spin = nullptr;
+	Gtk::SpinButton* rounded_cube_long_spin = nullptr;
+	Gtk::SpinButton* rounded_cylinder_lat_spin = nullptr;
+	Gtk::SpinButton* rounded_cylinder_long_spin = nullptr;
+	Gtk::SpinButton* torus_lat_spin = nullptr;
+	Gtk::SpinButton* torus_long_spin = nullptr;
+	Gtk::SpinButton* torus_inner_radius_spin = nullptr;
+
+	// Sub-element edit state
+	int info_edit_mode = 0;
+	float info_center[3] = {0, 0, 0};
+
+	void collectSelectedVertexIndices(scene &curr_scene, std::set<int>& out_indices);
+	void computeVertexCenter(scene &curr_scene, const std::set<int>& indices, float* center);
+
 public:
 	void make_gui(preferences &prefs, scene &curr_scene);
 	void show_bevel_window(scene &curr_scene);
@@ -117,5 +159,16 @@ public:
 	void show_torus_window(scene &curr_scene);
 	void show_undo_options_window(scene &curr_scene);
 	void show_wind_window(scene &curr_scene);
+	void update_object_info(scene &curr_scene);
+	void on_object_info_entry_changed(scene *curr_scene);
+	void on_plane_param_activated(scene *curr_scene);
+	void on_cube_param_activated(scene *curr_scene);
+	void on_cone_param_activated(scene *curr_scene);
+	void on_cylinder_param_activated(scene *curr_scene);
+	void on_sphere_param_activated(scene *curr_scene);
+	void on_geosphere_param_activated(scene *curr_scene);
+	void on_rounded_cube_param_activated(scene *curr_scene);
+	void on_rounded_cylinder_param_activated(scene *curr_scene);
+	void on_torus_param_activated(scene *curr_scene);
 };
 #endif //TSGUI_H

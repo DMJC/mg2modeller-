@@ -4866,10 +4866,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="combobox1">
+              <object class="GtkEntry" id="obj_info_name_entry">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can_focus">True</property>
                 <property name="hexpand">True</property>
+                <property name="width_chars">12</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>

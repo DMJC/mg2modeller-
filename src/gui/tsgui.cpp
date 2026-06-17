@@ -57,7 +57,73 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	this -> builder->get_widget("wind_window", this->wind_window);
 	this -> builder->get_widget("ts_view_grid", this->view_grid);
 	this -> builder->get_widget("ts_quit_button", this->ts_quit_button);
+
+	// Object Info entry widgets
+	this -> builder->get_widget("obj_info_name_entry", this->obj_info_name);
+	this -> builder->get_widget("entry2", this->obj_info_loc_x);
+	this -> builder->get_widget("entry3", this->obj_info_loc_y);
+	this -> builder->get_widget("entry4", this->obj_info_loc_z);
+	this -> builder->get_widget("entry5", this->obj_info_rot_x);
+	this -> builder->get_widget("entry6", this->obj_info_rot_y);
+	this -> builder->get_widget("entry7", this->obj_info_rot_z);
+	this -> builder->get_widget("entry8", this->obj_info_sca_x);
+	this -> builder->get_widget("entry9", this->obj_info_sca_y);
+	this -> builder->get_widget("entry10", this->obj_info_sca_z);
+	this -> builder->get_widget("label18", this->obj_info_verts);
+	this -> builder->get_widget("label20", this->obj_info_faces);
+
+	// Shape parameter spin buttons
+	this -> builder->get_widget("plane_resolution_spinbutton", this->plane_resolution_spin);
+	this -> builder->get_widget("spinbutton16", this->cube_resolution_spin);
+	this -> builder->get_widget("spinbutton21", this->cone_lat_spin);
+	this -> builder->get_widget("spinbutton22", this->cone_long_spin);
+	this -> builder->get_widget("spinbutton18", this->cylinder_lat_spin);
+	this -> builder->get_widget("spinbutton19", this->cylinder_long_spin);
+	this -> builder->get_widget("spinbutton20", this->cylinder_top_radius_spin);
+	this -> builder->get_widget("spinbutton23", this->sphere_lat_spin);
+	this -> builder->get_widget("spinbutton24", this->sphere_long_spin);
+	this -> builder->get_widget("spinbutton25", this->geosphere_resolution_spin);
+	this -> builder->get_widget("spinbutton26", this->rounded_cylinder_lat_spin);
+	this -> builder->get_widget("spinbutton27", this->rounded_cylinder_long_spin);
+	this -> builder->get_widget("spinbutton28", this->rounded_cube_lat_spin);
+	this -> builder->get_widget("spinbutton29", this->rounded_cube_long_spin);
+	this -> builder->get_widget("spinbutton30", this->torus_lat_spin);
+	this -> builder->get_widget("spinbutton31", this->torus_long_spin);
+	this -> builder->get_widget("spinbutton32", this->torus_inner_radius_spin);
+
 	curr_scene.SetGui(this);
+
+	// Connect Entry activate signals to apply edits on Enter key
+	auto connect_entry = [&](Gtk::Entry* e) {
+		if (e) e->signal_activate().connect(sigc::bind(sigc::mem_fun(*this, &ts_gui::on_object_info_entry_changed), &curr_scene));
+	};
+	connect_entry(obj_info_name);
+	connect_entry(obj_info_loc_x); connect_entry(obj_info_loc_y); connect_entry(obj_info_loc_z);
+	connect_entry(obj_info_rot_x); connect_entry(obj_info_rot_y); connect_entry(obj_info_rot_z);
+	connect_entry(obj_info_sca_x); connect_entry(obj_info_sca_y); connect_entry(obj_info_sca_z);
+
+	// Connect shape parameter spin button activate signals to update defaults on Enter
+	auto connect_spin = [&](Gtk::SpinButton* s, void (ts_gui::*handler)(scene*)) {
+		if (s) s->signal_activate().connect(sigc::bind(sigc::mem_fun(*this, handler), &curr_scene));
+	};
+	connect_spin(plane_resolution_spin, &ts_gui::on_plane_param_activated);
+	connect_spin(cube_resolution_spin, &ts_gui::on_cube_param_activated);
+	connect_spin(cone_lat_spin, &ts_gui::on_cone_param_activated);
+	connect_spin(cone_long_spin, &ts_gui::on_cone_param_activated);
+	connect_spin(cylinder_lat_spin, &ts_gui::on_cylinder_param_activated);
+	connect_spin(cylinder_long_spin, &ts_gui::on_cylinder_param_activated);
+	connect_spin(cylinder_top_radius_spin, &ts_gui::on_cylinder_param_activated);
+	connect_spin(sphere_lat_spin, &ts_gui::on_sphere_param_activated);
+	connect_spin(sphere_long_spin, &ts_gui::on_sphere_param_activated);
+	connect_spin(geosphere_resolution_spin, &ts_gui::on_geosphere_param_activated);
+	connect_spin(rounded_cube_lat_spin, &ts_gui::on_rounded_cube_param_activated);
+	connect_spin(rounded_cube_long_spin, &ts_gui::on_rounded_cube_param_activated);
+	connect_spin(rounded_cylinder_lat_spin, &ts_gui::on_rounded_cylinder_param_activated);
+	connect_spin(rounded_cylinder_long_spin, &ts_gui::on_rounded_cylinder_param_activated);
+	connect_spin(torus_lat_spin, &ts_gui::on_torus_param_activated);
+	connect_spin(torus_long_spin, &ts_gui::on_torus_param_activated);
+	connect_spin(torus_inner_radius_spin, &ts_gui::on_torus_param_activated);
+
 	edit_window->set_keep_above(TRUE);
 	object_info_window->set_keep_above(TRUE);
 	int h_loc = 0;
@@ -89,12 +155,12 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	ToolButton render_tools = ToolButton(render_list);
 
 	list<tool> draw_mode_list = {
-		{ "Draw Objects as Wireframe", "Draw Objects as Wireframe", "pix/draw_wireframe.xpm", 6, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Draw Objects as Transparent Outline", "Draw Objects as Transparent Outline", "pix/draw_transparent_wire.xpm", 7, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Draw Objects as Solid Outline", "Draw Objects as Solid Outline", "pix/draw_solid_wire.xpm", 8, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Draw Objects as Transparent", "Draw Objects as Transparent", "pix/draw_transparent.xpm", 9, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Draw Objects as Solid", "Draw Objects as Solid", "pix/draw_solid.xpm", 10, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Draw Objects as Radiosity", "Draw Objects as Radiosity", "pix/draw_radiosity.xpm", 11, nullptr, nullptr, nullptr, nullptr, curr_scene }
+		{ "Draw Objects as Wireframe", "Draw Objects as Wireframe", "pix/draw_wireframe.xpm", 6, draw_as_wireframe, nullptr, nullptr, nullptr, curr_scene },
+		{ "Draw Objects as Transparent Outline", "Draw Objects as Transparent Outline", "pix/draw_transparent_wire.xpm", 7, draw_as_transparent_wireframe, nullptr, nullptr, nullptr, curr_scene },
+		{ "Draw Objects as Solid Outline", "Draw Objects as Solid Outline", "pix/draw_solid_wire.xpm", 8, draw_as_solid_wireframe, nullptr, nullptr, nullptr, curr_scene },
+		{ "Draw Objects as Transparent", "Draw Objects as Transparent", "pix/draw_transparent.xpm", 9, draw_as_transparent, nullptr, nullptr, nullptr, curr_scene },
+		{ "Draw Objects as Solid", "Draw Objects as Solid", "pix/draw_solid.xpm", 10, draw_as_solid, nullptr, nullptr, nullptr, curr_scene },
+		{ "Draw Objects as Radiosity", "Draw Objects as Radiosity", "pix/draw_radiosity.xpm", 11, draw_as_radiosity, nullptr, nullptr, nullptr, curr_scene }
 	};
 	ToolButton draw_mode_tools = ToolButton(draw_mode_list);
 	
@@ -572,6 +638,8 @@ void ts_gui::show_coords_window(scene &curr_scene){
 }
 
 void ts_gui::show_cone_window(scene &curr_scene){
+	if (cone_lat_spin) cone_lat_spin->set_value(curr_scene.prefs.get_cone_latitude());
+	if (cone_long_spin) cone_long_spin->set_value(curr_scene.prefs.get_cone_longitude());
 	this->cone_window->show();
 }
 
@@ -580,6 +648,7 @@ void ts_gui::show_copy_tool_window(scene &curr_scene){
 }
 
 void ts_gui::show_cube_window(scene &curr_scene){
+	if (cube_resolution_spin) cube_resolution_spin->set_value(curr_scene.prefs.get_cube_resolution());
 	this->cube_window->show();
 }
 
@@ -588,6 +657,9 @@ void ts_gui::show_metaball_window(scene &curr_scene){
 }
 
 void ts_gui::show_cylinder_window(scene &curr_scene){
+	if (cylinder_lat_spin) cylinder_lat_spin->set_value(curr_scene.prefs.get_cylinder_latitude());
+	if (cylinder_long_spin) cylinder_long_spin->set_value(curr_scene.prefs.get_cylinder_longitude());
+	if (cylinder_top_radius_spin) cylinder_top_radius_spin->set_value(curr_scene.prefs.get_cylinder_top_radius());
 	this->cylinder_window->show();
 }
 
@@ -608,6 +680,7 @@ void ts_gui::show_fillet_window(scene &curr_scene){
 }
 
 void ts_gui::show_geosphere_window(scene &curr_scene){
+	if (geosphere_resolution_spin) geosphere_resolution_spin->set_value(curr_scene.prefs.get_geosphere_resolution());
 	this->geosphere_window->show();
 }
 
@@ -680,6 +753,7 @@ void ts_gui::show_panoramic_camera_window(scene &curr_scene){
 }
 
 void ts_gui::show_plane_window(scene &curr_scene){
+	if (plane_resolution_spin) plane_resolution_spin->set_value(curr_scene.prefs.get_plane_resolution());
 	this->plane_window->show();
 }
 
@@ -704,10 +778,14 @@ void ts_gui::show_primitive_shape_window(scene &curr_scene){
 }
 
 void ts_gui::show_rounded_cube_window(scene &curr_scene){
+	if (rounded_cube_lat_spin) rounded_cube_lat_spin->set_value(curr_scene.prefs.get_rounded_cube_latitude());
+	if (rounded_cube_long_spin) rounded_cube_long_spin->set_value(curr_scene.prefs.get_rounded_cube_longitude());
 	this->rounded_cube_window->show();
 }
 
 void ts_gui::show_rounded_cylinder_window(scene &curr_scene){
+	if (rounded_cylinder_lat_spin) rounded_cylinder_lat_spin->set_value(curr_scene.prefs.get_rounded_cylinder_latitude());
+	if (rounded_cylinder_long_spin) rounded_cylinder_long_spin->set_value(curr_scene.prefs.get_rounded_cylinder_longitude());
 	this->rounded_cylinder_window->show();
 }
 
@@ -737,6 +815,8 @@ void ts_gui::show_smooth_quad_window(scene &curr_scene){
 
 
 void ts_gui::show_sphere_window(scene &curr_scene){
+	if (sphere_lat_spin) sphere_lat_spin->set_value(curr_scene.prefs.get_sphere_latitude());
+	if (sphere_long_spin) sphere_long_spin->set_value(curr_scene.prefs.get_sphere_longitude());
 	this->sphere_window->show();
 }
 
@@ -749,6 +829,9 @@ void ts_gui::show_taper_window(scene &curr_scene){
 }
 
 void ts_gui::show_torus_window(scene &curr_scene){
+	if (torus_lat_spin) torus_lat_spin->set_value(curr_scene.prefs.get_torus_latitude());
+	if (torus_long_spin) torus_long_spin->set_value(curr_scene.prefs.get_torus_longitude());
+	if (torus_inner_radius_spin) torus_inner_radius_spin->set_value(curr_scene.prefs.get_torus_inner_radius());
 	this->torus_window->show();
 }
 
@@ -758,4 +841,264 @@ void ts_gui::show_undo_options_window(scene &curr_scene){
 
 void ts_gui::show_wind_window(scene &curr_scene){
 	this->wind_window->show();
+}
+
+void ts_gui::collectSelectedVertexIndices(scene &curr_scene, std::set<int>& out) {
+	auto obj = curr_scene.GetCurrentObject();
+	if (!obj) return;
+	Mesh& m = obj->getMesh();
+	int edit_mode = curr_scene.Get_Edit_Mode();
+
+	if (edit_mode == 1) {
+		out = obj->getSelectedVertices();
+	} else if (edit_mode == 2) {
+		for (int edge_idx : obj->getSelectedEdges()) {
+			int v0, v1;
+			m.getEdgeVertices(edge_idx, v0, v1);
+			out.insert(v0);
+			out.insert(v1);
+		}
+	}
+}
+
+void ts_gui::computeVertexCenter(scene &curr_scene, const std::set<int>& indices, float* center) {
+	center[0] = center[1] = center[2] = 0.0f;
+	if (indices.empty()) return;
+	auto obj = curr_scene.GetCurrentObject();
+	if (!obj) return;
+	Mesh& m = obj->getMesh();
+	for (int idx : indices) {
+		float x, y, z;
+		m.getVertexPosition(idx, x, y, z);
+		center[0] += x; center[1] += y; center[2] += z;
+	}
+	float n = (float)indices.size();
+	center[0] /= n; center[1] /= n; center[2] /= n;
+}
+
+void ts_gui::update_object_info(scene &curr_scene){
+	auto obj = curr_scene.GetCurrentObject();
+
+	auto fmt = [](double v) -> std::string {
+		char buf[32];
+		snprintf(buf, sizeof(buf), "%.4f", v);
+		return std::string(buf);
+	};
+
+	int edit_mode = curr_scene.Get_Edit_Mode();
+	info_edit_mode = edit_mode;
+
+	if (!obj) {
+		if (obj_info_name) obj_info_name->set_text("");
+		if (obj_info_loc_x) obj_info_loc_x->set_text("0.0000");
+		if (obj_info_loc_y) obj_info_loc_y->set_text("0.0000");
+		if (obj_info_loc_z) obj_info_loc_z->set_text("0.0000");
+		if (obj_info_rot_x) obj_info_rot_x->set_text("0.0000");
+		if (obj_info_rot_y) obj_info_rot_y->set_text("0.0000");
+		if (obj_info_rot_z) obj_info_rot_z->set_text("0.0000");
+		if (obj_info_sca_x) obj_info_sca_x->set_text("1.0000");
+		if (obj_info_sca_y) obj_info_sca_y->set_text("1.0000");
+		if (obj_info_sca_z) obj_info_sca_z->set_text("1.0000");
+		if (obj_info_verts) obj_info_verts->set_text("0");
+		if (obj_info_faces) obj_info_faces->set_text("0");
+		return;
+	}
+
+	if (edit_mode == 1 || edit_mode == 2) {
+		std::set<int> vert_indices;
+		collectSelectedVertexIndices(curr_scene, vert_indices);
+
+		if (!vert_indices.empty()) {
+			computeVertexCenter(curr_scene, vert_indices, info_center);
+
+			int count = (edit_mode == 1) ? (int)obj->getSelectedVertices().size()
+										 : (int)obj->getSelectedEdges().size();
+			std::string label = std::to_string(count);
+			label += (edit_mode == 1) ? (count == 1 ? " vertex" : " vertices")
+									  : (count == 1 ? " edge" : " edges");
+			if (obj_info_name) obj_info_name->set_text(label);
+
+			if (obj_info_loc_x) obj_info_loc_x->set_text(fmt(info_center[0]));
+			if (obj_info_loc_y) obj_info_loc_y->set_text(fmt(info_center[1]));
+			if (obj_info_loc_z) obj_info_loc_z->set_text(fmt(info_center[2]));
+			if (obj_info_rot_x) obj_info_rot_x->set_text("0.0000");
+			if (obj_info_rot_y) obj_info_rot_y->set_text("0.0000");
+			if (obj_info_rot_z) obj_info_rot_z->set_text("0.0000");
+			if (obj_info_sca_x) obj_info_sca_x->set_text("1.0000");
+			if (obj_info_sca_y) obj_info_sca_y->set_text("1.0000");
+			if (obj_info_sca_z) obj_info_sca_z->set_text("1.0000");
+		} else {
+			if (obj_info_name) obj_info_name->set_text(obj->get_name());
+			if (obj_info_loc_x) obj_info_loc_x->set_text("0.0000");
+			if (obj_info_loc_y) obj_info_loc_y->set_text("0.0000");
+			if (obj_info_loc_z) obj_info_loc_z->set_text("0.0000");
+			if (obj_info_rot_x) obj_info_rot_x->set_text("0.0000");
+			if (obj_info_rot_y) obj_info_rot_y->set_text("0.0000");
+			if (obj_info_rot_z) obj_info_rot_z->set_text("0.0000");
+			if (obj_info_sca_x) obj_info_sca_x->set_text("1.0000");
+			if (obj_info_sca_y) obj_info_sca_y->set_text("1.0000");
+			if (obj_info_sca_z) obj_info_sca_z->set_text("1.0000");
+		}
+		if (obj_info_verts) obj_info_verts->set_text(std::to_string(obj->get_num_vertices()));
+		if (obj_info_faces) obj_info_faces->set_text(std::to_string(obj->get_num_faces()));
+		return;
+	}
+
+	// Object mode (edit_mode == 0 or 3/face)
+	double* loc = obj->get_location();
+	float* rot = obj->get_rotation();
+	float* sc = obj->get_scale();
+
+	if (obj_info_name) obj_info_name->set_text(obj->get_name());
+	if (obj_info_loc_x) obj_info_loc_x->set_text(fmt(loc[0]));
+	if (obj_info_loc_y) obj_info_loc_y->set_text(fmt(loc[1]));
+	if (obj_info_loc_z) obj_info_loc_z->set_text(fmt(loc[2]));
+	if (obj_info_rot_x) obj_info_rot_x->set_text(fmt(rot[0]));
+	if (obj_info_rot_y) obj_info_rot_y->set_text(fmt(rot[1]));
+	if (obj_info_rot_z) obj_info_rot_z->set_text(fmt(rot[2]));
+	if (obj_info_sca_x) obj_info_sca_x->set_text(fmt(sc[0]));
+	if (obj_info_sca_y) obj_info_sca_y->set_text(fmt(sc[1]));
+	if (obj_info_sca_z) obj_info_sca_z->set_text(fmt(sc[2]));
+	if (obj_info_verts) obj_info_verts->set_text(std::to_string(obj->get_num_vertices()));
+	if (obj_info_faces) obj_info_faces->set_text(std::to_string(obj->get_num_faces()));
+}
+
+void ts_gui::on_plane_param_activated(scene *curr_scene){
+	if (plane_resolution_spin)
+		curr_scene->prefs.set_plane_resolution(plane_resolution_spin->get_value_as_int());
+}
+
+void ts_gui::on_cube_param_activated(scene *curr_scene){
+	if (cube_resolution_spin)
+		curr_scene->prefs.set_cube_resolution(cube_resolution_spin->get_value_as_int());
+}
+
+void ts_gui::on_cone_param_activated(scene *curr_scene){
+	if (cone_lat_spin) curr_scene->prefs.set_cone_latitude(cone_lat_spin->get_value_as_int());
+	if (cone_long_spin) curr_scene->prefs.set_cone_longitude(cone_long_spin->get_value_as_int());
+}
+
+void ts_gui::on_cylinder_param_activated(scene *curr_scene){
+	if (cylinder_lat_spin) curr_scene->prefs.set_cylinder_latitude(cylinder_lat_spin->get_value_as_int());
+	if (cylinder_long_spin) curr_scene->prefs.set_cylinder_longitude(cylinder_long_spin->get_value_as_int());
+	if (cylinder_top_radius_spin) curr_scene->prefs.set_cylinder_top_radius(cylinder_top_radius_spin->get_value());
+}
+
+void ts_gui::on_sphere_param_activated(scene *curr_scene){
+	if (sphere_lat_spin) curr_scene->prefs.set_sphere_latitude(sphere_lat_spin->get_value_as_int());
+	if (sphere_long_spin) curr_scene->prefs.set_sphere_longitude(sphere_long_spin->get_value_as_int());
+}
+
+void ts_gui::on_geosphere_param_activated(scene *curr_scene){
+	if (geosphere_resolution_spin)
+		curr_scene->prefs.set_geosphere_resolution(geosphere_resolution_spin->get_value_as_int());
+}
+
+void ts_gui::on_rounded_cube_param_activated(scene *curr_scene){
+	if (rounded_cube_lat_spin) curr_scene->prefs.set_rounded_cube_latitude(rounded_cube_lat_spin->get_value_as_int());
+	if (rounded_cube_long_spin) curr_scene->prefs.set_rounded_cube_longitude(rounded_cube_long_spin->get_value_as_int());
+}
+
+void ts_gui::on_rounded_cylinder_param_activated(scene *curr_scene){
+	if (rounded_cylinder_lat_spin) curr_scene->prefs.set_rounded_cylinder_latitude(rounded_cylinder_lat_spin->get_value_as_int());
+	if (rounded_cylinder_long_spin) curr_scene->prefs.set_rounded_cylinder_longitude(rounded_cylinder_long_spin->get_value_as_int());
+}
+
+void ts_gui::on_torus_param_activated(scene *curr_scene){
+	if (torus_lat_spin) curr_scene->prefs.set_torus_latitude(torus_lat_spin->get_value_as_int());
+	if (torus_long_spin) curr_scene->prefs.set_torus_longitude(torus_long_spin->get_value_as_int());
+	if (torus_inner_radius_spin) curr_scene->prefs.set_torus_inner_radius(torus_inner_radius_spin->get_value());
+}
+
+void ts_gui::on_object_info_entry_changed(scene *curr_scene){
+	auto obj = curr_scene->GetCurrentObject();
+	if (!obj) return;
+
+	auto toFloat = [](Gtk::Entry* e) -> float {
+		try { return std::stof(e->get_text()); }
+		catch (...) { return 0.0f; }
+	};
+
+	if (info_edit_mode == 1 || info_edit_mode == 2) {
+		std::set<int> vert_indices;
+		collectSelectedVertexIndices(*curr_scene, vert_indices);
+		if (vert_indices.empty()) return;
+
+		Mesh& m = obj->getMesh();
+		float new_loc[3] = { toFloat(obj_info_loc_x), toFloat(obj_info_loc_y), toFloat(obj_info_loc_z) };
+		float new_rot[3] = { toFloat(obj_info_rot_x), toFloat(obj_info_rot_y), toFloat(obj_info_rot_z) };
+		float new_sca[3] = { toFloat(obj_info_sca_x), toFloat(obj_info_sca_y), toFloat(obj_info_sca_z) };
+
+		float dx = new_loc[0] - info_center[0];
+		float dy = new_loc[1] - info_center[1];
+		float dz = new_loc[2] - info_center[2];
+
+		bool has_rotation = (new_rot[0] != 0.0f || new_rot[1] != 0.0f || new_rot[2] != 0.0f);
+		bool has_scale = (new_sca[0] != 1.0f || new_sca[1] != 1.0f || new_sca[2] != 1.0f);
+		bool is_single_vertex = (info_edit_mode == 1 && vert_indices.size() == 1);
+
+		for (int idx : vert_indices) {
+			float vx, vy, vz;
+			m.getVertexPosition(idx, vx, vy, vz);
+
+			float rx = vx - info_center[0];
+			float ry = vy - info_center[1];
+			float rz = vz - info_center[2];
+
+			if (!is_single_vertex && has_scale) {
+				rx *= new_sca[0];
+				ry *= new_sca[1];
+				rz *= new_sca[2];
+			}
+
+			if (!is_single_vertex && has_rotation) {
+				float rad_x = new_rot[0] * M_PI / 180.0f;
+				float rad_y = new_rot[1] * M_PI / 180.0f;
+				float rad_z = new_rot[2] * M_PI / 180.0f;
+
+				float cx, cy, cz, sx, sy, sz;
+				// Y rotation
+				cx = cosf(rad_y); sy = sinf(rad_y);
+				float tx = rx * cx + rz * sy;
+				float tz = -rx * sy + rz * cx;
+				rx = tx; rz = tz;
+				// X rotation
+				cx = cosf(rad_x); sx = sinf(rad_x);
+				float ty = ry * cx - rz * sx;
+				tz = ry * sx + rz * cx;
+				ry = ty; rz = tz;
+				// Z rotation
+				cz = cosf(rad_z); sz = sinf(rad_z);
+				tx = rx * cz - ry * sz;
+				ty = rx * sz + ry * cz;
+				rx = tx; ry = ty;
+			}
+
+			m.setVertexPosition(idx, info_center[0] + rx + dx,
+									 info_center[1] + ry + dy,
+									 info_center[2] + rz + dz);
+		}
+
+		m.uploadToGPU();
+		update_object_info(*curr_scene);
+		if (this->view_grid) this->view_grid->queue_draw();
+		return;
+	}
+
+	// Object mode
+	auto toDouble = [](Gtk::Entry* e) -> double {
+		try { return std::stod(e->get_text()); }
+		catch (...) { return 0.0; }
+	};
+
+	if (obj_info_name) obj->set_name(obj_info_name->get_text());
+	if (obj_info_loc_x && obj_info_loc_y && obj_info_loc_z)
+		obj->set_location(toDouble(obj_info_loc_x), toDouble(obj_info_loc_y), toDouble(obj_info_loc_z));
+	if (obj_info_rot_x && obj_info_rot_y && obj_info_rot_z)
+		obj->set_rotation(toFloat(obj_info_rot_x), toFloat(obj_info_rot_y), toFloat(obj_info_rot_z));
+	if (obj_info_sca_x && obj_info_sca_y && obj_info_sca_z)
+		obj->set_scale(toFloat(obj_info_sca_x), toFloat(obj_info_sca_y), toFloat(obj_info_sca_z));
+
+	obj->getMesh().markDirty();
+	if (this->view_grid) this->view_grid->queue_draw();
 }

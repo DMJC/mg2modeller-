@@ -35,7 +35,7 @@ PreprocessOnlySwitch   :=-E
 ObjectsFileList        :="mg2modeller.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
-LinkOptions            :=  -rdynamic $(shell pkg-config --libs gtkmm-3.0 glew gl)
+LinkOptions            :=  -rdynamic $(shell pkg-config --libs gtkmm-3.0 epoxy)
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
 RcIncludePath          := 
@@ -50,7 +50,7 @@ LibPath                := $(LibraryPathSwitch).
 AR       := ar rcus
 CXX      := g++
 CC       := gcc
-CXXFLAGS :=  -g -Wall -O0 $(shell pkg-config --cflags gtkmm-3.0 glew gl) $(Preprocessors)
+CXXFLAGS :=  -g -Wall -O0 $(shell pkg-config --cflags gtkmm-3.0 epoxy) $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := as
@@ -63,7 +63,8 @@ CodeLiteDir:=/usr/share/codelite
 Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_view.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_tools.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_scene.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_primitive.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_preferences.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_plane.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_object.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_math3d.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_light.cpp$(ObjectSuffix) \
 	$(IntermediateDirectory)/src_gui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_edit.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_display.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_geometry.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_material.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_animation.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_texture.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_render.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_nurbs.cpp$(ObjectSuffix) \
 	$(IntermediateDirectory)/src_metaball.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_text.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_draw.cpp$(ObjectSuffix) $(IntermediateDirectory)/include_guide.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tdsgui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tsgui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tdsgui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tsgui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(ObjectSuffix) \
-	
+	$(IntermediateDirectory)/src_shader.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mesh.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_view_camera.cpp$(ObjectSuffix) \
+
 
 
 
@@ -334,6 +335,21 @@ $(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(DependSuffix): src/gui/mg2to
 $(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(PreprocessSuffix): src/gui/mg2toolbutton.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(PreprocessSuffix) src/gui/mg2toolbutton.cpp
 
+
+$(IntermediateDirectory)/src_shader.cpp$(ObjectSuffix): src/shader.cpp $(IntermediateDirectory)/src_shader.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/shader.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_shader.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_shader.cpp$(DependSuffix): src/shader.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_shader.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_shader.cpp$(DependSuffix) -MM src/shader.cpp
+
+$(IntermediateDirectory)/src_mesh.cpp$(ObjectSuffix): src/mesh.cpp $(IntermediateDirectory)/src_mesh.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/mesh.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_mesh.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_mesh.cpp$(DependSuffix): src/mesh.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_mesh.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_mesh.cpp$(DependSuffix) -MM src/mesh.cpp
+
+$(IntermediateDirectory)/src_view_camera.cpp$(ObjectSuffix): src/view_camera.cpp $(IntermediateDirectory)/src_view_camera.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/view_camera.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_view_camera.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_view_camera.cpp$(DependSuffix): src/view_camera.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_view_camera.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_view_camera.cpp$(DependSuffix) -MM src/view_camera.cpp
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
 ##

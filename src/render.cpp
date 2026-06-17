@@ -23,6 +23,4 @@ int render::get_render_frames(void){
 
 void render::run_render(void){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.5, 0.5, 0.5, 1);
-	glFlush();
 }
