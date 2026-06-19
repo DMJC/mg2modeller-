@@ -1,0 +1,51 @@
+create a Window with 
+When any tool in the edit_tool_list is selected
+
+Point Edit: Vertices
+Point Edit: Edges
+Point Edit: Faces
+[Point Edit: Context]
+
+Select using Freehand
+Select using Rectangle
+Select using Lasso
+[Named Selection]
+
+Slice object by selected line/plane
+[Separate selected part of object]
+
+Flip all Faces
+Delete Face
+Add Face
+Weld Vertices
+[Erase Vertices]
+
+Polygon Draw
+Polygon Slice
+Polygon Bevel
+Add Vertex
+Add Edges
+[Polygon Copy]
+
+Sweep
+Tip
+Lathe
+Macro/Sweep
+Bevel
+[Fillet Tool]
+
+Delete Subdivision Layer
+Add Subdivision Layer
+Smooth Quad Divide
+Quad Divide
+Change Face into Hole
+[Change Hole into Face]
+
+Point Move
+Point Rotate
+[Point Scale]
+
+Add to selection (or CTRL Key)
+Select subset
+[Remove from Selection]
+
