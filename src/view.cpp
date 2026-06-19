@@ -2,6 +2,7 @@
 #include "../include/scene.h"
 #include "../include/gui/tsgui.h"
 #include "../include/math3d.h"
+#include "../include/tools.h"
 
 // ============================================================
 // Shader sources
@@ -391,6 +392,11 @@ void view::onUnrealize() {
 		glDeleteRenderbuffers(1, &pick_depth_rbo);
 		pick_fbo = 0;
 	}
+	if (scene_ptr) {
+		scene_ptr->view_object_toolbar.cleanup();
+		scene_ptr->main_toolbar.cleanup();
+		scene_ptr->object_toolbar.cleanup();
+	}
 }
 
 // ============================================================
@@ -445,11 +451,12 @@ void view::renderObjects(float* view_mat, float* proj_mat) {
 
 		float model_mat[16];
 		obj_ptr->buildModelMatrix(model_mat);
-		bool is_selected = (scene_ptr->current_object == obj_ptr);
+		bool is_selected = scene_ptr->IsSelected(obj_ptr);
 		float* color = is_selected ? obj_ptr->getSelectedColor() : obj_ptr->getUnselectedColor();
 
 		bool draw_solid = (draw_mode == SOLID_VIEW || draw_mode == SOLID_WIREFRAME_VIEW ||
-						   draw_mode == TRANSPARENT_SOLID_VIEW || draw_mode == RADIOSITY_VIEW);
+						   draw_mode == TRANSPARENT_SOLID_VIEW || draw_mode == TRANSPARENT_WIREFRAME_VIEW ||
+						   draw_mode == RADIOSITY_VIEW);
 		bool draw_wire  = (draw_mode == WIREFRAME_VIEW || draw_mode == SOLID_WIREFRAME_VIEW ||
 						   draw_mode == TRANSPARENT_WIREFRAME_VIEW);
 		bool transparent = (draw_mode == TRANSPARENT_SOLID_VIEW || draw_mode == TRANSPARENT_WIREFRAME_VIEW);
@@ -748,38 +755,41 @@ void view::renderSubElementHighlights(float* view_mat, float* proj_mat) {
 // ============================================================
 
 void view::handleTransformDrag(double dx, double dy, int button) {
-	if (!scene_ptr || !scene_ptr->current_object) return;
+	if (!scene_ptr || scene_ptr->selected_objects.empty()) return;
 
 	int tool = scene_ptr->Get_Current_Tool();
-	auto obj = scene_ptr->current_object;
 
-	if (tool == 40) {
-		double* loc = obj->get_location();
-		float s = camera.getDistance() * 0.005f;
-		if (button == 1) {
-			obj->set_location(loc[0] + dx * s, loc[1], loc[2] - dy * s);
-		} else if (button == 3) {
-			obj->set_location(loc[0], loc[1] - dy * s, loc[2]);
+	for (auto& obj : scene_ptr->selected_objects) {
+		if (!obj) continue;
+
+		if (tool == 40) {
+			double* loc = obj->get_location();
+			float s = camera.getDistance() * 0.005f;
+			if (button == 1) {
+				obj->set_location(loc[0] + dx * s, loc[1], loc[2] - dy * s);
+			} else if (button == 3) {
+				obj->set_location(loc[0], loc[1] - dy * s, loc[2]);
+			}
+			obj->getMesh().markDirty();
+		} else if (tool == 41) {
+			float* rot = obj->get_rotation();
+			if (button == 1) {
+				obj->set_rotation(rot[0], rot[1] + dx * 0.5f, rot[2]);
+			} else if (button == 3) {
+				obj->set_rotation(rot[0] + dy * 0.5f, rot[1], rot[2] + dx * 0.5f);
+			}
+			obj->getMesh().markDirty();
+		} else if (tool == 42) {
+			float* sc = obj->get_scale();
+			float delta = 1.0f + dy * -0.005f;
+			if (delta < 0.01f) delta = 0.01f;
+			if (button == 1) {
+				obj->set_scale(sc[0] * delta, sc[1], sc[2] * delta);
+			} else if (button == 3) {
+				obj->set_scale(sc[0], sc[1] * delta, sc[2]);
+			}
+			obj->getMesh().markDirty();
 		}
-		obj->getMesh().markDirty();
-	} else if (tool == 41) {
-		float* rot = obj->get_rotation();
-		if (button == 1) {
-			obj->set_rotation(rot[0], rot[1] + dx * 0.5f, rot[2]);
-		} else if (button == 3) {
-			obj->set_rotation(rot[0] + dy * 0.5f, rot[1], rot[2] + dx * 0.5f);
-		}
-		obj->getMesh().markDirty();
-	} else if (tool == 42) {
-		float* sc = obj->get_scale();
-		float delta = 1.0f + dy * -0.005f;
-		if (delta < 0.01f) delta = 0.01f;
-		if (button == 1) {
-			obj->set_scale(sc[0] * delta, sc[1], sc[2] * delta);
-		} else if (button == 3) {
-			obj->set_scale(sc[0], sc[1] * delta, sc[2]);
-		}
-		obj->getMesh().markDirty();
 	}
 
 	if (scene_ptr->curr_gui)
@@ -826,6 +836,8 @@ bool view::onRender(const Glib::RefPtr<Gdk::GLContext>& context) {
 	renderGizmo(view_mat, proj_mat);
 	renderSubElementHighlights(view_mat, proj_mat);
 
+	renderToolbars();
+
 	glBindVertexArray(0);
 	glUseProgram(0);
 	while (glGetError() != GL_NO_ERROR) {}
@@ -834,11 +846,48 @@ bool view::onRender(const Glib::RefPtr<Gdk::GLContext>& context) {
 }
 
 // ============================================================
+// Toolbar overlay
+// ============================================================
+
+void view::renderToolbars() {
+	if (!scene_ptr) return;
+	int w = mGlArea.get_allocated_width();
+	int h = mGlArea.get_allocated_height();
+	scene_ptr->view_object_toolbar.render(w, h);
+	scene_ptr->main_toolbar.render(w, h);
+	scene_ptr->object_toolbar.render(w, h);
+}
+
+bool view::toolbarHitTest(int mx, int my) {
+	if (!scene_ptr) return false;
+	int w = mGlArea.get_allocated_width();
+	int h = mGlArea.get_allocated_height();
+	if (scene_ptr->view_object_toolbar.hitTest(mx, my, w, h)) return true;
+	if (scene_ptr->main_toolbar.hitTest(mx, my, w, h)) return true;
+	if (scene_ptr->object_toolbar.hitTest(mx, my, w, h)) return true;
+	return false;
+}
+
+// ============================================================
 // Input handling
 // ============================================================
 
 bool view::onButtonPress(GdkEventButton* event) {
 	mGlArea.grab_focus();
+	int w = mGlArea.get_allocated_width();
+	int h = mGlArea.get_allocated_height();
+	int mx = (int)event->x, my = (int)event->y;
+	last_press_time = event->time;
+
+	if (scene_ptr) {
+		if (scene_ptr->view_object_toolbar.onPress(mx, my, event->button, event->time, w, h) ||
+			scene_ptr->main_toolbar.onPress(mx, my, event->button, event->time, w, h) ||
+			scene_ptr->object_toolbar.onPress(mx, my, event->button, event->time, w, h)) {
+			toolbar_dragging = true;
+			return true;
+		}
+	}
+
 	dragging = true;
 	drag_button = event->button;
 	last_mouse_x = event->x;
@@ -847,6 +896,18 @@ bool view::onButtonPress(GdkEventButton* event) {
 }
 
 bool view::onButtonRelease(GdkEventButton* event) {
+	if (toolbar_dragging && scene_ptr) {
+		int w = mGlArea.get_allocated_width();
+		int h = mGlArea.get_allocated_height();
+		int mx = (int)event->x, my = (int)event->y;
+		scene_ptr->view_object_toolbar.onRelease(mx, my, event->button, event->time, w, h, *scene_ptr);
+		scene_ptr->main_toolbar.onRelease(mx, my, event->button, event->time, w, h, *scene_ptr);
+		scene_ptr->object_toolbar.onRelease(mx, my, event->button, event->time, w, h, *scene_ptr);
+		toolbar_dragging = false;
+		mGlArea.queue_render();
+		return true;
+	}
+
 	if (!dragging) return true;
 
 	double dx = event->x - last_mouse_x;
@@ -862,7 +923,12 @@ bool view::onButtonRelease(GdkEventButton* event) {
 		bool is_subelement_mode = (edit_mode >= 1 && edit_mode <= 3) &&
 								  (tool == 251 || tool == 252 || tool == 253);
 
-		if (is_subelement_mode && scene_ptr->current_object) {
+		bool is_primitive_tool = (tool >= 50 && tool <= 58);
+
+		if (is_primitive_tool) {
+			spawn_primitive(*scene_ptr);
+			mGlArea.queue_render();
+		} else if (is_subelement_mode && scene_ptr->current_object) {
 			mGlArea.make_current();
 			int picked = pickSubElementAt((int)event->x, (int)event->y, edit_mode);
 			auto obj = scene_ptr->current_object;
@@ -883,7 +949,7 @@ bool view::onButtonRelease(GdkEventButton* event) {
 			mGlArea.make_current();
 			int picked = pickObjectAt((int)event->x, (int)event->y);
 			auto obj = scene_ptr->GetObjectByIndex(picked);
-			scene_ptr->SetCurrentObject(obj);
+			scene_ptr->SelectObject(obj, shift);
 			if (obj) obj->clearSubSelection();
 			if (scene_ptr->curr_gui)
 				scene_ptr->curr_gui->update_object_info(*scene_ptr);
@@ -897,6 +963,18 @@ bool view::onButtonRelease(GdkEventButton* event) {
 }
 
 bool view::onMotionNotify(GdkEventMotion* event) {
+	if (toolbar_dragging && scene_ptr) {
+		int w = mGlArea.get_allocated_width();
+		int h = mGlArea.get_allocated_height();
+		int mx = (int)event->x, my = (int)event->y;
+		if (scene_ptr->view_object_toolbar.onMotion(mx, my, w, h) ||
+			scene_ptr->main_toolbar.onMotion(mx, my, w, h) ||
+			scene_ptr->object_toolbar.onMotion(mx, my, w, h)) {
+			mGlArea.queue_render();
+			return true;
+		}
+	}
+
 	if (!dragging) return false;
 
 	double dx = event->x - last_mouse_x;
@@ -953,9 +1031,11 @@ bool view::onKeyPress(GdkEventKey* event) {
 	if (!scene_ptr) return false;
 
 	if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_KP_Delete) {
-		auto obj = scene_ptr->GetCurrentObject();
-		if (obj) {
-			scene_ptr->DeleteObject(obj);
+		if (!scene_ptr->selected_objects.empty()) {
+			auto to_delete = scene_ptr->selected_objects;
+			for (auto& obj : to_delete) {
+				if (obj) scene_ptr->DeleteObject(obj);
+			}
 			if (scene_ptr->curr_gui)
 				scene_ptr->curr_gui->update_object_info(*scene_ptr);
 			mGlArea.queue_render();
@@ -983,6 +1063,18 @@ bool view::onKeyPress(GdkEventKey* event) {
 			mGlArea.queue_render();
 			cout << "Pasted: " << paste->get_name() << endl;
 		}
+		return true;
+	}
+
+	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_KP_Up) {
+		hierarchy_up(*scene_ptr);
+		mGlArea.queue_render();
+		return true;
+	}
+
+	if (event->keyval == GDK_KEY_Down || event->keyval == GDK_KEY_KP_Down) {
+		hierarchy_down(*scene_ptr);
+		mGlArea.queue_render();
 		return true;
 	}
 

@@ -82,24 +82,48 @@ void object::set_num_faces(int num_faces)
 	this -> num_faces = num_faces;
 }
 
-void object::add_child(object *child)
+void object::add_child(shared_ptr<object> child)
 {
-	
+	child->parent = this;
+	children.push_back(child);
 }
 
-void object::remove_child(object *child)
+void object::remove_child(shared_ptr<object> child)
 {
-	
+	child->parent = nullptr;
+	children.remove(child);
 }
 
-void object::add_sibling(object *sibling)
+void object::add_sibling(shared_ptr<object> sib)
 {
-	
+	sib->parent = this->parent;
+	sibling.push_back(sib);
 }
 
-void object::remove_sibling(object *sibling)
+void object::remove_sibling(shared_ptr<object> sib)
 {
-	
+	sib->parent = nullptr;
+	sibling.remove(sib);
+}
+
+object* object::get_parent()
+{
+	return parent;
+}
+
+void object::set_parent(object* p)
+{
+	parent = p;
+}
+
+list<shared_ptr<object>>& object::get_children()
+{
+	return children;
+}
+
+list<shared_ptr<object>>& object::get_siblings()
+{
+	return sibling;
 }
 
 void object::enable_axes(bool state)

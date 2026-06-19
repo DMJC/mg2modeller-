@@ -11378,6 +11378,19 @@
                       </object>
                     </child>
                     <child>
+                      <object class="GtkMenuItem" id="ts_save_layout_menuitem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Save Current Program Layout</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" id="ts_separator2_menuitem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="ts_quit_button">
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>

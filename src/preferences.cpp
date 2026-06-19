@@ -117,6 +117,18 @@ void preferences::load_preferences(string filename)
 				m1.insert(pair<string, int>("rounded cube longitude", 43));
 				m1.insert(pair<string, int>("rounded cylinder latitude", 44));
 				m1.insert(pair<string, int>("rounded cylinder longitude", 45));
+				m1.insert(pair<string, int>("toolbar view x", 46));
+				m1.insert(pair<string, int>("toolbar view y", 47));
+				m1.insert(pair<string, int>("toolbar view orientation", 48));
+				m1.insert(pair<string, int>("toolbar view expanded", 49));
+				m1.insert(pair<string, int>("toolbar main x", 50));
+				m1.insert(pair<string, int>("toolbar main y", 51));
+				m1.insert(pair<string, int>("toolbar main orientation", 52));
+				m1.insert(pair<string, int>("toolbar main expanded", 53));
+				m1.insert(pair<string, int>("toolbar object x", 54));
+				m1.insert(pair<string, int>("toolbar object y", 55));
+				m1.insert(pair<string, int>("toolbar object orientation", 56));
+				m1.insert(pair<string, int>("toolbar object expanded", 57));
 
 	   	switch (m1[token]){
 			case 1 :
@@ -254,6 +266,42 @@ void preferences::load_preferences(string filename)
 			case 45 :
 				this -> rounded_cylinder_longitude = atoi(token2.c_str());
 			break;
+			case 46 :
+				this -> toolbar_view_x = strtof(token2.c_str(), nullptr);
+			break;
+			case 47 :
+				this -> toolbar_view_y = strtof(token2.c_str(), nullptr);
+			break;
+			case 48 :
+				this -> toolbar_view_orientation = atoi(token2.c_str());
+			break;
+			case 49 :
+				this -> toolbar_view_expanded = (atoi(token2.c_str()) != 0);
+			break;
+			case 50 :
+				this -> toolbar_main_x = strtof(token2.c_str(), nullptr);
+			break;
+			case 51 :
+				this -> toolbar_main_y = strtof(token2.c_str(), nullptr);
+			break;
+			case 52 :
+				this -> toolbar_main_orientation = atoi(token2.c_str());
+			break;
+			case 53 :
+				this -> toolbar_main_expanded = (atoi(token2.c_str()) != 0);
+			break;
+			case 54 :
+				this -> toolbar_object_x = strtof(token2.c_str(), nullptr);
+			break;
+			case 55 :
+				this -> toolbar_object_y = strtof(token2.c_str(), nullptr);
+			break;
+			case 56 :
+				this -> toolbar_object_orientation = atoi(token2.c_str());
+			break;
+			case 57 :
+				this -> toolbar_object_expanded = (atoi(token2.c_str()) != 0);
+			break;
 		}
 	}
 	cout << "Loaded Preferences" << endl;
@@ -310,6 +358,86 @@ void preferences::save_preferences(string filename){
 	prefs << this -> rounded_cylinder_longitude << endl;
  	prefs.close();
 };
+
+void preferences::save_layout(string filename){
+	ofstream prefs;
+	prefs.open(filename);
+	prefs << "interface type = " << this->interface_type << ";" << endl;
+	prefs << "grid resolution = " << this->grid_resolution << ";" << endl;
+	prefs << "draw axes = " << (this->draw_axes ? "TRUE" : "FALSE") << ";" << endl;
+	prefs << "draw ground plane = " << (this->draw_ground_plane ? "TRUE" : "FALSE") << ";" << endl;
+	prefs << "background color red = " << this->background_color[0] << ";" << endl;
+	prefs << "background color green = " << this->background_color[1] << ";" << endl;
+	prefs << "background color blue = " << this->background_color[2] << ";" << endl;
+	prefs << "grid color red = " << this->grid_color[0] << ";" << endl;
+	prefs << "grid color green = " << this->grid_color[1] << ";" << endl;
+	prefs << "grid color blue = " << this->grid_color[2] << ";" << endl;
+	prefs << "highlight color red = " << this->highlight_color[0] << ";" << endl;
+	prefs << "highlight color green = " << this->highlight_color[1] << ";" << endl;
+	prefs << "highlight color blue = " << this->highlight_color[2] << ";" << endl;
+	prefs << "pesel color red = " << this->pesel_color[0] << ";" << endl;
+	prefs << "pesel color green = " << this->pesel_color[1] << ";" << endl;
+	prefs << "pesel color blue = " << this->pesel_color[2] << ";" << endl;
+	prefs << "selected color red = " << this->selected_color[0] << ";" << endl;
+	prefs << "selected color green = " << this->selected_color[1] << ";" << endl;
+	prefs << "selected color blue = " << this->selected_color[2] << ";" << endl;
+	prefs << "unselected color red = " << this->unselected_color[0] << ";" << endl;
+	prefs << "unselected color green = " << this->unselected_color[1] << ";" << endl;
+	prefs << "unselected color blue = " << this->unselected_color[2] << ";" << endl;
+	prefs << "light color red = " << this->light_color[0] << ";" << endl;
+	prefs << "light color green = " << this->light_color[1] << ";" << endl;
+	prefs << "light color blue = " << this->light_color[2] << ";" << endl;
+	prefs << "camera color red = " << this->camera_color[0] << ";" << endl;
+	prefs << "camera color green = " << this->camera_color[1] << ";" << endl;
+	prefs << "camera color blue = " << this->camera_color[2] << ";" << endl;
+	prefs << "plane resolution = " << this->plane_resolution << ";" << endl;
+	prefs << "cube resolution = " << this->cube_resolution << ";" << endl;
+	prefs << "geosphere resolution = " << this->geosphere_resolution << ";" << endl;
+	prefs << "sphere latitude = " << this->sphere_latitude << ";" << endl;
+	prefs << "sphere longitude = " << this->sphere_longitude << ";" << endl;
+	prefs << "cone latitude = " << this->cone_latitude << ";" << endl;
+	prefs << "cone longitude = " << this->cone_longitude << ";" << endl;
+	prefs << "cylinder latitude = " << this->cylinder_latitude << ";" << endl;
+	prefs << "cylinder longitude = " << this->cylinder_longitude << ";" << endl;
+	prefs << "cylinder top radius = " << this->cylinder_top_radius << ";" << endl;
+	prefs << "torus latitude = " << this->torus_latitude << ";" << endl;
+	prefs << "torus longitude = " << this->torus_longitude << ";" << endl;
+	prefs << "torus inner radius = " << this->torus_inner_radius << ";" << endl;
+	prefs << "rounded cube latitude = " << this->rounded_cube_latitude << ";" << endl;
+	prefs << "rounded cube longitude = " << this->rounded_cube_longitude << ";" << endl;
+	prefs << "rounded cylinder latitude = " << this->rounded_cylinder_latitude << ";" << endl;
+	prefs << "rounded cylinder longitude = " << this->rounded_cylinder_longitude << ";" << endl;
+	prefs << "toolbar view x = " << this->toolbar_view_x << ";" << endl;
+	prefs << "toolbar view y = " << this->toolbar_view_y << ";" << endl;
+	prefs << "toolbar view orientation = " << this->toolbar_view_orientation << ";" << endl;
+	prefs << "toolbar view expanded = " << (this->toolbar_view_expanded ? 1 : 0) << ";" << endl;
+	prefs << "toolbar main x = " << this->toolbar_main_x << ";" << endl;
+	prefs << "toolbar main y = " << this->toolbar_main_y << ";" << endl;
+	prefs << "toolbar main orientation = " << this->toolbar_main_orientation << ";" << endl;
+	prefs << "toolbar main expanded = " << (this->toolbar_main_expanded ? 1 : 0) << ";" << endl;
+	prefs << "toolbar object x = " << this->toolbar_object_x << ";" << endl;
+	prefs << "toolbar object y = " << this->toolbar_object_y << ";" << endl;
+	prefs << "toolbar object orientation = " << this->toolbar_object_orientation << ";" << endl;
+	prefs << "toolbar object expanded = " << (this->toolbar_object_expanded ? 1 : 0) << ";" << endl;
+	prefs.close();
+	cout << "Layout saved to " << filename << endl;
+}
+
+void preferences::get_toolbar_layout(int toolbar, float &x, float &y, int &orient, bool &exp){
+	switch(toolbar){
+		case 0: x = toolbar_view_x; y = toolbar_view_y; orient = toolbar_view_orientation; exp = toolbar_view_expanded; break;
+		case 1: x = toolbar_main_x; y = toolbar_main_y; orient = toolbar_main_orientation; exp = toolbar_main_expanded; break;
+		case 2: x = toolbar_object_x; y = toolbar_object_y; orient = toolbar_object_orientation; exp = toolbar_object_expanded; break;
+	}
+}
+
+void preferences::set_toolbar_layout(int toolbar, float x, float y, int orient, bool exp){
+	switch(toolbar){
+		case 0: toolbar_view_x = x; toolbar_view_y = y; toolbar_view_orientation = orient; toolbar_view_expanded = exp; break;
+		case 1: toolbar_main_x = x; toolbar_main_y = y; toolbar_main_orientation = orient; toolbar_main_expanded = exp; break;
+		case 2: toolbar_object_x = x; toolbar_object_y = y; toolbar_object_orientation = orient; toolbar_object_expanded = exp; break;
+	}
+}
 
 int preferences::get_interface_type(){
 	return interface_type;

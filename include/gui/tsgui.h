@@ -65,6 +65,7 @@ private:
 	Gtk::Grid* view_grid = nullptr;
 	Gtk::Grid* main_window_tools_grid = nullptr;
 	Gtk::ImageMenuItem* ts_quit_button = nullptr;
+	Gtk::MenuItem* ts_save_layout_menuitem = nullptr;
 
 	// Object Info widgets
 	Gtk::Entry* obj_info_name = nullptr;
@@ -102,6 +103,10 @@ private:
 	// Sub-element edit state
 	int info_edit_mode = 0;
 	float info_center[3] = {0, 0, 0};
+
+	// Multi-object selection state
+	int info_multi_count = 0;
+	double multi_obj_center[3] = {0, 0, 0};
 
 	void collectSelectedVertexIndices(scene &curr_scene, std::set<int>& out_indices);
 	void computeVertexCenter(scene &curr_scene, const std::set<int>& indices, float* center);
@@ -170,5 +175,6 @@ public:
 	void on_rounded_cube_param_activated(scene *curr_scene);
 	void on_rounded_cylinder_param_activated(scene *curr_scene);
 	void on_torus_param_activated(scene *curr_scene);
+	void on_save_layout(scene *curr_scene);
 };
 #endif //TSGUI_H

@@ -57,6 +57,7 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	this -> builder->get_widget("wind_window", this->wind_window);
 	this -> builder->get_widget("ts_view_grid", this->view_grid);
 	this -> builder->get_widget("ts_quit_button", this->ts_quit_button);
+	this -> builder->get_widget("ts_save_layout_menuitem", this->ts_save_layout_menuitem);
 
 	// Object Info entry widgets
 	this -> builder->get_widget("obj_info_name_entry", this->obj_info_name);
@@ -123,6 +124,9 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	connect_spin(torus_lat_spin, &ts_gui::on_torus_param_activated);
 	connect_spin(torus_long_spin, &ts_gui::on_torus_param_activated);
 	connect_spin(torus_inner_radius_spin, &ts_gui::on_torus_param_activated);
+
+	if (ts_save_layout_menuitem)
+		ts_save_layout_menuitem->signal_activate().connect(sigc::bind(sigc::mem_fun(*this, &ts_gui::on_save_layout), &curr_scene));
 
 	edit_window->set_keep_above(TRUE);
 	object_info_window->set_keep_above(TRUE);
@@ -251,369 +255,115 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 		view_grid->show_all();
 		object_info_window->show();
 
-	list<tool> view_move_tool_list = {{ "Eye Move", "Move View Around Scene", "pix/view_move.xpm", 37, view_move, coords_parameters, nullptr, nullptr, curr_scene }};
-	list<tool> view_rotate_tool_list = {{ "Eye Rotate", "Rotate View Around Scene", "pix/view_rotate.xpm", 38, &view_rotate, coords_parameters, nullptr, nullptr, curr_scene }};
-	list<tool> view_zoom_tool_list = {{ "Zoom", "Zoom View of Scene", "pix/view_zoom.xpm", 39, &view_zoom, nullptr, nullptr, nullptr, curr_scene }};
-	list<tool> object_move_tool_list = {{ "Object Move", "Move Object Around Scene", "pix/object_move.xpm", 40, &object_move, coords_parameters, nullptr, nullptr, curr_scene }};
-	list<tool> object_rotate_tool_list = {{ "Object Rotate", "Rotate Object Within Scene", "pix/object_rotate.xpm", 41, &object_rotate, coords_parameters, nullptr, nullptr, curr_scene }};
-	list<tool> object_scale_tool_list = {{ "Object Scale", "Scale Object in Relation to Scene", "pix/object_scale.xpm", 42, &object_scale, coords_parameters, nullptr, nullptr, curr_scene }};
-	list<tool> object_hierarchy_up_tool_list = {{ "Move Up in Hierarchy","Move Up in Hierarchy: Use Arrow Keys to move within hierarchy", "pix/hierarchy_up.xpm", 43, &hierarchy_up, nullptr, nullptr, nullptr, curr_scene }};
-	list<tool> object_hierarchy_down_tool_list = {{ "Move Down in Hierarchy","Move Down in Hierarchy: Use Arrow Keys to move within hierarchy", "pix/hierarchy_down.xpm", 44, &hierarchy_down, nullptr, nullptr, nullptr, curr_scene }};
+	auto* vo1 = new list<tool>({{ "Eye Move", "Move View Around Scene", "pix/view_move.xpm", 37, view_move, coords_parameters, nullptr, nullptr, curr_scene }});
+	auto* vo2 = new list<tool>({{ "Eye Rotate", "Rotate View Around Scene", "pix/view_rotate.xpm", 38, &view_rotate, coords_parameters, nullptr, nullptr, curr_scene }});
+	auto* vo3 = new list<tool>({{ "Zoom", "Zoom View of Scene", "pix/view_zoom.xpm", 39, &view_zoom, nullptr, nullptr, nullptr, curr_scene }});
+	auto* vo4 = new list<tool>({{ "Object Move", "Move Object Around Scene", "pix/object_move.xpm", 40, &object_move, coords_parameters, nullptr, nullptr, curr_scene }});
+	auto* vo5 = new list<tool>({{ "Object Rotate", "Rotate Object Within Scene", "pix/object_rotate.xpm", 41, &object_rotate, coords_parameters, nullptr, nullptr, curr_scene }});
+	auto* vo6 = new list<tool>({{ "Object Scale", "Scale Object in Relation to Scene", "pix/object_scale.xpm", 42, &object_scale, coords_parameters, nullptr, nullptr, curr_scene }});
+	auto* vo7 = new list<tool>({{ "Move Up in Hierarchy","Move Up in Hierarchy: Use Arrow Keys to move within hierarchy", "pix/hierarchy_up.xpm", 43, &hierarchy_up, nullptr, nullptr, nullptr, curr_scene }});
+	auto* vo8 = new list<tool>({{ "Move Down in Hierarchy","Move Down in Hierarchy: Use Arrow Keys to move within hierarchy", "pix/hierarchy_down.xpm", 44, &hierarchy_down, nullptr, nullptr, nullptr, curr_scene }});
+	{ float tx, ty; int to; bool te;
+	  curr_scene.prefs.get_toolbar_layout(0, tx, ty, to, te);
+	  curr_scene.view_object_toolbar.setOrientation(to ? GLToolbar::VERTICAL : GLToolbar::HORIZONTAL);
+	  curr_scene.view_object_toolbar.setPosition(tx, ty);
+	  curr_scene.view_object_toolbar.setExpanded(te); }
+	curr_scene.view_object_toolbar.reserve(8);
+	curr_scene.view_object_toolbar.addGroup(vo1);
+	curr_scene.view_object_toolbar.addGroup(vo2);
+	curr_scene.view_object_toolbar.addGroup(vo3);
+	curr_scene.view_object_toolbar.addGroup(vo4);
+	curr_scene.view_object_toolbar.addGroup(vo5);
+	curr_scene.view_object_toolbar.addGroup(vo6);
+	curr_scene.view_object_toolbar.addGroup(vo7);
+	curr_scene.view_object_toolbar.addGroup(vo8);
+	curr_scene.owned_tool_lists.insert(curr_scene.owned_tool_lists.end(), {vo1,vo2,vo3,vo4,vo5,vo6,vo7,vo8});
 
-	ToolButton view_move_tool = ToolButton(view_move_tool_list);
-	ToolButton view_rotate_tool = ToolButton(view_rotate_tool_list);
-	ToolButton view_zoom_tool = ToolButton(view_zoom_tool_list);
-	ToolButton object_move_tool = ToolButton(object_move_tool_list);
-	ToolButton object_rotate_tool = ToolButton(object_rotate_tool_list);
-	ToolButton object_scale_tool = ToolButton(object_scale_tool_list);
-	ToolButton object_hierarchy_up_tool = ToolButton(object_hierarchy_up_tool_list);
-	ToolButton object_hierarchy_down_tool = ToolButton(object_hierarchy_down_tool_list);
-
-	Gtk::Window view_object_tool_window;
-	Gtk::Box view_object_tool_grid;
-	view_object_tool_window.set_default_size(32, 24);
-	view_object_tool_window.set_decorated(false);
-	view_object_tool_grid.add(view_move_tool);
-	view_object_tool_grid.add(view_rotate_tool);
-	view_object_tool_grid.add(view_zoom_tool);
-	view_object_tool_grid.add(object_move_tool);
-	view_object_tool_grid.add(object_rotate_tool);
-	view_object_tool_grid.add(object_scale_tool);
-	view_object_tool_grid.add(object_hierarchy_up_tool);
-	view_object_tool_grid.add(object_hierarchy_down_tool);
-	view_object_tool_grid.show();
-	view_object_tool_window.set_keep_above(TRUE);
-	view_object_tool_window.add(view_object_tool_grid);
-	view_object_tool_window.move(w_loc/2, 52);
-	view_object_tool_window.show();
-
-	list<tool> polygon_tool_list = {
-		{ "Plane", "Create a Plane Object", "pix/poly_plane.xpm", 50, create_plane, plane_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Cube", "Create a Cube Object", "pix/poly_cube.xpm", 51, create_cube, cube_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Cylinder", "Create a Cylinder Object", "pix/poly_cylinder.xpm", 52, create_cylinder, cylinder_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Cone", "Create a Cone Object", "pix/poly_cone.xpm", 53, create_cone, cone_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Sphere", "Create a Sphere Object", "pix/poly_sphere.xpm", 54, create_sphere, sphere_parameters, nullptr, nullptr, curr_scene }, 
-		{ "GeoSphere", "Create a GeoSphere Object", "pix/poly_geosphere.xpm", 55, create_geosphere, geosphere_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Rounded Cylinder", "Create a Rounded Cylinder Object", "pix/poly_rounded_cylinder.xpm", 56, create_rounded_cylinder, rounded_cylinder_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Rounded Cube", "Create a Rounded Cube Object", "pix/poly_rounded_cube.xpm", 57, create_rounded_cube, rounded_cube_parameters, nullptr, nullptr, curr_scene }, 
+	auto* polygon_tool_list = new list<tool>({
+		{ "Plane", "Create a Plane Object", "pix/poly_plane.xpm", 50, create_plane, plane_parameters, nullptr, nullptr, curr_scene },
+		{ "Cube", "Create a Cube Object", "pix/poly_cube.xpm", 51, create_cube, cube_parameters, nullptr, nullptr, curr_scene },
+		{ "Cylinder", "Create a Cylinder Object", "pix/poly_cylinder.xpm", 52, create_cylinder, cylinder_parameters, nullptr, nullptr, curr_scene },
+		{ "Cone", "Create a Cone Object", "pix/poly_cone.xpm", 53, create_cone, cone_parameters, nullptr, nullptr, curr_scene },
+		{ "Sphere", "Create a Sphere Object", "pix/poly_sphere.xpm", 54, create_sphere, sphere_parameters, nullptr, nullptr, curr_scene },
+		{ "GeoSphere", "Create a GeoSphere Object", "pix/poly_geosphere.xpm", 55, create_geosphere, geosphere_parameters, nullptr, nullptr, curr_scene },
+		{ "Rounded Cylinder", "Create a Rounded Cylinder Object", "pix/poly_rounded_cylinder.xpm", 56, create_rounded_cylinder, rounded_cylinder_parameters, nullptr, nullptr, curr_scene },
+		{ "Rounded Cube", "Create a Rounded Cube Object", "pix/poly_rounded_cube.xpm", 57, create_rounded_cube, rounded_cube_parameters, nullptr, nullptr, curr_scene },
 		{ "Torus", "Create a Torus Object", "pix/poly_torus.xpm", 58, create_torus, torus_parameters, nullptr, nullptr, curr_scene }
-	};
-	ToolButton polgon_tools = ToolButton(polygon_tool_list);
+	});
 
-	list<tool> nurbs_tool_list = {
-		{ "NURBS Plane", "Create a NURBS Plane", "pix/nurbs_plane.xpm", 60, create_nurbs_plane, nurbs_plane_parameters, nullptr, nullptr, curr_scene },
-		{ "NURBS Cylinder (half)", "Create a NURBS Cylinder Half Pipe", "pix/nurbs_halfpipe.xpm", 61, create_nurbs_halfpipe, nullptr, nullptr, nullptr, curr_scene },
-		{ "NURBS Saddle", "Create a NURBS Saddle", "pix/nurbs_saddle.xpm", 62, create_nurbs_saddle, nurbs_saddle_parameters, nullptr, nullptr, curr_scene },
-		{ "NURBS Cube", "Create a NURBS Cube", "pix/nurbs_cube.xpm", 63, create_nurbs_cube, nurbs_cube_parameters, nullptr, nullptr, curr_scene },
-		{ "NURBS Cylinder", "Create a NURBS Cylinder", "pix/nurbs_cylinder.xpm", 64, create_nurbs_cylinder, nurbs_cylinder_parameters, nullptr, nullptr, curr_scene },
-		{ "NURBS Cone", "Create a NURBS Cone", "pix/nurbs_cone.xpm", 65, create_nurbs_cone, nurbs_cone_parameters, nullptr, nullptr, curr_scene },
-		{ "NURBS Sphere", "Create a NURBS Sphere", "pix/nurbs_sphere.xpm", 66, create_nurbs_sphere, nurbs_sphere_parameters, nullptr, nullptr, curr_scene },
-		{ "NURBS Torus", "Create a NURBS Torus", "pix/nurbs_torus.xpm", 67, create_nurbs_torus, nurbs_torus_parameters, nullptr, nullptr, curr_scene }
-	};
-	ToolButton nurbs_tools = ToolButton(nurbs_tool_list);
+	auto* nurbs_tool_list = new list<tool>({ { "NURBS Plane", "Create a NURBS Plane", "pix/nurbs_plane.xpm", 60, create_nurbs_plane, nurbs_plane_parameters, nullptr, nullptr, curr_scene }, { "NURBS Cylinder (half)", "Create a NURBS Cylinder Half Pipe", "pix/nurbs_halfpipe.xpm", 61, create_nurbs_halfpipe, nullptr, nullptr, nullptr, curr_scene }, { "NURBS Saddle", "Create a NURBS Saddle", "pix/nurbs_saddle.xpm", 62, create_nurbs_saddle, nurbs_saddle_parameters, nullptr, nullptr, curr_scene }, { "NURBS Cube", "Create a NURBS Cube", "pix/nurbs_cube.xpm", 63, create_nurbs_cube, nurbs_cube_parameters, nullptr, nullptr, curr_scene }, { "NURBS Cylinder", "Create a NURBS Cylinder", "pix/nurbs_cylinder.xpm", 64, create_nurbs_cylinder, nurbs_cylinder_parameters, nullptr, nullptr, curr_scene }, { "NURBS Cone", "Create a NURBS Cone", "pix/nurbs_cone.xpm", 65, create_nurbs_cone, nurbs_cone_parameters, nullptr, nullptr, curr_scene }, { "NURBS Sphere", "Create a NURBS Sphere", "pix/nurbs_sphere.xpm", 66, create_nurbs_sphere, nurbs_sphere_parameters, nullptr, nullptr, curr_scene }, { "NURBS Torus", "Create a NURBS Torus", "pix/nurbs_torus.xpm", 67, create_nurbs_torus, nurbs_torus_parameters, nullptr, nullptr, curr_scene } });
+	auto* metaball_tool_list = new list<tool>({ { "Metaball Cube", "Create a Metaball Cube", "pix/metaball_cube.xpm", 70, create_metaball_cube, metaball_parameters, nullptr, nullptr, curr_scene }, { "Metaball Cylinder", "Create a Metaball Cylinder", "pix/metaball_cylinder.xpm", 71, create_metaball_cylinder, metaball_parameters, nullptr, nullptr, curr_scene }, { "Metaball Sphere", "Create a Metaball Sphere", "pix/metaball_sphere.xpm", 72, create_metaball_sphere, metaball_parameters, nullptr, nullptr, curr_scene }, { "Metaball Rounded Cylinder", "Create a Metaball Rounded Cylinder", "pix/metaball_rounded_cylinder.xpm", 73, create_metaball_rounded_cylinder, metaball_parameters, nullptr, nullptr, curr_scene }, { "Metaball Rounded Cube", "Create a Metaball Rounded Cube", "pix/metaball_rounded_cube.xpm", 74, create_metaball_rounded_cube, metaball_parameters, nullptr, nullptr, curr_scene }, { "Metaball Metamuscle", "Create a Metaball Metamuscle", "pix/metaball_muscle.xpm", 75, create_metaball_metamuscle, metaball_parameters, nullptr, nullptr, curr_scene } });
+	auto* light_tool_list = new list<tool>({ { "Image Based Light", "Create an Image Based Light", "pix/image_light.xpm", 90, create_image_light, light_parameters, nullptr, nullptr, curr_scene }, { "Spot Light", "Create a Spot Light", "pix/spot_light.xpm", 91, create_spot_light, light_parameters, nullptr, nullptr, curr_scene }, { "Local Light", "Create a Local Light", "pix/local_light.xpm", 92, create_local_light, light_parameters, nullptr, nullptr, curr_scene }, { "Infinite Light", "Create an Infinite Light", "pix/infinite_light.xpm", 93, create_infinite_light, light_parameters, nullptr, nullptr, curr_scene }, { "Projector Light", "Create a Projector Light", "pix/projector_light.xpm", 94, create_projector_light, light_parameters, nullptr, nullptr, curr_scene }, { "Sky Light", "Create a Sky Light", "pix/sky_light.xpm", 95, create_sky_light, light_parameters, nullptr, nullptr, curr_scene }, { "Goniometric Light", "Create a Goniometric Light", "pix/goniometric_light.xpm", 96, create_goniometric_light, light_parameters, nullptr, nullptr, curr_scene }, { "Area Light", "Create an Area Light", "pix/area_light.xpm", 97, create_area_light, light_parameters, nullptr, nullptr, curr_scene } });
+	auto* camera_tool_list = new list<tool>({ { "Camera", "Create a Camera", "pix/camera.xpm", 100, create_camera, nullptr, nullptr, nullptr, curr_scene }, { "Panoramic Camera", "Create a Camera", "pix/panoramic_camera.xpm", 101, create_panoramic_camera, nullptr, nullptr, nullptr, curr_scene }, { "Global Physical Wind", "Create a Global Physical Wind", "pix/global_wind.xpm", 102, create_global_physical_wind, wind_parameters, nullptr, nullptr, curr_scene }, { "Local Physical Wind", "Create a Local Physical Wind", "pix/local_wind.xpm", 103, create_local_physical_wind, wind_parameters, nullptr, nullptr, curr_scene }, { "Standalone Deformation Plane", "Create a Standalone Deformation Plane", "pix/deformation_plane.xpm", 104, deformation_plane, nullptr, nullptr, nullptr, curr_scene }, { "Standalone Deformation Pipe", "Create a Standalone Deformation Pipe", "pix/deformation_pipe.xpm", 105, deformation_pipe, nullptr, nullptr, nullptr, curr_scene }, { "Standalone Deformation Object", "Create a Standalone Deformation Object", "pix/deformation_object.xpm", 106, deformation_object, nullptr, nullptr, nullptr, curr_scene } });
+	auto* sweep_tool_list = new list<tool>({ { "Sweep", "Sweep", "pix/sweep.xpm", 110, sweep, sweep_tip_parameters, nullptr, nullptr, curr_scene }, { "Fillet Tool", "Fillet", "pix/fillet.xpm", 111, fillet, fillet_parameters, nullptr, nullptr, curr_scene }, { "Chamfer Tool", "Chamfer", "pix/chamfer.xpm", 112, chamfer, chamfer_parameters, nullptr, nullptr, curr_scene }, { "Bevel", "Bevel", "pix/bevel.xpm", 113, bevel, bevel_parameters, nullptr, nullptr, curr_scene }, { "Macro/Sweep", "Macro/Sweep", "pix/macro_sweep.xpm", 114, macro_sweep, macro_parameters, nullptr, nullptr, curr_scene }, { "Lathe", "Lathe", "pix/lathe.xpm", 115, lathe, lathe_parameters, nullptr, nullptr, curr_scene }, { "Tip", "Tip", "pix/tip.xpm", 116, tip, sweep_tip_parameters, nullptr, nullptr, curr_scene } });
+	auto* subdivision_tool_list = new list<tool>({ { "Subdivision Object", "Subdivision Object", "pix/subdivision_object.xpm", 120, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Plastiform", "Plastiform", "pix/plastiform.xpm", 121, nullptr, nullptr, nullptr, nullptr, curr_scene } });
+	auto* boolean_tool_list = new list<tool>({ { "Object Shell", "Object Shell", "pix/object_shell.xpm", 130, nullptr, shell_parameters, nullptr, nullptr, curr_scene }, { "Object Subtraction", "Object Subtraction", "pix/object_subtraction.xpm", 131, boolean_subtract, boolean_parameters, nullptr, nullptr, curr_scene }, { "Object Intersection", "Object Intersection", "pix/object_intersection.xpm", 132, boolean_intersect, boolean_parameters, nullptr, nullptr, curr_scene }, { "Object Union", "Object Union", "pix/object_union.xpm", 133, boolean_union, boolean_parameters, nullptr, nullptr, curr_scene } });
+	auto* deformation_tool_list = new list<tool>({ { "Taper Current Object", "Taper Current Object", "pix/taper_object.xpm", 140, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Deform", "Deform", "pix/deform_object.xpm", 141, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Sculpt", "Sculpt", "pix/sculpt_surface.xpm", 142, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Skew Current Object", "Skew Current Object", "pix/skew_object.xpm", 143, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Bend Current Object", "Bend Current Object", "pix/bend_object.xpm", 144, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Standalone Deformation Object", "Standalone Deformation Object", "pix/standalone_deformation.xpm", 145, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Delete Deformation Object", "Delete Deformation Object", "pix/delete_deformation.xpm", 146, nullptr, nullptr, nullptr, nullptr, curr_scene } });
+	auto* array_tool_list = new list<tool>({ { "Create Grid Array of Objects", "Create Grid Array of Objects", "pix/grid_objects.xpm", 150, create_object_grid, nullptr, nullptr, nullptr, curr_scene }, { "Create Spline Array of Objects", "Create Spline Array of Objects", "pix/spline_array.xpm", 151, create_object_spline, nullptr, nullptr, nullptr, curr_scene }, { "Create Radial Array of Objects", "Create Radial Array of Objects", "pix/radial_array.xpm", 152, create_object_radial, nullptr, nullptr, nullptr, curr_scene }, { "Convert Array to Group of Objects", "Convert Array to Group of Objects", "pix/array_group.xpm", 153, array_to_group, nullptr, nullptr, nullptr, curr_scene } });
+	auto* draw_panel_tool_list = new list<tool>({ { "Draw Panel Tool", "Draw Panel Tool", "pix/draw_panel.xpm", 160, draw_panel, nullptr, nullptr, nullptr, curr_scene } });
+	auto* curve_tool_list = new list<tool>({ { "Add Freehand Curve", "Add Freehand Curve", "pix/freehand_curve.xpm", 161, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Add Curve", "Add Curve", "pix/curve.xpm", 162, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Add Polyline", "Add Polyline", "pix/polyline.xpm", 163, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Add Circular Arc Drawn by Center and two Points", "Add Circular Arc Drawn by Center and two Points", "pix/circular_arc_center_two_points.xpm", 164, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Add Circular Arc", "Add Circular Arc", "pix/circular_arc_three_points.xpm", 165, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Add Elliptical Arc", "Add Elliptical Arc", "pix/elliptical_arc_center_vertex_point.xpm", 166, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Add Elliptical Arc", "Add Elliptical Arc", "pix/elliptical_arc_center_three_points.xpm", 167, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Circle Drawn by Center and Point", "Circle Drawn by Center and Point", "pix/circle_point.xpm", 168, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Circle Drawn by Two Points", "Circle Drawn by Two Points", "pix/circle_two_points.xpm", 169, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Circle Drawn by Three Points", "Circle Drawn by Three Points", "pix/circle_three_points.xpm", 170, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Add Regular Polygon", "Add Regular Polygon", "pix/regular_polygon.xpm", 171, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Ellipse Drawn by Center and Point", "Ellipse Drawn by Center and Point", "pix/ellipse_point.xpm", 172, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Ellipse Drawn by Center, Vertex Point", "Ellipse Drawn by Center, Vertex Point", "pix/ellipse_center_vertex_point.xpm", 173, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Ellipse Drawn by Center, two Focuses and Point", "Ellipse Drawn by Center, two Focuses and Point", "pix/ellipse_two_focus_point.xpm", 174, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Ellipse Drawn by two Vertices and Point", "Ellipse Drawn by two Vertices and Point", "pix/ellipse_two_vertex_point.xpm", 175, freehand_curve, nullptr, nullptr, nullptr, curr_scene }, { "Add Vertical Text", "Add Vertical Text, Right Click scene to select Font", "pix/text.xpm", 176, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Add Horizontal Text", "Add Horizontal Text, Right Click scene to select Font", "pix/horizontal_text.xpm", 177, nullptr, nullptr, nullptr, nullptr, curr_scene } });
+	auto* skin_tool_list = new list<tool>({ { "Material Editor", "Material Editor", "pix/material_editor.xpm", 180, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 181, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 182, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 183, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 184, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 185, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 186, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 187, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 188, material_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Editor", "Material Editor", "pix/material_editor.xpm", 189, material_editor, nullptr, nullptr, nullptr, curr_scene } });
+	auto* material_tool_list = new list<tool>({ { "Material Editor", "Material Editor", "pix/material_editor.xpm", 190, material_editor, nullptr, nullptr, nullptr, curr_scene } });
+	auto* threed_paint_tool_list = new list<tool>({ { "3d Paint Tool", "3d Paint Tool", "pix/3d_paint.xpm", 191, threed_paint, nullptr, nullptr, nullptr, curr_scene } });
+	auto* uv_mapping_tool_list = new list<tool>({ { "UV Mapping Editor", "UV Mapping Editor", "pix/uv_editor.xpm", 192, uv_editor, nullptr, nullptr, nullptr, curr_scene }, { "Material Rectangle", "Material Rectangle", "pix/material_rectangle.xpm", 193, material_rectangle, nullptr, nullptr, nullptr, curr_scene } });
+	auto* uv_projection_tool_list = new list<tool>({ { "Planar UV Projection", "Planar UV Projection", "pix/planar_uv.xpm", 194, planar_uv, nullptr, nullptr, nullptr, curr_scene }, { "Cubic UV Projection", "Cubic UV Projection", "pix/cubic_uv.xpm", 195, cubic_uv, nullptr, nullptr, nullptr, curr_scene }, { "Spherical UV Projection", "Spherical UV Projection", "pix/spherical_uv.xpm", 196, spherical_uv, nullptr, nullptr, nullptr, curr_scene }, { "Cylindrical UV Projection", "Cylindrical UV Projection", "pix/cylindrical_uv.xpm", 197, cylindrical_uv, nullptr, nullptr, nullptr, curr_scene }, { "UV Unwrapper", "UV Unwrapper", "pix/uv_unwrap.xpm", 198, uv_unwrap, nullptr, nullptr, nullptr, curr_scene }, { "UV Slice", "UV Slice", "pix/uv_slice.xpm", 199, uv_slice, nullptr, nullptr, nullptr, curr_scene }, { "Shrink-Wrap UV Computation", "Shrink-Wrap UV Computation", "pix/shrinkwrap_uv.xpm", 200, shrinkwrap_uv, nullptr, nullptr, nullptr, curr_scene } });
+	auto* normalisation_tool_list = new list<tool>({ { "Normalise Location", "Normalise Location", "pix/normalise_location.xpm", 201, normalise_location, nullptr, nullptr, nullptr, curr_scene }, { "Normalise Rotation", "Normalise Rotation", "pix/normalise_rotation.xpm", 202, normalise_rotation, nullptr, nullptr, nullptr, curr_scene }, { "Normalise Scale", "Normalise Scale", "pix/normalise_scale.xpm", 203, normalise_scale, nullptr, nullptr, nullptr, curr_scene }, { "Move Axes to Center of Object", "Move Axes to Center of Object", "pix/center_axes.xpm", 204, center_axes, nullptr, nullptr, nullptr, curr_scene }, { "Axes", "Show Object Axes", "pix/show_axes.xpm", 205, show_axes, nullptr, nullptr, nullptr, curr_scene } });
+	auto* geometry_tool_list = new list<tool>({ { "Polygon Reduction Tool", "Polygon Reduction Tool", "pix/lod.xpm", 210, nullptr, polygon_reduction_parameters, nullptr, nullptr, curr_scene }, { "Dimensioning Tool", "Dimensioning Tool", "pix/dimensioning.xpm", 211, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Mirror Modelling", "Mirror Modelling", "pix/mirror.xpm", 212, nullptr, mirror_options_parameters, nullptr, nullptr, curr_scene }, { "Split Hierarchy", "Split hierarchy into polyhedra and IK linked branches", "pix/split_hierarchy.xpm", 213, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Decompose Object", "Decompose into objects", "pix/decompose.xpm", 214, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Flip Normals", "Flip all normals", "pix/flip_normals.xpm", 215, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Flip Object Faces", "Select object and flip faces", "pix/flip_object_faces.xpm", 216, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Fix Geometry", "Try to fix bad geometry", "pix/fix_geometry.xpm", 217, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Quad Divide", "Quad Divide", "pix/quad_divide.xpm", 218, nullptr, nullptr, nullptr, nullptr, curr_scene }, { "Smooth Quad Divide", "Smooth Quad Divide", "pix/smooth_quad_divide.xpm", 219, nullptr, smooth_quad_parameters, nullptr, nullptr, curr_scene }, { "Triangulate", "Triangulate", "pix/triangulate.xpm", 220, nullptr, nullptr, nullptr, nullptr, curr_scene } });
+	auto* plugin_tool_list = new list<tool>({ { "Add Plugin", "Add Plugin", "pix/plugin.xpm", 230, nullptr, nullptr, nullptr, nullptr, curr_scene } });
 
-	list<tool> metaball_tool_list = {
-		{ "Metaball Cube", "Create a Metaball Cube", "pix/metaball_cube.xpm", 70, create_metaball_cube, metaball_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Cylinder", "Create a Metaball Cylinder", "pix/metaball_cylinder.xpm", 71, create_metaball_cylinder, metaball_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Sphere", "Create a Metaball Sphere", "pix/metaball_sphere.xpm", 72, create_metaball_sphere, metaball_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Rounded Cylinder", "Create a Metaball Rounded Cylinder", "pix/metaball_rounded_cylinder.xpm", 73, create_metaball_rounded_cylinder, metaball_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Rounded Cube", "Create a Metaball Rounded Cube", "pix/metaball_rounded_cube.xpm", 74, create_metaball_rounded_cube, metaball_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Metaball Metamuscle", "Create a Metaball Metamuscle", "pix/metaball_muscle.xpm", 75, create_metaball_metamuscle, metaball_parameters, nullptr, nullptr, curr_scene }
-	};
-	ToolButton metaball_tools = ToolButton(metaball_tool_list);
-	
-	list<tool> light_tool_list = {
-		{ "Image Based Light", "Create an Image Based Light", "pix/image_light.xpm", 90, create_image_light, light_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Spot Light", "Create a Spot Light", "pix/spot_light.xpm", 91, create_spot_light, light_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Local Light", "Create a Local Light", "pix/local_light.xpm", 92, create_local_light, light_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Infinite Light", "Create an Infinite Light", "pix/infinite_light.xpm", 93, create_infinite_light, light_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Projector Light", "Create a Projector Light", "pix/projector_light.xpm", 94, create_projector_light, light_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Sky Light", "Create a Sky Light", "pix/sky_light.xpm", 95, create_sky_light, light_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Goniometric Light", "Create a Goniometric Light", "pix/goniometric_light.xpm", 96, create_goniometric_light, light_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Area Light", "Create an Area Light", "pix/area_light.xpm", 97, create_area_light, light_parameters, nullptr, nullptr, curr_scene }
-	};
-	ToolButton light_tools = ToolButton(light_tool_list);
+	{ float tx, ty; int to; bool te;
+	  curr_scene.prefs.get_toolbar_layout(1, tx, ty, to, te);
+	  curr_scene.main_toolbar.setOrientation(to ? GLToolbar::VERTICAL : GLToolbar::HORIZONTAL);
+	  curr_scene.main_toolbar.setPosition(tx, ty);
+	  curr_scene.main_toolbar.setExpanded(te); }
+	curr_scene.main_toolbar.reserve(20);
+	curr_scene.main_toolbar.addGroup(polygon_tool_list);
+	curr_scene.main_toolbar.addGroup(nurbs_tool_list);
+	curr_scene.main_toolbar.addGroup(metaball_tool_list);
+	curr_scene.main_toolbar.addGroup(light_tool_list);
+	curr_scene.main_toolbar.addGroup(camera_tool_list);
+	curr_scene.main_toolbar.addGroup(sweep_tool_list);
+	curr_scene.main_toolbar.addGroup(subdivision_tool_list);
+	curr_scene.main_toolbar.addGroup(boolean_tool_list);
+	curr_scene.main_toolbar.addGroup(deformation_tool_list);
+	curr_scene.main_toolbar.addGroup(array_tool_list);
+	curr_scene.main_toolbar.addGroup(draw_panel_tool_list);
+	curr_scene.main_toolbar.addGroup(curve_tool_list);
+	curr_scene.main_toolbar.addGroup(skin_tool_list);
+	curr_scene.main_toolbar.addGroup(material_tool_list);
+	curr_scene.main_toolbar.addGroup(threed_paint_tool_list);
+	curr_scene.main_toolbar.addGroup(uv_mapping_tool_list);
+	curr_scene.main_toolbar.addGroup(uv_projection_tool_list);
+	curr_scene.main_toolbar.addGroup(normalisation_tool_list);
+	curr_scene.main_toolbar.addGroup(geometry_tool_list);
+	curr_scene.main_toolbar.addGroup(plugin_tool_list);
+	curr_scene.owned_tool_lists.insert(curr_scene.owned_tool_lists.end(), {polygon_tool_list, nurbs_tool_list, metaball_tool_list, light_tool_list, camera_tool_list, sweep_tool_list, subdivision_tool_list, boolean_tool_list, deformation_tool_list, array_tool_list, draw_panel_tool_list, curve_tool_list, skin_tool_list, material_tool_list, threed_paint_tool_list, uv_mapping_tool_list, uv_projection_tool_list, normalisation_tool_list, geometry_tool_list, plugin_tool_list});
+	cout << "Main Tool Toolbar Ready" << endl;
 
-	list<tool> camera_tool_list = {
-		{ "Camera", "Create a Camera", "pix/camera.xpm", 100, create_camera, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Panoramic Camera", "Create a Camera", "pix/panoramic_camera.xpm", 101, create_panoramic_camera, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Global Physical Wind", "Create a Global Physical Wind", "pix/global_wind.xpm", 102, create_global_physical_wind, wind_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Local Physical Wind", "Create a Local Physical Wind", "pix/local_wind.xpm", 103, create_local_physical_wind, wind_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Standalone Deformation Plane", "Create a Standalone Deformation Plane", "pix/deformation_plane.xpm", 104, deformation_plane, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Standalone Deformation Pipe", "Create a Standalone Deformation Pipe", "pix/deformation_pipe.xpm", 105, deformation_pipe, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Standalone Deformation Object", "Create a Standalone Deformation Object", "pix/deformation_object.xpm", 106, deformation_object, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton camera_tools = ToolButton(camera_tool_list);
+	auto* select_tool_list = new list<tool>({ { "Select", "Selection Tool", "pix/select.xpm", 0, select_object, show_object_info, nullptr, nullptr, curr_scene }, { "Global Panel", "Global Panel", "pix/normalise_rotation.xpm", 241, global_panel, nullptr, nullptr, nullptr, curr_scene }, { "Unhide All Objects", "Unhide All Objects in Scene", "pix/normalise_scale.xpm", 242, unhide_objects, nullptr, nullptr, nullptr, curr_scene }, { "Object Notes", "Open Object Notes Editor", "pix/center_axes.xpm", 243, object_notes, nullptr, nullptr, nullptr, curr_scene } });
+	auto* edit_tool_list = new list<tool>({ { "Point Edit Context", "Point Edit Context", "pix/select_context.xpm", 250, select_context, nullptr, nullptr, nullptr, curr_scene }, { "Point Edit Vertices", "Point Edit Vertices", "pix/select_vertices.xpm", 251, select_vertices, nullptr, nullptr, nullptr, curr_scene }, { "Point Edit Edges", "Point Edit Edges", "pix/select_edges.xpm", 252, select_edges, nullptr, nullptr, nullptr, curr_scene }, { "Point Edit Faces", "Point Edit Faces", "pix/select_faces.xpm", 253, select_faces, nullptr, nullptr, nullptr, curr_scene }, { "Named Selection", "Named Selection", "pix/select_named.xpm", 254, named_selection, nullptr, nullptr, nullptr, curr_scene }, { "Select Using Lasso", "Select Using Lasso", "pix/select_lasso.xpm", 255, lasso_selection, nullptr, nullptr, nullptr, curr_scene }, { "Select Using Rectangle", "Select Using Rectangle", "pix/select_rectangle.xpm", 256, rectangle_selection, nullptr, nullptr, nullptr, curr_scene }, { "Select Using Freehand", "Select Using Freehand", "pix/select_freehand.xpm", 257, freehand_selection, nullptr, nullptr, nullptr, curr_scene } });
+	auto* grid_tool_list = new list<tool>({ { "Toggle Grid Mode", "Toggle Grid Mode", "pix/toggle_grid.xpm", 260, toggle_grid, nullptr, nullptr, nullptr, curr_scene }, { "Snap Vertex to Vertex", "Snap Vertex to Vertex", "pix/snap_vertex.xpm", 261, snap_vertex, nullptr, nullptr, nullptr, curr_scene }, { "Snap Vertex to Edge", "Snap Vertex to Edge", "pix/snap_edge.xpm", 262, snap_edge, nullptr, nullptr, nullptr, curr_scene }, { "Snap Vertex to Face", "Snap Vertex to Face", "pix/snap_face.xpm", 263, snap_face, nullptr, nullptr, nullptr, curr_scene }, { "Magnetic Tool", "Magnetic Tool", "pix/magnetic_tool.xpm", 264, magnetic_tool, nullptr, nullptr, nullptr, curr_scene }, { "Collision Disabled", "Collision Disabled", "pix/collision_disabled.xpm", 265, collision_disabled, nullptr, nullptr, nullptr, curr_scene }, { "Collision With Ground", "Collision With Ground", "pix/collision_ground.xpm", 266, collision_ground, nullptr, nullptr, nullptr, curr_scene }, { "Collision With Peers", "Collision With Peers", "pix/collision_peers.xpm", 267, collision_peers, nullptr, nullptr, nullptr, curr_scene } });
+	auto* new_scene_tool_list = new list<tool>({ { "New Scene", "Create New Scene", "pix/new_scene.xpm", 270, new_scene, nullptr, nullptr, nullptr, curr_scene } });
+	auto* undo_tool_list = new list<tool>({ { "Undo", "Undo", "pix/undo.xpm", 280, undo, nullptr, nullptr, nullptr, curr_scene }, { "Redo", "Redo", "pix/redo.xpm", 281, redo, nullptr, nullptr, nullptr, curr_scene } });
+	auto* object_tool_list = new list<tool>({ { "Copy Object", "Ctrl C | Copy", "pix/object_copy.xpm", 290, object_copy, nullptr, nullptr, nullptr, curr_scene }, { "Glue Object as Child", "Glue Object as Child", "pix/object_glue_child.xpm", 291, glue_object_as_child, nullptr, nullptr, nullptr, curr_scene }, { "Glue Object as Sibling", "Glue Object as Sibling", "pix/object_glue_sibling.xpm", 292, glue_object_as_sibling, nullptr, nullptr, nullptr, curr_scene }, { "Unglue Object", "Ctrl C | Copy", "pix/object_unglue.xpm", 293, object_unglue, nullptr, nullptr, nullptr, curr_scene }, { "Group Objects as LOD", "Group Objects as LOD", "pix/object_group.xpm", 294, object_group, nullptr, nullptr, nullptr, curr_scene }, { "UnGroup Objects as LOD", "UnGroup Objects as LOD", "pix/object_ungroup.xpm", 295, object_ungroup, nullptr, nullptr, nullptr, curr_scene }, { "Delete Object", "Delete | Erase", "pix/object_erase.xpm", 296, object_erase, nullptr, nullptr, nullptr, curr_scene } });
+	auto* play_tool_list = new list<tool>({ { "Undo", "Undo", "pix/undo.xpm", 300, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 301, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 302, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 303, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 304, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 305, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 306, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 307, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 308, undo, nullptr, nullptr, nullptr, curr_scene }, { "Redo", "Redo", "pix/redo.xpm", 309, redo, nullptr, nullptr, nullptr, curr_scene } });
+	auto* button_finder_tool_list = new list<tool>({ { "Button Finder", "Button Finder", "pix/button_finder.xpm", 310, button_finder, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 311, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 312, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 313, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 314, undo, nullptr, nullptr, nullptr, curr_scene }, { "Undo", "Undo", "pix/undo.xpm", 315, undo, nullptr, nullptr, nullptr, curr_scene }, { "Redo", "Redo", "pix/redo.xpm", 316, redo, nullptr, nullptr, nullptr, curr_scene } });
 
-	list<tool> sweep_tool_list = {
-		{ "Sweep", "Sweep", "pix/sweep.xpm", 110, sweep, sweep_tip_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Fillet Tool", "Fillet", "pix/fillet.xpm", 111, fillet, fillet_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Chamfer Tool", "Chamfer", "pix/chamfer.xpm", 112, chamfer, chamfer_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Bevel", "Bevel", "pix/bevel.xpm", 113, bevel, bevel_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Macro/Sweep", "Macro/Sweep", "pix/macro_sweep.xpm", 114, macro_sweep, macro_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Lathe", "Lathe", "pix/lathe.xpm", 115, lathe, lathe_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Tip", "Tip", "pix/tip.xpm", 116, tip, sweep_tip_parameters, nullptr, nullptr, curr_scene }
-	};
-	ToolButton sweep_tools = ToolButton(sweep_tool_list);
-
-	list<tool> subdivision_tool_list = {
-		{ "Subdivision Object", "Subdivision Object", "pix/subdivision_object.xpm", 120, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Plastiform", "Plastiform", "pix/plastiform.xpm", 121, nullptr, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton subdivision_tools = ToolButton(subdivision_tool_list);
-
-	list<tool> boolean_tool_list = {
-		{ "Object Shell", "Object Shell", "pix/object_shell.xpm", 130, nullptr, shell_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Object Subtraction", "Object Subtraction", "pix/object_subtraction.xpm", 131, nullptr, boolean_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Object Intersection", "Object Intersection", "pix/object_intersection.xpm", 132, nullptr, boolean_parameters, nullptr, nullptr, curr_scene }, 
-		{ "Object Union", "Object Union", "pix/object_union.xpm", 133, nullptr, boolean_parameters, nullptr, nullptr, curr_scene }
-	};
-	ToolButton boolean_tools = ToolButton(boolean_tool_list);
-
-	list<tool> deformation_tool_list = {
-		{ "Taper Current Object", "Taper Current Object", "pix/taper_object.xpm", 140, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Deform", "Deform", "pix/deform_object.xpm", 141, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Sculpt", "Sculpt", "pix/sculpt_surface.xpm", 142, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Skew Current Object", "Skew Current Object", "pix/skew_object.xpm", 143, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Bend Current Object", "Bend Current Object", "pix/bend_object.xpm", 144, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Standalone Deformation Object", "Standalone Deformation Object", "pix/standalone_deformation.xpm", 145, nullptr, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Delete Deformation Object", "Delete Deformation Object", "pix/delete_deformation.xpm", 146, nullptr, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton deformation_tools = ToolButton(deformation_tool_list);
-
-	list<tool> array_tool_list = {
-		{ "Create Grid Array of Objects", "Create Grid Array of Objects", "pix/grid_objects.xpm", 150, create_object_grid, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Create Spline Array of Objects", "Create Spline Array of Objects", "pix/spline_array.xpm", 151, create_object_spline, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Create Radial Array of Objects", "Create Radial Array of Objects", "pix/radial_array.xpm", 152, create_object_radial, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Convert Array to Group of Objects", "Convert Array to Group of Objects", "pix/array_group.xpm", 153, array_to_group, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton array_tools = ToolButton(array_tool_list);
-	
-	list<tool> draw_panel_tool_list = {
-		{ "Draw Panel Tool", "Draw Panel Tool", "pix/draw_panel.xpm", 160, draw_panel, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton draw_panel_tools = ToolButton(draw_panel_tool_list);
-
-	list<tool> curve_tool_list = {
-		{ "Add Freehand Curve", "Add Freehand Curve", "pix/freehand_curve.xpm", 161, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Curve", "Add Curve", "pix/curve.xpm", 162, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Polyline", "Add Polyline", "pix/polyline.xpm", 163, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Circular Arc Drawn by Center and two Points", "Add Circular Arc Drawn by Center and two Points", "pix/circular_arc_center_two_points.xpm", 164, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Circular Arc", "Add Circular Arc", "pix/circular_arc_three_points.xpm", 165, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Elliptical Arc", "Add Elliptical Arc", "pix/elliptical_arc_center_vertex_point.xpm", 166, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Elliptical Arc", "Add Elliptical Arc", "pix/elliptical_arc_center_three_points.xpm", 167, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Circle Drawn by Center and Point", "Circle Drawn by Center and Point", "pix/circle_point.xpm", 168, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Circle Drawn by Two Points", "Circle Drawn by Two Points", "pix/circle_two_points.xpm", 169, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Circle Drawn by Three Points", "Circle Drawn by Three Points", "pix/circle_three_points.xpm", 170, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Regular Polygon", "Add Regular Polygon", "pix/regular_polygon.xpm", 171, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Ellipse Drawn by Center and Point", "Ellipse Drawn by Center and Point", "pix/ellipse_point.xpm", 172, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Ellipse Drawn by Center, Vertex Point", "Ellipse Drawn by Center, Vertex Point", "pix/ellipse_center_vertex_point.xpm", 173, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Ellipse Drawn by Center, two Focuses and Point", "Ellipse Drawn by Center, two Focuses and Point", "pix/ellipse_two_focus_point.xpm", 174, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Ellipse Drawn by two Vertices and Point", "Ellipse Drawn by two Vertices and Point", "pix/ellipse_two_vertex_point.xpm", 175, freehand_curve, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Vertical Text", "Add Vertical Text, Right Click scene to select Font", "pix/text.xpm", 176, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Add Horizontal Text", "Add Horizontal Text, Right Click scene to select Font", "pix/horizontal_text.xpm", 177, nullptr, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton curve_tools = ToolButton(curve_tool_list);
-
-	list<tool> skin_tool_list = {
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 180, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 181, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 182, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 183, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 184, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 185, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 186, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 187, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 188, material_editor, nullptr, nullptr, nullptr, curr_scene },
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 189, material_editor, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton skin_tools = ToolButton(skin_tool_list);
-
-	list<tool> material_tool_list = {
-		{ "Material Editor", "Material Editor", "pix/material_editor.xpm", 190, material_editor, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton material_tools = ToolButton(material_tool_list);
-
-	list<tool> threed_paint_tool_list = {
-		{ "3d Paint Tool", "3d Paint Tool", "pix/3d_paint.xpm", 191, threed_paint, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton threed_paint_tools = ToolButton(threed_paint_tool_list);
-
-	list<tool> uv_mapping_tool_list = {
-		{ "UV Mapping Editor", "UV Mapping Editor", "pix/uv_editor.xpm", 192, uv_editor, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Material Rectangle", "Material Rectangle", "pix/material_rectangle.xpm", 193, material_rectangle, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton uv_mapping_tools = ToolButton(uv_mapping_tool_list);
-
-	list<tool> uv_projection_tool_list = {
-		{ "Planar UV Projection", "Planar UV Projection", "pix/planar_uv.xpm", 194, planar_uv, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Cubic UV Projection", "Cubic UV Projection", "pix/cubic_uv.xpm", 195, cubic_uv, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Spherical UV Projection", "Spherical UV Projection", "pix/spherical_uv.xpm", 196, spherical_uv, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Cylindrical UV Projection", "Cylindrical UV Projection", "pix/cylindrical_uv.xpm", 197, cylindrical_uv, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "UV Unwrapper", "UV Unwrapper", "pix/uv_unwrap.xpm", 198, uv_unwrap, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "UV Slice", "UV Slice", "pix/uv_slice.xpm", 199, uv_slice, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Shrink-Wrap UV Computation", "Shrink-Wrap UV Computation", "pix/shrinkwrap_uv.xpm", 200, shrinkwrap_uv, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton uv_projection_tools = ToolButton(uv_projection_tool_list);
-
-	list<tool> normalisation_tool_list = {
-		{ "Normalise Location", "Normalise Location", "pix/normalise_location.xpm", 201, normalise_location, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Normalise Rotation", "Normalise Rotation", "pix/normalise_rotation.xpm", 202, normalise_rotation, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Normalise Scale", "Normalise Scale", "pix/normalise_scale.xpm", 203, normalise_scale, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Move Axes to Center of Object", "Move Axes to Center of Object", "pix/center_axes.xpm", 204, center_axes, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Axes", "Show Object Axes", "pix/show_axes.xpm", 205, show_axes, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton normalisation_tools = ToolButton(normalisation_tool_list);
-
-	list<tool> geometry_tool_list = {
-		{ "Polygon Reduction Tool", "Polygon Reduction Tool", "pix/lod.xpm", 210, nullptr, polygon_reduction_parameters, nullptr, nullptr, curr_scene },
-		{ "Dimensioning Tool", "Dimensioning Tool", "pix/dimensioning.xpm", 211, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Mirror Modelling", "Mirror Modelling", "pix/mirror.xpm", 212, nullptr, mirror_options_parameters, nullptr, nullptr, curr_scene },
-		{ "Split Hierarchy", "Split hierarchy into polyhedra and IK linked branches", "pix/split_hierarchy.xpm", 213, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Decompose Object", "Decompose into objects", "pix/decompose.xpm", 214, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Flip Normals", "Flip all normals", "pix/flip_normals.xpm", 215, nullptr, nullptr, nullptr, nullptr, curr_scene },	
-		{ "Flip Object Faces", "Select object and flip faces", "pix/flip_object_faces.xpm", 216, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Fix Geometry", "Try to fix bad geometry", "pix/fix_geometry.xpm", 217, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Quad Divide", "Quad Divide", "pix/quad_divide.xpm", 218, nullptr, nullptr, nullptr, nullptr, curr_scene },
-		{ "Smooth Quad Divide", "Smooth Quad Divide", "pix/smooth_quad_divide.xpm", 219, nullptr, smooth_quad_parameters, nullptr, nullptr, curr_scene },
-		{ "Triangulate", "Triangulate", "pix/triangulate.xpm", 220, nullptr, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton geometry_tools = ToolButton(geometry_tool_list);
-
-	list<tool> plugin_tool_list = {
-		{ "Add Plugin", "Add Plugin", "pix/plugin.xpm", 230, nullptr, nullptr, nullptr, nullptr, curr_scene }
-	};
-	ToolButton plugin_tools = ToolButton(plugin_tool_list);
-
-	Gtk::Window main_tool_window;
-	Gtk::Box main_tool_grid;
-	main_tool_window.set_default_size(32, 24);
-	main_tool_window.set_decorated(false);
-	main_tool_grid.add(polgon_tools);
-	main_tool_grid.add(nurbs_tools);
-	main_tool_grid.add(metaball_tools);
-	main_tool_grid.add(light_tools);
-	main_tool_grid.add(camera_tools);
-	main_tool_grid.add(sweep_tools);
-	main_tool_grid.add(subdivision_tools);
-	main_tool_grid.add(boolean_tools);
-	main_tool_grid.add(deformation_tools);
-	main_tool_grid.add(array_tools);
-	main_tool_grid.add(draw_panel_tools);
-	main_tool_grid.add(curve_tools);
-	main_tool_grid.add(skin_tools);
-	main_tool_grid.add(material_tools);
-	main_tool_grid.add(threed_paint_tools);
-	main_tool_grid.add(uv_mapping_tools);
-	main_tool_grid.add(uv_projection_tools);
-	main_tool_grid.add(normalisation_tools);
-	main_tool_grid.add(geometry_tools);
-	main_tool_grid.add(plugin_tools);
-	main_tool_grid.show();
-	main_tool_window.set_keep_above(TRUE);
-	main_tool_window.add(main_tool_grid);
-//	main_tool_window.move(0, h_loc-40);
-	cout << "Showing Main Tool Window" << endl;
-	main_tool_window.show();
-
-
-
-	list<tool> select_tool_list = {
-		{ "Select", "Selection Tool", "pix/select.xpm", 0, select_object, show_object_info, nullptr, nullptr, curr_scene }, 
-		{ "Global Panel", "Global Panel", "pix/normalise_rotation.xpm", 241, global_panel, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Unhide All Objects", "Unhide All Objects in Scene", "pix/normalise_scale.xpm", 242, unhide_objects, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Object Notes", "Open Object Notes Editor", "pix/center_axes.xpm", 243, object_notes, nullptr, nullptr, nullptr, curr_scene }, 
-	};
-	ToolButton select_tools = ToolButton(select_tool_list);
-
-	list<tool> edit_tool_list = {
-		{ "Point Edit Context", "Point Edit Context", "pix/select_context.xpm", 250, select_context, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Point Edit Vertices", "Point Edit Vertices", "pix/select_vertices.xpm", 251, select_vertices, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Point Edit Edges", "Point Edit Edges", "pix/select_edges.xpm", 252, select_edges, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Point Edit Faces", "Point Edit Faces", "pix/select_faces.xpm", 253, select_faces, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Named Selection", "Named Selection", "pix/select_named.xpm", 254, named_selection, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Select Using Lasso", "Select Using Lasso", "pix/select_lasso.xpm", 255, lasso_selection, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Select Using Rectangle", "Select Using Rectangle", "pix/select_rectangle.xpm", 256, rectangle_selection, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Select Using Freehand", "Select Using Freehand", "pix/select_freehand.xpm", 257, freehand_selection, nullptr, nullptr, nullptr, curr_scene } 
-	};
-	ToolButton edit_tools = ToolButton(edit_tool_list);
-
-	list<tool> grid_tool_list = {
-		{ "Toggle Grid Mode", "Toggle Grid Mode", "pix/toggle_grid.xpm", 260, toggle_grid, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Snap Vertex to Vertex", "Snap Vertex to Vertex", "pix/snap_vertex.xpm", 261, snap_vertex, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Snap Vertex to Edge", "Snap Vertex to Edge", "pix/snap_edge.xpm", 262, snap_edge, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Snap Vertex to Face", "Snap Vertex to Face", "pix/snap_face.xpm", 263, snap_face, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Magnetic Tool", "Magnetic Tool", "pix/magnetic_tool.xpm", 264, magnetic_tool, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Collision Disabled", "Collision Disabled", "pix/collision_disabled.xpm", 265, collision_disabled, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Collision With Ground", "Collision With Ground", "pix/collision_ground.xpm", 266, collision_ground, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Collision With Peers", "Collision With Peers", "pix/collision_peers.xpm", 267, collision_peers, nullptr, nullptr, nullptr, curr_scene } 
-	};
-	ToolButton grid_tools = ToolButton(grid_tool_list);
-
-	list<tool> new_scene_tool_list = {
-		{ "New Scene", "Create New Scene", "pix/new_scene.xpm", 270, new_scene, nullptr, nullptr, nullptr, curr_scene } 
-	};
-	ToolButton new_scene_tools = ToolButton(new_scene_tool_list);
-
-	list<tool> undo_tool_list = {
-		{ "Undo", "Undo", "pix/undo.xpm", 280, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Redo", "Redo", "pix/redo.xpm", 281, redo, nullptr, nullptr, nullptr, curr_scene } 
-	};
-	ToolButton undo_tools = ToolButton(undo_tool_list);
-
-	list<tool> object_tool_list = {
-		{ "Copy Object", "Ctrl C | Copy", "pix/object_copy.xpm", 290, object_copy, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Glue Object as Child", "Glue Object as Child", "pix/object_glue_child.xpm", 291, glue_object_as_child, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Glue Object as Sibling", "Glue Object as Sibling", "pix/object_glue_sibling.xpm", 292, glue_object_as_sibling, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Unglue Object", "Ctrl C | Copy", "pix/object_unglue.xpm", 293, object_unglue, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Group Objects as LOD", "Group Objects as LOD", "pix/object_group.xpm", 294, object_group, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "UnGroup Objects as LOD", "UnGroup Objects as LOD", "pix/object_ungroup.xpm", 295, object_ungroup, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Delete Object", "Delete | Erase", "pix/object_erase.xpm", 296, object_erase, nullptr, nullptr, nullptr, curr_scene } 
-	};
-	ToolButton object_tools = ToolButton(object_tool_list);
-
-	list<tool> play_tool_list = {
-		{ "Undo", "Undo", "pix/undo.xpm", 300, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 301, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 302, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 303, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 304, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 305, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 306, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 307, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 308, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Redo", "Redo", "pix/redo.xpm", 309, redo, nullptr, nullptr, nullptr, curr_scene } 
-	};
-	ToolButton play_tools = ToolButton(play_tool_list);
-	
-	list<tool> button_finder_tool_list = {
-		{ "Button Finder", "Button Finder", "pix/button_finder.xpm", 310, button_finder, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 311, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 312, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 313, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 314, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Undo", "Undo", "pix/undo.xpm", 315, undo, nullptr, nullptr, nullptr, curr_scene }, 
-		{ "Redo", "Redo", "pix/redo.xpm", 316, redo, nullptr, nullptr, nullptr, curr_scene } 
-	};
-	ToolButton button_finder_tools = ToolButton(button_finder_tool_list);
-
-	Gtk::Window object_tool_window;
-	Gtk::Box object_tool_grid;
-	object_tool_window.set_default_size(32, 24);
-	object_tool_window.set_decorated(false);
-	object_tool_grid.add(select_tools);
-	object_tool_grid.add(edit_tools);
-	object_tool_grid.add(grid_tools);
-	object_tool_grid.add(new_scene_tools);
-	object_tool_grid.add(undo_tools);
-	object_tool_grid.add(object_tools);
-	object_tool_grid.add(play_tools);
-	object_tool_grid.add(button_finder_tools);
-	object_tool_grid.show();
-	object_tool_window.add(object_tool_grid);
-	object_tool_window.set_keep_above(TRUE);
-	object_tool_window.move(w_loc+16, h_loc-40);
-	object_tool_window.show();
+	{ float tx, ty; int to; bool te;
+	  curr_scene.prefs.get_toolbar_layout(2, tx, ty, to, te);
+	  curr_scene.object_toolbar.setOrientation(to ? GLToolbar::VERTICAL : GLToolbar::HORIZONTAL);
+	  curr_scene.object_toolbar.setPosition(tx, ty);
+	  curr_scene.object_toolbar.setExpanded(te); }
+	curr_scene.object_toolbar.reserve(8);
+	curr_scene.object_toolbar.addGroup(select_tool_list);
+	curr_scene.object_toolbar.addGroup(edit_tool_list);
+	curr_scene.object_toolbar.addGroup(grid_tool_list);
+	curr_scene.object_toolbar.addGroup(new_scene_tool_list);
+	curr_scene.object_toolbar.addGroup(undo_tool_list);
+	curr_scene.object_toolbar.addGroup(object_tool_list);
+	curr_scene.object_toolbar.addGroup(play_tool_list);
+	curr_scene.object_toolbar.addGroup(button_finder_tool_list);
+	curr_scene.owned_tool_lists.insert(curr_scene.owned_tool_lists.end(), {select_tool_list, edit_tool_list, grid_tool_list, new_scene_tool_list, undo_tool_list, object_tool_list, play_tool_list, button_finder_tool_list});
 
 		
 	main_window->maximize();Gtk::Builder::create_from_file("src/gui.gtkbuilder");
@@ -887,8 +637,10 @@ void ts_gui::update_object_info(scene &curr_scene){
 
 	int edit_mode = curr_scene.Get_Edit_Mode();
 	info_edit_mode = edit_mode;
+	info_multi_count = (int)curr_scene.selected_objects.size();
 
-	if (!obj) {
+	if (!obj && curr_scene.selected_objects.empty()) {
+		info_multi_count = 0;
 		if (obj_info_name) obj_info_name->set_text("");
 		if (obj_info_loc_x) obj_info_loc_x->set_text("0.0000");
 		if (obj_info_loc_y) obj_info_loc_y->set_text("0.0000");
@@ -903,6 +655,43 @@ void ts_gui::update_object_info(scene &curr_scene){
 		if (obj_info_faces) obj_info_faces->set_text("0");
 		return;
 	}
+
+	// Multi-object selection
+	if (info_multi_count > 1) {
+		multi_obj_center[0] = multi_obj_center[1] = multi_obj_center[2] = 0.0;
+		int total_verts = 0;
+		int total_faces = 0;
+		for (auto& sel_obj : curr_scene.selected_objects) {
+			if (!sel_obj) continue;
+			double* loc = sel_obj->get_location();
+			multi_obj_center[0] += loc[0];
+			multi_obj_center[1] += loc[1];
+			multi_obj_center[2] += loc[2];
+			total_verts += sel_obj->get_num_vertices();
+			total_faces += sel_obj->get_num_faces();
+		}
+		double n = (double)info_multi_count;
+		multi_obj_center[0] /= n;
+		multi_obj_center[1] /= n;
+		multi_obj_center[2] /= n;
+
+		std::string label = std::to_string(info_multi_count) + " objects";
+		if (obj_info_name) obj_info_name->set_text(label);
+		if (obj_info_loc_x) obj_info_loc_x->set_text(fmt(multi_obj_center[0]));
+		if (obj_info_loc_y) obj_info_loc_y->set_text(fmt(multi_obj_center[1]));
+		if (obj_info_loc_z) obj_info_loc_z->set_text(fmt(multi_obj_center[2]));
+		if (obj_info_rot_x) obj_info_rot_x->set_text("0.0000");
+		if (obj_info_rot_y) obj_info_rot_y->set_text("0.0000");
+		if (obj_info_rot_z) obj_info_rot_z->set_text("0.0000");
+		if (obj_info_sca_x) obj_info_sca_x->set_text("1.0000");
+		if (obj_info_sca_y) obj_info_sca_y->set_text("1.0000");
+		if (obj_info_sca_z) obj_info_sca_z->set_text("1.0000");
+		if (obj_info_verts) obj_info_verts->set_text(std::to_string(total_verts));
+		if (obj_info_faces) obj_info_faces->set_text(std::to_string(total_faces));
+		return;
+	}
+
+	if (!obj) return;
 
 	if (edit_mode == 1 || edit_mode == 2) {
 		std::set<int> vert_indices;
@@ -944,7 +733,7 @@ void ts_gui::update_object_info(scene &curr_scene){
 		return;
 	}
 
-	// Object mode (edit_mode == 0 or 3/face)
+	// Single object mode (edit_mode == 0 or 3/face)
 	double* loc = obj->get_location();
 	float* rot = obj->get_rotation();
 	float* sc = obj->get_scale();
@@ -1012,12 +801,91 @@ void ts_gui::on_torus_param_activated(scene *curr_scene){
 
 void ts_gui::on_object_info_entry_changed(scene *curr_scene){
 	auto obj = curr_scene->GetCurrentObject();
-	if (!obj) return;
+	if (!obj && curr_scene->selected_objects.empty()) return;
 
 	auto toFloat = [](Gtk::Entry* e) -> float {
 		try { return std::stof(e->get_text()); }
 		catch (...) { return 0.0f; }
 	};
+
+	auto toDouble = [](Gtk::Entry* e) -> double {
+		try { return std::stod(e->get_text()); }
+		catch (...) { return 0.0; }
+	};
+
+	// Multi-object mode
+	if (info_multi_count > 1) {
+		double new_cx = toDouble(obj_info_loc_x);
+		double new_cy = toDouble(obj_info_loc_y);
+		double new_cz = toDouble(obj_info_loc_z);
+		double dx = new_cx - multi_obj_center[0];
+		double dy = new_cy - multi_obj_center[1];
+		double dz = new_cz - multi_obj_center[2];
+
+		float rot_x = toFloat(obj_info_rot_x);
+		float rot_y = toFloat(obj_info_rot_y);
+		float rot_z = toFloat(obj_info_rot_z);
+		bool has_rotation = (rot_x != 0.0f || rot_y != 0.0f || rot_z != 0.0f);
+
+		float sca_x = toFloat(obj_info_sca_x);
+		float sca_y = toFloat(obj_info_sca_y);
+		float sca_z = toFloat(obj_info_sca_z);
+		bool has_scale = (sca_x != 1.0f || sca_y != 1.0f || sca_z != 1.0f);
+
+		for (auto& sel_obj : curr_scene->selected_objects) {
+			if (!sel_obj) continue;
+			double* loc = sel_obj->get_location();
+
+			double rx = loc[0] - multi_obj_center[0];
+			double ry = loc[1] - multi_obj_center[1];
+			double rz = loc[2] - multi_obj_center[2];
+
+			if (has_scale) {
+				rx *= sca_x;
+				ry *= sca_y;
+				rz *= sca_z;
+				float* sc = sel_obj->get_scale();
+				sel_obj->set_scale(sc[0] * sca_x, sc[1] * sca_y, sc[2] * sca_z);
+			}
+
+			if (has_rotation) {
+				float rad_x = rot_x * M_PI / 180.0f;
+				float rad_y = rot_y * M_PI / 180.0f;
+				float rad_z = rot_z * M_PI / 180.0f;
+
+				float cx, sx, cz, sz;
+				// Y rotation
+				cx = cosf(rad_y); float sy = sinf(rad_y);
+				double tx = rx * cx + rz * sy;
+				double tz = -rx * sy + rz * cx;
+				rx = tx; rz = tz;
+				// X rotation
+				cx = cosf(rad_x); sx = sinf(rad_x);
+				double ty = ry * cx - rz * sx;
+				tz = ry * sx + rz * cx;
+				ry = ty; rz = tz;
+				// Z rotation
+				cz = cosf(rad_z); sz = sinf(rad_z);
+				tx = rx * cz - ry * sz;
+				ty = rx * sz + ry * cz;
+				rx = tx; ry = ty;
+
+				float* r = sel_obj->get_rotation();
+				sel_obj->set_rotation(r[0] + rot_x, r[1] + rot_y, r[2] + rot_z);
+			}
+
+			sel_obj->set_location(multi_obj_center[0] + rx + dx,
+								  multi_obj_center[1] + ry + dy,
+								  multi_obj_center[2] + rz + dz);
+			sel_obj->getMesh().markDirty();
+		}
+
+		update_object_info(*curr_scene);
+		if (this->view_grid) this->view_grid->queue_draw();
+		return;
+	}
+
+	if (!obj) return;
 
 	if (info_edit_mode == 1 || info_edit_mode == 2) {
 		std::set<int> vert_indices;
@@ -1029,9 +897,9 @@ void ts_gui::on_object_info_entry_changed(scene *curr_scene){
 		float new_rot[3] = { toFloat(obj_info_rot_x), toFloat(obj_info_rot_y), toFloat(obj_info_rot_z) };
 		float new_sca[3] = { toFloat(obj_info_sca_x), toFloat(obj_info_sca_y), toFloat(obj_info_sca_z) };
 
-		float dx = new_loc[0] - info_center[0];
-		float dy = new_loc[1] - info_center[1];
-		float dz = new_loc[2] - info_center[2];
+		float fdx = new_loc[0] - info_center[0];
+		float fdy = new_loc[1] - info_center[1];
+		float fdz = new_loc[2] - info_center[2];
 
 		bool has_rotation = (new_rot[0] != 0.0f || new_rot[1] != 0.0f || new_rot[2] != 0.0f);
 		bool has_scale = (new_sca[0] != 1.0f || new_sca[1] != 1.0f || new_sca[2] != 1.0f);
@@ -1074,9 +942,9 @@ void ts_gui::on_object_info_entry_changed(scene *curr_scene){
 				rx = tx; ry = ty;
 			}
 
-			m.setVertexPosition(idx, info_center[0] + rx + dx,
-									 info_center[1] + ry + dy,
-									 info_center[2] + rz + dz);
+			m.setVertexPosition(idx, info_center[0] + rx + fdx,
+									 info_center[1] + ry + fdy,
+									 info_center[2] + rz + fdz);
 		}
 
 		m.uploadToGPU();
@@ -1085,12 +953,7 @@ void ts_gui::on_object_info_entry_changed(scene *curr_scene){
 		return;
 	}
 
-	// Object mode
-	auto toDouble = [](Gtk::Entry* e) -> double {
-		try { return std::stod(e->get_text()); }
-		catch (...) { return 0.0; }
-	};
-
+	// Single object mode
 	if (obj_info_name) obj->set_name(obj_info_name->get_text());
 	if (obj_info_loc_x && obj_info_loc_y && obj_info_loc_z)
 		obj->set_location(toDouble(obj_info_loc_x), toDouble(obj_info_loc_y), toDouble(obj_info_loc_z));
@@ -1101,4 +964,23 @@ void ts_gui::on_object_info_entry_changed(scene *curr_scene){
 
 	obj->getMesh().markDirty();
 	if (this->view_grid) this->view_grid->queue_draw();
+}
+
+void ts_gui::on_save_layout(scene *curr_scene){
+	curr_scene->prefs.set_toolbar_layout(0,
+		curr_scene->view_object_toolbar.getX(),
+		curr_scene->view_object_toolbar.getY(),
+		curr_scene->view_object_toolbar.getOrientation() == GLToolbar::VERTICAL ? 1 : 0,
+		curr_scene->view_object_toolbar.getExpanded());
+	curr_scene->prefs.set_toolbar_layout(1,
+		curr_scene->main_toolbar.getX(),
+		curr_scene->main_toolbar.getY(),
+		curr_scene->main_toolbar.getOrientation() == GLToolbar::VERTICAL ? 1 : 0,
+		curr_scene->main_toolbar.getExpanded());
+	curr_scene->prefs.set_toolbar_layout(2,
+		curr_scene->object_toolbar.getX(),
+		curr_scene->object_toolbar.getY(),
+		curr_scene->object_toolbar.getOrientation() == GLToolbar::VERTICAL ? 1 : 0,
+		curr_scene->object_toolbar.getExpanded());
+	curr_scene->prefs.save_layout("preferences.ini");
 }

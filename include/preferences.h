@@ -36,10 +36,17 @@ class preferences
 		int rounded_cube_longitude = 0;
 		int rounded_cylinder_latitude = 0;
 		int rounded_cylinder_longitude = 0;
-		
-		
-		
-		
+
+		float toolbar_view_x = 0, toolbar_view_y = 0;
+		int toolbar_view_orientation = 0;
+		bool toolbar_view_expanded = false;
+		float toolbar_main_x = 0, toolbar_main_y = 24;
+		int toolbar_main_orientation = 0;
+		bool toolbar_main_expanded = false;
+		float toolbar_object_x = 0, toolbar_object_y = 48;
+		int toolbar_object_orientation = 0;
+		bool toolbar_object_expanded = false;
+
     public:
 		void default_preferences(void);
 		void load_preferences(string filename);
@@ -102,5 +109,9 @@ class preferences
 		void set_rounded_cube_longitude(int);
 		void set_rounded_cylinder_latitude(int);
 		void set_rounded_cylinder_longitude(int);
+
+		void get_toolbar_layout(int toolbar, float &x, float &y, int &orient, bool &exp);
+		void set_toolbar_layout(int toolbar, float x, float y, int orient, bool exp);
+		void save_layout(string filename);
 };
 #endif // PREFERENCES_H

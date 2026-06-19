@@ -74,6 +74,10 @@ protected:
 	int pickSubElementAt(int x, int y, int edit_mode);
 	void renderSubElementHighlights(float* view_mat, float* proj_mat);
 	void handleTransformDrag(double dx, double dy, int button);
+	void renderToolbars();
+	bool toolbarHitTest(int mx, int my);
+	bool toolbar_dragging = false;
+	unsigned int last_press_time = 0;
 
 public:
 	view(int view_type, int draw_type, scene &curr_scene);

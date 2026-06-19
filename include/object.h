@@ -72,10 +72,14 @@ class object
 		int get_num_faces(void);
 		void set_num_vertices(int num_vertices);
 		void set_num_faces(int num_faces);
-		void add_child(object *child);
-		void remove_child(object *child);
-		void add_sibling(object *sibling);
-		void remove_sibling(object *sibling);
+		void add_child(shared_ptr<object> child);
+		void remove_child(shared_ptr<object> child);
+		void add_sibling(shared_ptr<object> sib);
+		void remove_sibling(shared_ptr<object> sib);
+		object* get_parent();
+		void set_parent(object* p);
+		list<shared_ptr<object>>& get_children();
+		list<shared_ptr<object>>& get_siblings();
 		void enable_axes(bool state);
 		bool get_show_axes(void);
 		void enable_origin(bool state);

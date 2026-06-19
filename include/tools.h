@@ -164,4 +164,8 @@ void view_move (scene &curr_scene);
 void view_rotate (scene &curr_scene);
 void view_zoom (scene &curr_scene);
 void wind_parameters (scene &curr_scene);
+void boolean_subtract (scene &curr_scene);
+void boolean_intersect (scene &curr_scene);
+void boolean_union (scene &curr_scene);
+void spawn_primitive (scene &curr_scene);
 #endif // TOOLS_H
