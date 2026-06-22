@@ -36,7 +36,16 @@ protected:
 	ShaderProgram pick_shader;
 	Mesh axes_mesh;
 	Mesh grid_mesh;
+	Mesh grid_axis_lines;
 	Mesh gizmo_arrow_x, gizmo_arrow_y, gizmo_arrow_z;
+
+	enum { CW_MOVE_TURN_PLANE=0, CW_MOVEMENT_PLANE, CW_Z_ARROW,
+	       CW_X_ARROW, CW_Y_ARROW, CW_RELOCATE_SPHERE, CW_TURN_CYLINDER, CW_COUNT };
+	Mesh cw_meshes[CW_COUNT];
+	bool cw_loaded = false;
+	float cw_position[3] = {3.0f, 0.0f, 3.0f};
+	int cw_drag_part = 0;
+
 	bool shaders_initialized = false;
 
 	// Picking FBO
@@ -50,6 +59,8 @@ protected:
 	double last_mouse_y = 0.0;
 	bool dragging = false;
 	int drag_button = 0;
+	int hovered_sub_element = -1;
+	int hovered_edit_mode = 0;
 
 	void onRealize();
 	void onUnrealize();
@@ -65,6 +76,10 @@ protected:
 	void initAxesMesh();
 	void initGridMesh();
 	void initGizmoMeshes();
+	void initControlWidget();
+	void renderControlWidget(float* view_mat, float* proj_mat);
+	int pickControlWidgetAt(int x, int y, float* view_mat, float* proj_mat);
+	void handleControlWidgetDrag(double dx, double dy, int part);
 	void ensurePickFBO(int w, int h);
 	void renderGrid(float* view_mat, float* proj_mat);
 	void renderAxes(float* view_mat, float* proj_mat);

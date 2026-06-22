@@ -6,6 +6,7 @@ void preferences::default_preferences(void)
 	this -> grid_resolution = 32;
 	this -> draw_axes = TRUE;
 	this -> draw_ground_plane = TRUE;
+	this -> draw_control_widget = TRUE;
 	this -> background_color[0] = 0.6;
 	this -> background_color[1] = 0.6;
 	this -> background_color[2] = 0.6;
@@ -455,6 +456,10 @@ bool preferences::get_draw_axes(){
 	return draw_axes;
 };
 
+bool preferences::get_draw_control_widget(){
+	return draw_control_widget;
+};
+
 float *preferences::get_background_color(void){
     return this -> background_color;
 }
@@ -544,6 +549,10 @@ void preferences::set_draw_ground_plane(bool draw_ground_plane){
 
 void preferences::set_draw_axes(bool draw_axes){
 	this -> draw_axes = draw_axes;
+};
+
+void preferences::set_draw_control_widget(bool draw_control_widget){
+	this -> draw_control_widget = draw_control_widget;
 };
 
 void preferences::set_background_color( float red, float green, float blue ){

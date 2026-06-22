@@ -1,4 +1,5 @@
 #include "../../include/gui/tsgui.h"
+#include "../../include/gl_tool_windows.h"
 
 void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 {
@@ -58,6 +59,8 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	this -> builder->get_widget("ts_view_grid", this->view_grid);
 	this -> builder->get_widget("ts_quit_button", this->ts_quit_button);
 	this -> builder->get_widget("ts_save_layout_menuitem", this->ts_save_layout_menuitem);
+	this -> builder->get_widget("ts_display_options_menuitem", this->ts_display_options_menuitem);
+	this -> builder->get_widget("ts_preferences_menuitem", this->ts_preferences_menuitem);
 
 	// Object Info entry widgets
 	this -> builder->get_widget("obj_info_name_entry", this->obj_info_name);
@@ -127,9 +130,12 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 
 	if (ts_save_layout_menuitem)
 		ts_save_layout_menuitem->signal_activate().connect(sigc::bind(sigc::mem_fun(*this, &ts_gui::on_save_layout), &curr_scene));
+	if (ts_display_options_menuitem)
+		ts_display_options_menuitem->signal_activate().connect([&curr_scene](){ show_gl_display_options_window(curr_scene); });
+	if (ts_preferences_menuitem)
+		ts_preferences_menuitem->signal_activate().connect([&curr_scene](){ show_gl_preferences_window(curr_scene); });
 
-	edit_window->set_keep_above(TRUE);
-	object_info_window->set_keep_above(TRUE);
+	// GTK tool windows disabled - using GL equivalents
 	int h_loc = 0;
 	int w_loc = 0;
 	int s_width = 0;
@@ -253,7 +259,6 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	}
 		cout << "Displays Added to Grid" << endl;
 		view_grid->show_all();
-		object_info_window->show();
 
 	auto* vo1 = new list<tool>({{ "Eye Move", "Move View Around Scene", "pix/view_move.xpm", 37, view_move, coords_parameters, nullptr, nullptr, curr_scene }});
 	auto* vo2 = new list<tool>({{ "Eye Rotate", "Rotate View Around Scene", "pix/view_rotate.xpm", 38, &view_rotate, coords_parameters, nullptr, nullptr, curr_scene }});
@@ -366,232 +371,135 @@ void ts_gui::make_gui(preferences &prefs, scene &curr_scene)
 	curr_scene.owned_tool_lists.insert(curr_scene.owned_tool_lists.end(), {select_tool_list, edit_tool_list, grid_tool_list, new_scene_tool_list, undo_tool_list, object_tool_list, play_tool_list, button_finder_tool_list});
 
 		
+	auto* et_edit_mode_list = new list<tool>({
+		{ "Point Edit: Context", "Point Edit Context", "pix/select_context.xpm", 250, select_context, nullptr, nullptr, nullptr, curr_scene },
+		{ "Point Edit: Vertices", "Point Edit Vertices", "pix/select_vertices.xpm", 251, select_vertices, nullptr, nullptr, nullptr, curr_scene },
+		{ "Point Edit: Edges", "Point Edit Edges", "pix/select_edges.xpm", 252, select_edges, nullptr, nullptr, nullptr, curr_scene },
+		{ "Point Edit: Faces", "Point Edit Faces", "pix/select_faces.xpm", 253, select_faces, nullptr, nullptr, nullptr, curr_scene }
+	});
+	auto* et_selection_mode_list = new list<tool>({
+		{ "Named Selection", "Named Selection", "pix/select_named.xpm", 254, named_selection, nullptr, nullptr, nullptr, curr_scene },
+		{ "Select using Freehand", "Select using Freehand", "pix/select_freehand.xpm", 257, freehand_selection, nullptr, nullptr, nullptr, curr_scene },
+		{ "Select using Rectangle", "Select using Rectangle", "pix/select_rectangle.xpm", 256, rectangle_selection, nullptr, nullptr, nullptr, curr_scene },
+		{ "Select using Lasso", "Select using Lasso", "pix/select_lasso.xpm", 255, lasso_selection, nullptr, nullptr, nullptr, curr_scene }
+	});
+	auto* et_slice_list = new list<tool>({
+		{ "Separate selected part of object", "Separate selected part of object", "pix/decompose.xpm", 401, separate_object, nullptr, nullptr, nullptr, curr_scene },
+		{ "Slice object by selected line/plane", "Slice object by selected line/plane", "pix/uv_slice.xpm", 400, slice_object, nullptr, nullptr, nullptr, curr_scene }
+	});
+	auto* et_face_ops_list = new list<tool>({
+		{ "Erase Vertices", "Erase Vertices", "pix/object_erase.xpm", 406, erase_vertices, nullptr, nullptr, nullptr, curr_scene },
+		{ "Flip all Faces", "Flip all Faces", "pix/flip_normals.xpm", 402, flip_all_faces, nullptr, nullptr, nullptr, curr_scene },
+		{ "Delete Face", "Delete Face", "pix/flip_object_faces.xpm", 403, delete_face, nullptr, nullptr, nullptr, curr_scene },
+		{ "Add Face", "Add Face", "pix/draw_panel.xpm", 404, add_face, nullptr, nullptr, nullptr, curr_scene },
+		{ "Weld Vertices", "Weld Vertices", "pix/snap_vertex.xpm", 405, weld_vertices, nullptr, nullptr, nullptr, curr_scene }
+	});
+	auto* et_polygon_list = new list<tool>({
+		{ "Polygon Copy", "Polygon Copy", "pix/object_copy.xpm", 415, polygon_copy, nullptr, nullptr, nullptr, curr_scene },
+		{ "Polygon Draw", "Polygon Draw", "pix/draw_panel.xpm", 410, polygon_draw, nullptr, nullptr, nullptr, curr_scene },
+		{ "Polygon Slice", "Polygon Slice", "pix/uv_slice.xpm", 411, polygon_slice, nullptr, nullptr, nullptr, curr_scene },
+		{ "Polygon Bevel", "Polygon Bevel", "pix/bevel.xpm", 412, polygon_bevel, nullptr, nullptr, nullptr, curr_scene },
+		{ "Add Vertex", "Add Vertex", "pix/snap_vertex.xpm", 413, add_vertex, nullptr, nullptr, nullptr, curr_scene },
+		{ "Add Edges", "Add Edges", "pix/snap_edge.xpm", 414, add_edges, nullptr, nullptr, nullptr, curr_scene }
+	});
+	auto* et_sweep_list = new list<tool>({
+		{ "Fillet Tool", "Fillet Tool", "pix/fillet.xpm", 425, fillet, fillet_parameters, nullptr, nullptr, curr_scene },
+		{ "Sweep", "Sweep", "pix/sweep.xpm", 420, sweep, sweep_tip_parameters, nullptr, nullptr, curr_scene },
+		{ "Tip", "Tip", "pix/tip.xpm", 421, tip, sweep_tip_parameters, nullptr, nullptr, curr_scene },
+		{ "Lathe", "Lathe", "pix/lathe.xpm", 422, lathe, lathe_parameters, nullptr, nullptr, curr_scene },
+		{ "Macro/Sweep", "Macro/Sweep", "pix/macro_sweep.xpm", 423, macro_sweep, macro_parameters, nullptr, nullptr, curr_scene },
+		{ "Bevel", "Bevel", "pix/bevel.xpm", 424, bevel, bevel_parameters, nullptr, nullptr, curr_scene }
+	});
+	auto* et_subdivision_list = new list<tool>({
+		{ "Change Hole into Face", "Change Hole into Face", "pix/draw_panel.xpm", 435, hole_to_face, nullptr, nullptr, nullptr, curr_scene },
+		{ "Delete Subdivision Layer", "Delete Subdivision Layer", "pix/subdivision_object.xpm", 430, delete_subdivision, nullptr, nullptr, nullptr, curr_scene },
+		{ "Add Subdivision Layer", "Add Subdivision Layer", "pix/plastiform.xpm", 431, add_subdivision, nullptr, nullptr, nullptr, curr_scene },
+		{ "Smooth Quad Divide", "Smooth Quad Divide", "pix/smooth_quad_divide.xpm", 432, smooth_quad_divide, smooth_quad_parameters, nullptr, nullptr, curr_scene },
+		{ "Quad Divide", "Quad Divide", "pix/quad_divide.xpm", 433, quad_divide, nullptr, nullptr, nullptr, curr_scene },
+		{ "Change Face into Hole", "Change Face into Hole", "pix/flip_object_faces.xpm", 434, face_to_hole, nullptr, nullptr, nullptr, curr_scene }
+	});
+	auto* et_point_transform_list = new list<tool>({
+		{ "Point Scale", "Point Scale", "pix/normalise_scale.xpm", 42, point_scale, nullptr, nullptr, nullptr, curr_scene },
+		{ "Point Move", "Point Move", "pix/normalise_location.xpm", 40, point_move, nullptr, nullptr, nullptr, curr_scene },
+		{ "Point Rotate", "Point Rotate", "pix/normalise_rotation.xpm", 41, point_rotate, nullptr, nullptr, nullptr, curr_scene }
+	});
+	auto* et_add_remove_list = new list<tool>({
+		{ "Remove from Selection", "Remove from Selection (or Shift key)", "pix/rem_selection.xpm", 442, remove_from_selection, nullptr, nullptr, nullptr, curr_scene },
+		{ "Add to selection", "Add to selection (or CTRL key)", "pix/add_selection.xpm", 440, add_to_selection, nullptr, nullptr, nullptr, curr_scene },
+		{ "Select subset", "Select subset", "pix/sub_selection.xpm", 441, select_subset, nullptr, nullptr, nullptr, curr_scene }
+	});
+
+	curr_scene.editing_toolbar.setOrientation(GLToolbar::HORIZONTAL);
+	curr_scene.editing_toolbar.setPosition(0, 72);
+	curr_scene.editing_toolbar.reserve(9);
+	curr_scene.editing_toolbar.addGroup(et_edit_mode_list);
+	curr_scene.editing_toolbar.addGroup(et_selection_mode_list);
+	curr_scene.editing_toolbar.addGroup(et_slice_list);
+	curr_scene.editing_toolbar.addGroup(et_face_ops_list);
+	curr_scene.editing_toolbar.addGroup(et_polygon_list);
+	curr_scene.editing_toolbar.addGroup(et_sweep_list);
+	curr_scene.editing_toolbar.addGroup(et_subdivision_list);
+	curr_scene.editing_toolbar.addGroup(et_point_transform_list);
+	curr_scene.editing_toolbar.addGroup(et_add_remove_list);
+	curr_scene.owned_tool_lists.insert(curr_scene.owned_tool_lists.end(), {et_edit_mode_list, et_selection_mode_list, et_slice_list, et_face_ops_list, et_polygon_list, et_sweep_list, et_subdivision_list, et_point_transform_list, et_add_remove_list});
+	cout << "Editing Toolbar Ready" << endl;
+
 	main_window->maximize();Gtk::Builder::create_from_file("src/gui.gtkbuilder");
 	this -> app->run(*main_window);
 
 }
 
-void ts_gui::show_bevel_window(scene &curr_scene){
-	this->bevel_window->show();
-}
-
-void ts_gui::show_boolean_window(scene &curr_scene){
-	this->boolean_window->show();
-}
-
-void ts_gui::show_chamfer_window(scene &curr_scene){
-	this->chamfer_window->show();
-}
-
-void ts_gui::show_coords_window(scene &curr_scene){
-	this->coords_window->show();
-}
-
-void ts_gui::show_cone_window(scene &curr_scene){
-	if (cone_lat_spin) cone_lat_spin->set_value(curr_scene.prefs.get_cone_latitude());
-	if (cone_long_spin) cone_long_spin->set_value(curr_scene.prefs.get_cone_longitude());
-	this->cone_window->show();
-}
-
-void ts_gui::show_copy_tool_window(scene &curr_scene){
-	this->copy_tool_window->show();
-}
-
-void ts_gui::show_cube_window(scene &curr_scene){
-	if (cube_resolution_spin) cube_resolution_spin->set_value(curr_scene.prefs.get_cube_resolution());
-	this->cube_window->show();
-}
-
-void ts_gui::show_metaball_window(scene &curr_scene){
-	this->metaball_options_window->show();
-}
-
-void ts_gui::show_cylinder_window(scene &curr_scene){
-	if (cylinder_lat_spin) cylinder_lat_spin->set_value(curr_scene.prefs.get_cylinder_latitude());
-	if (cylinder_long_spin) cylinder_long_spin->set_value(curr_scene.prefs.get_cylinder_longitude());
-	if (cylinder_top_radius_spin) cylinder_top_radius_spin->set_value(curr_scene.prefs.get_cylinder_top_radius());
-	this->cylinder_window->show();
-}
-
-void ts_gui::show_deformation_window(scene &curr_scene){
-	this->deformation_window->show();
-}
-
-void ts_gui::show_edit_window(scene &curr_scene){
-	this->edit_window->show();
-}
-
-void ts_gui::show_edit_window_expanded(scene &curr_scene){
-	this->edit_window_expanded->show();
-}
-
-void ts_gui::show_fillet_window(scene &curr_scene){
-	this->fillet_window->show();
-}
-
-void ts_gui::show_geosphere_window(scene &curr_scene){
-	if (geosphere_resolution_spin) geosphere_resolution_spin->set_value(curr_scene.prefs.get_geosphere_resolution());
-	this->geosphere_window->show();
-}
-
-void ts_gui::show_lathe_window(scene &curr_scene){
-	this->lathe_window->show();
-}
-
-void ts_gui::show_lights_window(scene &curr_scene){
-	this->lights_window->show();
-}
-
-void ts_gui::show_macro_window(scene &curr_scene){
-	this->macro_window->show();
-}
-
-void ts_gui::show_mirror_options_window(scene &curr_scene){
-	this->mirror_options_window->show();
-}
-
-void ts_gui::show_nurbs_plane_window(scene &curr_scene){
-	this->nurbs_plane_window->show();
-}
-
-void ts_gui::show_nurbs_saddle_window(scene &curr_scene){
-	this->nurbs_saddle_window->show();
-}
-
-void ts_gui::show_nurbs_cube_window(scene &curr_scene){
-	this->nurbs_cube_window->show();
-}
-
-void ts_gui::show_nurbs_cone_window(scene &curr_scene){
-	this->nurbs_cone_window->show();
-}
-
-void ts_gui::show_nurbs_cylinder_window(scene &curr_scene){
-	this->nurbs_cylinder_window->show();
-}
-
-void ts_gui::show_nurbs_sphere_window(scene &curr_scene){
-	this->nurbs_sphere_window->show();
-}
-
-void ts_gui::show_nurbs_torus_window(scene &curr_scene){
-	this->nurbs_torus_window->show();
-}
-
-void ts_gui::show_object_info_window(scene &curr_scene){
-	this->object_info_window->show();
-}
-
-void ts_gui::show_object_movie_window(scene &curr_scene){
-	this->object_movie_window->show();
-}
-
-void ts_gui::show_object_render_options_window(scene &curr_scene){
-	this->object_render_options_window->show();
-}
-
-void ts_gui::show_ogl_setting_window(scene &curr_scene){
-	this->ogl_setting_window->show();
-}
-
-void ts_gui::show_pan_movie_window(scene &curr_scene){
-	this->pan_movie_window->show();
-}
-
-void ts_gui::show_panoramic_camera_window(scene &curr_scene){
-	this->panoramic_camera_window->show();
-}
-
-void ts_gui::show_plane_window(scene &curr_scene){
-	if (plane_resolution_spin) plane_resolution_spin->set_value(curr_scene.prefs.get_plane_resolution());
-	this->plane_window->show();
-}
-
-void ts_gui::show_point_edit_window(scene &curr_scene){
-	this->point_edit_window->show();
-}
-
-void ts_gui::show_polygon_reduction_tool_window(scene &curr_scene){
-	this->polygon_reduction_tool_window->show();
-}
-
-void ts_gui::show_preferences_window(scene &curr_scene){
-	this->preferences_window->show();
-}
-
-void ts_gui::show_primitive_parameters_window(scene &curr_scene){
-	this->primitive_parameters_window->show();
-}
-
-void ts_gui::show_primitive_shape_window(scene &curr_scene){
-	this->primitive_shape_window->show();
-}
-
-void ts_gui::show_rounded_cube_window(scene &curr_scene){
-	if (rounded_cube_lat_spin) rounded_cube_lat_spin->set_value(curr_scene.prefs.get_rounded_cube_latitude());
-	if (rounded_cube_long_spin) rounded_cube_long_spin->set_value(curr_scene.prefs.get_rounded_cube_longitude());
-	this->rounded_cube_window->show();
-}
-
-void ts_gui::show_rounded_cylinder_window(scene &curr_scene){
-	if (rounded_cylinder_lat_spin) rounded_cylinder_lat_spin->set_value(curr_scene.prefs.get_rounded_cylinder_latitude());
-	if (rounded_cylinder_long_spin) rounded_cylinder_long_spin->set_value(curr_scene.prefs.get_rounded_cylinder_longitude());
-	this->rounded_cylinder_window->show();
-}
-
-void ts_gui::show_scene_editor_preferences_window(scene &curr_scene){
-	this->scene_editor_preferences_window->show();
-}
-
-void ts_gui::show_selection_window(scene &curr_scene){
-	this->selection_window->show();
-}
-
-void ts_gui::show_set_keyframe_window(scene &curr_scene){
-	this->set_keyframe_window->show();
-}
-
-void ts_gui::show_shell_properties_window(scene &curr_scene){
-	this->shell_properties_window->show();
-}
-
-void ts_gui::show_skin_options_window(scene &curr_scene){
-	this->skin_options_window->show();
-}
-
-void ts_gui::show_smooth_quad_window(scene &curr_scene){
-	this->smooth_quad_window->show();
-}
-
-
-void ts_gui::show_sphere_window(scene &curr_scene){
-	if (sphere_lat_spin) sphere_lat_spin->set_value(curr_scene.prefs.get_sphere_latitude());
-	if (sphere_long_spin) sphere_long_spin->set_value(curr_scene.prefs.get_sphere_longitude());
-	this->sphere_window->show();
-}
-
-void ts_gui::show_sweep_tip_window(scene &curr_scene){
-	this->sweep_tip_window->show();
-}
-
-void ts_gui::show_taper_window(scene &curr_scene){
-	this->taper_window->show();
-}
-
-void ts_gui::show_torus_window(scene &curr_scene){
-	if (torus_lat_spin) torus_lat_spin->set_value(curr_scene.prefs.get_torus_latitude());
-	if (torus_long_spin) torus_long_spin->set_value(curr_scene.prefs.get_torus_longitude());
-	if (torus_inner_radius_spin) torus_inner_radius_spin->set_value(curr_scene.prefs.get_torus_inner_radius());
-	this->torus_window->show();
-}
-
-void ts_gui::show_undo_options_window(scene &curr_scene){
-	this->undo_options_window->show();
-}
-
-void ts_gui::show_wind_window(scene &curr_scene){
-	this->wind_window->show();
-}
+void ts_gui::show_bevel_window(scene &curr_scene){ show_gl_bevel_window(curr_scene); }
+void ts_gui::show_boolean_window(scene &curr_scene){ show_gl_boolean_window(curr_scene); }
+void ts_gui::show_chamfer_window(scene &curr_scene){ show_gl_chamfer_window(curr_scene); }
+void ts_gui::show_coords_window(scene &curr_scene){ show_gl_coords_window(curr_scene); }
+void ts_gui::show_cone_window(scene &curr_scene){ show_gl_cone_window(curr_scene); }
+void ts_gui::show_copy_tool_window(scene &curr_scene){}
+void ts_gui::show_cube_window(scene &curr_scene){ show_gl_cube_window(curr_scene); }
+void ts_gui::show_metaball_window(scene &curr_scene){ show_gl_metaball_window(curr_scene); }
+void ts_gui::show_cylinder_window(scene &curr_scene){ show_gl_cylinder_window(curr_scene); }
+void ts_gui::show_deformation_window(scene &curr_scene){}
+void ts_gui::show_edit_window(scene &curr_scene){}
+void ts_gui::show_edit_window_expanded(scene &curr_scene){}
+void ts_gui::show_fillet_window(scene &curr_scene){ show_gl_fillet_window(curr_scene); }
+void ts_gui::show_geosphere_window(scene &curr_scene){ show_gl_geosphere_window(curr_scene); }
+void ts_gui::show_lathe_window(scene &curr_scene){ show_gl_lathe_window(curr_scene); }
+void ts_gui::show_lights_window(scene &curr_scene){ show_gl_lights_window(curr_scene); }
+void ts_gui::show_macro_window(scene &curr_scene){ show_gl_macro_window(curr_scene); }
+void ts_gui::show_mirror_options_window(scene &curr_scene){ show_gl_mirror_options_window(curr_scene); }
+void ts_gui::show_nurbs_plane_window(scene &curr_scene){ show_gl_nurbs_plane_window(curr_scene); }
+void ts_gui::show_nurbs_saddle_window(scene &curr_scene){}
+void ts_gui::show_nurbs_cube_window(scene &curr_scene){ show_gl_nurbs_cube_window(curr_scene); }
+void ts_gui::show_nurbs_cone_window(scene &curr_scene){ show_gl_nurbs_cone_window(curr_scene); }
+void ts_gui::show_nurbs_cylinder_window(scene &curr_scene){ show_gl_nurbs_cylinder_window(curr_scene); }
+void ts_gui::show_nurbs_sphere_window(scene &curr_scene){ show_gl_nurbs_sphere_window(curr_scene); }
+void ts_gui::show_nurbs_torus_window(scene &curr_scene){ show_gl_nurbs_torus_window(curr_scene); }
+void ts_gui::show_object_info_window(scene &curr_scene){ show_gl_object_info_window(curr_scene); }
+void ts_gui::show_object_movie_window(scene &curr_scene){}
+void ts_gui::show_object_render_options_window(scene &curr_scene){}
+void ts_gui::show_ogl_setting_window(scene &curr_scene){}
+void ts_gui::show_pan_movie_window(scene &curr_scene){}
+void ts_gui::show_panoramic_camera_window(scene &curr_scene){}
+void ts_gui::show_plane_window(scene &curr_scene){ show_gl_plane_window(curr_scene); }
+void ts_gui::show_point_edit_window(scene &curr_scene){}
+void ts_gui::show_polygon_reduction_tool_window(scene &curr_scene){ show_gl_polygon_reduction_window(curr_scene); }
+void ts_gui::show_preferences_window(scene &curr_scene){}
+void ts_gui::show_primitive_parameters_window(scene &curr_scene){}
+void ts_gui::show_primitive_shape_window(scene &curr_scene){}
+void ts_gui::show_rounded_cube_window(scene &curr_scene){ show_gl_rounded_cube_window(curr_scene); }
+void ts_gui::show_rounded_cylinder_window(scene &curr_scene){ show_gl_rounded_cylinder_window(curr_scene); }
+void ts_gui::show_scene_editor_preferences_window(scene &curr_scene){}
+void ts_gui::show_selection_window(scene &curr_scene){}
+void ts_gui::show_set_keyframe_window(scene &curr_scene){}
+void ts_gui::show_shell_properties_window(scene &curr_scene){ show_gl_shell_properties_window(curr_scene); }
+void ts_gui::show_skin_options_window(scene &curr_scene){}
+void ts_gui::show_smooth_quad_window(scene &curr_scene){ show_gl_smooth_quad_window(curr_scene); }
+void ts_gui::show_sphere_window(scene &curr_scene){ show_gl_sphere_window(curr_scene); }
+void ts_gui::show_sweep_tip_window(scene &curr_scene){ show_gl_sweep_tip_window(curr_scene); }
+void ts_gui::show_taper_window(scene &curr_scene){}
+void ts_gui::show_torus_window(scene &curr_scene){ show_gl_torus_window(curr_scene); }
+void ts_gui::show_undo_options_window(scene &curr_scene){}
+void ts_gui::show_wind_window(scene &curr_scene){ show_gl_wind_window(curr_scene); }
 
 void ts_gui::collectSelectedVertexIndices(scene &curr_scene, std::set<int>& out) {
 	auto obj = curr_scene.GetCurrentObject();
@@ -627,6 +535,7 @@ void ts_gui::computeVertexCenter(scene &curr_scene, const std::set<int>& indices
 }
 
 void ts_gui::update_object_info(scene &curr_scene){
+	update_gl_object_info(curr_scene);
 	auto obj = curr_scene.GetCurrentObject();
 
 	auto fmt = [](double v) -> std::string {

@@ -2,6 +2,7 @@
 #include "../include/scene.h"
 #include "../include/primitive.h"
 #include "../include/gui/tsgui.h"
+#include "../include/gl_tool_windows.h"
 #include "../include/math3d.h"
 #include <algorithm>
 
@@ -35,88 +36,78 @@ void primitive_parameters (scene &curr_scene){
 }
 
 void plane_parameters (scene &curr_scene){
-    cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-	if (curr_scene.Get_Current_Tool() == 50 ){
+	if (curr_scene.Get_Current_Tool() == 50) {
 		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
 		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
-	}else{
-		curr_scene.curr_gui->show_plane_window(curr_scene);
+	} else {
+		show_gl_plane_window(curr_scene);
 	}
 }
 
 void cube_parameters (scene &curr_scene){
-	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-	if (curr_scene.Get_Current_Tool() == 51 ){
+	if (curr_scene.Get_Current_Tool() == 51) {
 		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
 		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
-	}else{
-		curr_scene.curr_gui->show_cube_window(curr_scene);
+	} else {
+		show_gl_cube_window(curr_scene);
 	}
 }
 
-
 void sphere_parameters (scene &curr_scene){
-	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-	if (curr_scene.Get_Current_Tool() == 54 ){
+	if (curr_scene.Get_Current_Tool() == 54) {
 		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
 		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
-	}else{
-		curr_scene.curr_gui->show_sphere_window(curr_scene);
+	} else {
+		show_gl_sphere_window(curr_scene);
 	}
 }
 
 void geosphere_parameters (scene &curr_scene){
-    curr_scene.curr_gui->show_geosphere_window(curr_scene);
+	show_gl_geosphere_window(curr_scene);
 }
 
 void cylinder_parameters (scene &curr_scene){
-	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-	if (curr_scene.Get_Current_Tool() == 52 ){
+	if (curr_scene.Get_Current_Tool() == 52) {
 		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
 		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
-	}else{
-		curr_scene.curr_gui->show_cylinder_window(curr_scene);
+	} else {
+		show_gl_cylinder_window(curr_scene);
 	}
 }
 
-
 void cone_parameters (scene &curr_scene){
-	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-	if (curr_scene.Get_Current_Tool() == 53 ){
+	if (curr_scene.Get_Current_Tool() == 53) {
 		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
 		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
-	}else{
-		curr_scene.curr_gui->show_cone_window(curr_scene);
+	} else {
+		show_gl_cone_window(curr_scene);
 	}
 }
 
 void torus_parameters (scene &curr_scene){
-		cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-	if (curr_scene.Get_Current_Tool() == 58 ){
+	if (curr_scene.Get_Current_Tool() == 58) {
 		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
 		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
-	}else{
-		curr_scene.curr_gui->show_torus_window(curr_scene);
+	} else {
+		show_gl_torus_window(curr_scene);
 	}
 }
 
 void rounded_cube_parameters (scene &curr_scene){
-		cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-	if (curr_scene.Get_Current_Tool() == 57 ){
+	if (curr_scene.Get_Current_Tool() == 57) {
 		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
 		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
-	}else{
-		curr_scene.curr_gui->show_rounded_cube_window(curr_scene);
+	} else {
+		show_gl_rounded_cube_window(curr_scene);
 	}
 }
 
 void rounded_cylinder_parameters (scene &curr_scene){
-		cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
-	if (curr_scene.Get_Current_Tool() == 56 ){
+	if (curr_scene.Get_Current_Tool() == 56) {
 		curr_scene.curr_gui->show_primitive_parameters_window(curr_scene);
 		curr_scene.curr_gui->show_primitive_shape_window(curr_scene);
-	}else{
-		curr_scene.curr_gui->show_rounded_cylinder_window(curr_scene);
+	} else {
+		show_gl_rounded_cylinder_window(curr_scene);
 	}
 }
 
@@ -424,15 +415,38 @@ void show_axes (scene &curr_scene){
 	}
 }
 void select_object (scene &curr_scene){
+	if (curr_scene.Get_Current_Tool() == 0 && curr_scene.selected_objects.empty()) {
+		auto prev = curr_scene.GetPrevObject();
+		if (prev) {
+			for (auto& obj : curr_scene.object_list) {
+				if (obj == prev) {
+					curr_scene.SelectObject(prev, false);
+					if (curr_scene.curr_gui)
+						curr_scene.curr_gui->update_object_info(curr_scene);
+					return;
+				}
+			}
+		}
+	}
+	auto save_prev = curr_scene.current_object;
+	if (save_prev && save_prev->getSelectedFaces().size() +
+		save_prev->getSelectedEdges().size() +
+		save_prev->getSelectedVertices().size() > 0)
+		save_prev->clearSubSelection();
+	curr_scene.ClearSelection();
+	curr_scene.SetPrevObject(save_prev);
 	curr_scene.Set_Current_Tool(0);
-	cout << "Current Tool is: " << curr_scene.Get_Current_Tool() << endl;
+	curr_scene.Set_Edit_Mode(0);
+	curr_scene.editing_toolbar_visible = false;
+	if (curr_scene.curr_gui)
+		curr_scene.curr_gui->update_object_info(curr_scene);
 }
 void clear_selection (scene &curr_scene){
 	curr_scene.Set_Current_Tool(0);
 }
 
 void show_object_info(scene &curr_scene){
-	curr_scene.curr_gui->show_object_info_window(curr_scene);
+	show_gl_object_info_window(curr_scene);
 }
 
 void global_panel (scene &curr_scene){
@@ -444,22 +458,32 @@ void object_notes (scene &curr_scene){
 void select_context (scene &curr_scene){
 	curr_scene.Set_Current_Tool(250);
 	curr_scene.Set_Edit_Mode(0);
-	cout << "Edit Mode: Object" << endl;
+	curr_scene.editing_toolbar_visible = true;
+	cout << "Edit Mode: Context" << endl;
 }
 void select_vertices (scene &curr_scene){
 	curr_scene.Set_Current_Tool(251);
 	curr_scene.Set_Edit_Mode(1);
+	curr_scene.editing_toolbar_visible = true;
 	cout << "Edit Mode: Vertex" << endl;
 }
 void select_edges (scene &curr_scene){
 	curr_scene.Set_Current_Tool(252);
 	curr_scene.Set_Edit_Mode(2);
+	curr_scene.editing_toolbar_visible = true;
 	cout << "Edit Mode: Edge" << endl;
 }
 void select_faces (scene &curr_scene){
 	curr_scene.Set_Current_Tool(253);
 	curr_scene.Set_Edit_Mode(3);
+	curr_scene.editing_toolbar_visible = true;
 	cout << "Edit Mode: Face" << endl;
+}
+void select_objects (scene &curr_scene){
+	curr_scene.Set_Current_Tool(254);
+	curr_scene.Set_Edit_Mode(4);
+	curr_scene.editing_toolbar_visible = false;
+	cout << "Edit Mode: Object" << endl;
 }
 
 void shell_parameters(scene &curr_scene){
@@ -467,15 +491,48 @@ void shell_parameters(scene &curr_scene){
 }
 
 void named_selection (scene &curr_scene){
-
+	curr_scene.editing_toolbar_visible = true;
 }
 void lasso_selection (scene &curr_scene){
-
+	curr_scene.editing_toolbar_visible = true;
 }
 void rectangle_selection (scene &curr_scene){
+	curr_scene.editing_toolbar_visible = true;
 }
 void freehand_selection (scene &curr_scene){
+	curr_scene.editing_toolbar_visible = true;
 }
+void slice_object (scene &curr_scene){}
+void separate_object (scene &curr_scene){}
+void flip_all_faces (scene &curr_scene){}
+void delete_face (scene &curr_scene){}
+void add_face (scene &curr_scene){}
+void weld_vertices (scene &curr_scene){}
+void erase_vertices (scene &curr_scene){}
+void polygon_draw (scene &curr_scene){}
+void polygon_slice (scene &curr_scene){}
+void polygon_bevel (scene &curr_scene){}
+void add_vertex (scene &curr_scene){}
+void add_edges (scene &curr_scene){}
+void polygon_copy (scene &curr_scene){}
+void delete_subdivision (scene &curr_scene){}
+void add_subdivision (scene &curr_scene){}
+void smooth_quad_divide (scene &curr_scene){}
+void quad_divide (scene &curr_scene){}
+void face_to_hole (scene &curr_scene){}
+void hole_to_face (scene &curr_scene){}
+void point_move (scene &curr_scene){
+	curr_scene.Set_Current_Tool(40);
+}
+void point_rotate (scene &curr_scene){
+	curr_scene.Set_Current_Tool(41);
+}
+void point_scale (scene &curr_scene){
+	curr_scene.Set_Current_Tool(42);
+}
+void add_to_selection (scene &curr_scene){}
+void select_subset (scene &curr_scene){}
+void remove_from_selection (scene &curr_scene){}
 void toggle_grid (scene &curr_scene){
 	bool current = curr_scene.prefs.get_draw_ground_plane();
 	curr_scene.prefs.set_draw_ground_plane(!current);

@@ -11,6 +11,7 @@ class preferences
 		int grid_resolution = 0;
 		bool draw_axes = FALSE;
 		bool draw_ground_plane = FALSE;
+		bool draw_control_widget = TRUE;
 		float background_color[3] = { 0.0, 0.0, 0.0 };
 		float grid_color[3] = { 0.0, 0.0, 0.0 };
 		float highlight_color[3] = { 0.0, 0.0, 0.0 };
@@ -55,6 +56,7 @@ class preferences
 		int get_grid_resolution(void);
 		bool get_draw_ground_plane(void);
 		bool get_draw_axes(void);
+		bool get_draw_control_widget(void);
 		float *get_background_color(void);
 		float *get_grid_color(void);
 		float *get_highlight_color(void);
@@ -84,6 +86,7 @@ class preferences
 		void set_grid_resolution(int);
 		void set_draw_axes(bool);
 		void set_draw_ground_plane(bool);
+		void set_draw_control_widget(bool);
 		void set_background_color( float red, float green, float blue );
 		void set_grid_color( float red, float green, float blue );
 		void set_highlight_color( float Red, float green, float blue );

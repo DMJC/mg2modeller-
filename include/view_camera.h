@@ -21,6 +21,7 @@ public:
 	void setupForView(int view_type);
 	void orbit(float delta_yaw, float delta_pitch);
 	void pan(float dx, float dy, float viewport_width, float viewport_height);
+	void panAlongWorldAxis(float amount, float axis_x, float axis_y, float axis_z);
 	void zoom(float delta);
 
 	void getViewMatrix(float* out) const;

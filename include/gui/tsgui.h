@@ -66,6 +66,8 @@ private:
 	Gtk::Grid* main_window_tools_grid = nullptr;
 	Gtk::ImageMenuItem* ts_quit_button = nullptr;
 	Gtk::MenuItem* ts_save_layout_menuitem = nullptr;
+	Gtk::MenuItem* ts_display_options_menuitem = nullptr;
+	Gtk::MenuItem* ts_preferences_menuitem = nullptr;
 
 	// Object Info widgets
 	Gtk::Entry* obj_info_name = nullptr;

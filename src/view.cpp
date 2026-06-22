@@ -3,6 +3,10 @@
 #include "../include/gui/tsgui.h"
 #include "../include/math3d.h"
 #include "../include/tools.h"
+#include <fstream>
+#include <sstream>
+#include <map>
+#include <array>
 
 // ============================================================
 // Shader sources
@@ -270,10 +274,10 @@ void view::initAxesMesh() {
 	axes_mesh.vertex_data = {
 		0.0f, 0.0f, 0.0f,  1.0f, 0.2f, 0.2f,
 		2.0f, 0.0f, 0.0f,  1.0f, 0.2f, 0.2f,
-		0.0f, 0.0f, 0.0f,  0.2f, 1.0f, 0.2f,
-		0.0f, 2.0f, 0.0f,  0.2f, 1.0f, 0.2f,
 		0.0f, 0.0f, 0.0f,  0.3f, 0.3f, 1.0f,
-		0.0f, 0.0f, 2.0f,  0.3f, 0.3f, 1.0f,
+		0.0f, 2.0f, 0.0f,  0.3f, 0.3f, 1.0f,
+		0.0f, 0.0f, 0.0f,  0.2f, 1.0f, 0.2f,
+		0.0f, 0.0f, 2.0f,  0.2f, 1.0f, 0.2f,
 	};
 	axes_mesh.line_indices = { 0, 1, 2, 3, 4, 5 };
 	axes_mesh.uploadToGPU();
@@ -315,15 +319,273 @@ void view::initGridMesh() {
 	}
 
 	grid_mesh.uploadToGPU();
+
+	grid_axis_lines.vertex_data.clear();
+	grid_axis_lines.line_indices.clear();
+	grid_axis_lines.triangle_indices.clear();
+	grid_axis_lines.vertex_data = {
+		-half, 0.0f, 0.0f,  0.2f, 1.0f, 0.2f,
+		 half, 0.0f, 0.0f,  0.2f, 1.0f, 0.2f,
+		0.0f, 0.0f, -half,  0.5f, 0.8f, 1.0f,
+		0.0f, 0.0f,  half,  0.5f, 0.8f, 1.0f,
+	};
+	grid_axis_lines.line_indices = { 0, 1, 2, 3 };
+	grid_axis_lines.uploadToGPU();
 }
 
 void view::initGizmoMeshes() {
 	buildArrowMesh(gizmo_arrow_x, 1, 0, 0, 1.0f, 0.2f, 0.2f, 1.5f);
 	gizmo_arrow_x.uploadToGPU();
-	buildArrowMesh(gizmo_arrow_y, 0, 1, 0, 0.2f, 1.0f, 0.2f, 1.5f);
+	buildArrowMesh(gizmo_arrow_y, 0, 0, 1, 0.2f, 1.0f, 0.2f, 1.5f);
 	gizmo_arrow_y.uploadToGPU();
-	buildArrowMesh(gizmo_arrow_z, 0, 0, 1, 0.3f, 0.3f, 1.0f, 1.5f);
+	buildArrowMesh(gizmo_arrow_z, 0, 1, 0, 0.3f, 0.3f, 1.0f, 1.5f);
 	gizmo_arrow_z.uploadToGPU();
+}
+
+// ============================================================
+// OBJ parser for control widget
+// ============================================================
+struct NamedMesh {
+	std::string name;
+	Mesh mesh;
+};
+
+static std::vector<NamedMesh> loadOBJFile(const std::string& filename,
+	const std::map<std::string, std::array<float,3>>& colors)
+{
+	std::vector<NamedMesh> result;
+	std::ifstream file(filename);
+	if (!file.is_open()) return result;
+
+	std::vector<std::array<float,3>> positions;
+	int current = -1;
+	std::map<int, int> vert_remap;
+	std::array<float,3> cur_color = {0.5f, 0.5f, 0.5f};
+
+	std::string line;
+	while (std::getline(file, line)) {
+		if (line.empty() || line[0] == '#' || line[0] == 'm' || line[0] == 's') continue;
+
+		std::istringstream iss(line);
+		std::string token;
+		iss >> token;
+
+		if (token == "o") {
+			std::string name;
+			iss >> name;
+			result.push_back({name, Mesh()});
+			current = (int)result.size() - 1;
+			vert_remap.clear();
+			auto it = colors.find(name);
+			if (it != colors.end()) cur_color = it->second;
+			else cur_color = {0.5f, 0.5f, 0.5f};
+		} else if (token == "v") {
+			float x, y, z;
+			iss >> x >> y >> z;
+			positions.push_back({x, y, z});
+		} else if (token == "f" && current >= 0) {
+			Mesh& m = result[current].mesh;
+			std::vector<int> face_local;
+			std::string ftoken;
+			while (iss >> ftoken) {
+				int vi = 0;
+				sscanf(ftoken.c_str(), "%d", &vi);
+				if (vi < 0) vi = (int)positions.size() + vi + 1;
+				int global_idx = vi - 1;
+
+				int local_idx;
+				auto it = vert_remap.find(global_idx);
+				if (it != vert_remap.end()) {
+					local_idx = it->second;
+				} else {
+					local_idx = (int)m.vertex_data.size() / 6;
+					auto& p = positions[global_idx];
+					m.vertex_data.push_back(p[0]);
+					m.vertex_data.push_back(p[1]);
+					m.vertex_data.push_back(p[2]);
+					m.vertex_data.push_back(cur_color[0]);
+					m.vertex_data.push_back(cur_color[1]);
+					m.vertex_data.push_back(cur_color[2]);
+					vert_remap[global_idx] = local_idx;
+				}
+				face_local.push_back(local_idx);
+			}
+			for (int i = 1; i < (int)face_local.size() - 1; i++) {
+				m.triangle_indices.push_back(face_local[0]);
+				m.triangle_indices.push_back(face_local[i]);
+				m.triangle_indices.push_back(face_local[i + 1]);
+			}
+			for (int i = 0; i < (int)face_local.size(); i++) {
+				m.line_indices.push_back(face_local[i]);
+				m.line_indices.push_back(face_local[(i + 1) % face_local.size()]);
+			}
+		}
+	}
+	return result;
+}
+
+void view::initControlWidget() {
+	std::map<std::string, std::array<float,3>> colors = {
+		{"X-Arrow",          {1.0f, 0.2f, 0.2f}},
+		{"Y-Arrow",          {0.2f, 1.0f, 0.2f}},
+		{"Z-Arrow",          {0.3f, 0.3f, 1.0f}},
+		{"Turn_Cylinder",    {1.0f, 1.0f, 0.2f}},
+		{"Relocate_Sphere",  {1.0f, 0.6f, 0.1f}},
+		{"Move_Turn_Plane",  {0.5f, 0.5f, 0.5f}},
+		{"Movement_Plane",   {0.6f, 0.6f, 0.6f}},
+	};
+
+	auto meshes = loadOBJFile("control_widget.obj", colors);
+	if (meshes.empty()) return;
+
+	std::map<std::string, int> name_to_idx = {
+		{"Move_Turn_Plane",  CW_MOVE_TURN_PLANE},
+		{"Movement_Plane",   CW_MOVEMENT_PLANE},
+		{"Z-Arrow",          CW_Z_ARROW},
+		{"X-Arrow",          CW_X_ARROW},
+		{"Y-Arrow",          CW_Y_ARROW},
+		{"Relocate_Sphere",  CW_RELOCATE_SPHERE},
+		{"Turn_Cylinder",    CW_TURN_CYLINDER},
+	};
+
+	for (auto& nm : meshes) {
+		auto it = name_to_idx.find(nm.name);
+		if (it != name_to_idx.end()) {
+			cw_meshes[it->second] = std::move(nm.mesh);
+			cw_meshes[it->second].uploadToGPU();
+		}
+	}
+	cw_loaded = true;
+}
+
+void view::renderControlWidget(float* view_mat, float* proj_mat) {
+	if (!cw_loaded || !vertcolor_shader.getId()) return;
+	if (scene_ptr && !scene_ptr->prefs.get_draw_control_widget()) return;
+
+	float model_mat[16];
+	IdentityMatrix(model_mat);
+	TranslateMatrix(cw_position[0], cw_position[1], cw_position[2], model_mat);
+
+	vertcolor_shader.use();
+	vertcolor_shader.setMat4("view", view_mat);
+	vertcolor_shader.setMat4("projection", proj_mat);
+	vertcolor_shader.setMat4("model", model_mat);
+
+	glDisable(GL_DEPTH_TEST);
+	for (int i = 0; i < CW_COUNT; i++) {
+		if (cw_meshes[i].hasData()) {
+			cw_meshes[i].drawSolid();
+			cw_meshes[i].drawWireframe();
+		}
+	}
+	glEnable(GL_DEPTH_TEST);
+}
+
+int view::pickControlWidgetAt(int x, int y, float* view_mat, float* proj_mat) {
+	if (!cw_loaded || !wireframe_shader.getId()) return 0;
+	if (scene_ptr && !scene_ptr->prefs.get_draw_control_widget()) return 0;
+
+	int w = mGlArea.get_allocated_width();
+	int h = mGlArea.get_allocated_height();
+	if (w <= 0 || h <= 0) return 0;
+
+	ensurePickFBO(w, h);
+
+	float model_mat[16];
+	IdentityMatrix(model_mat);
+	TranslateMatrix(cw_position[0], cw_position[1], cw_position[2], model_mat);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, pick_fbo);
+	glViewport(0, 0, w, h);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+
+	wireframe_shader.use();
+	wireframe_shader.setMat4("model", model_mat);
+	wireframe_shader.setMat4("view", view_mat);
+	wireframe_shader.setMat4("projection", proj_mat);
+
+	for (int i = 0; i < CW_COUNT; i++) {
+		if (!cw_meshes[i].hasData()) continue;
+		int id = i + 1;
+		float r = (id & 0xFF) / 255.0f;
+		float g = ((id >> 8) & 0xFF) / 255.0f;
+		float b = ((id >> 16) & 0xFF) / 255.0f;
+		float pick_col[3] = {r, g, b};
+		wireframe_shader.setVec3("lineColor", pick_col);
+		cw_meshes[i].drawSolid();
+	}
+
+	int read_y = h - y - 1;
+	unsigned char pixel[4] = {0, 0, 0, 0};
+	glReadPixels(x, read_y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	int picked = pixel[0] | (pixel[1] << 8) | (pixel[2] << 16);
+	if (picked < 1 || picked > CW_COUNT) return 0;
+	return picked;
+}
+
+void view::handleControlWidgetDrag(double dx, double dy, int part) {
+	float scale = camera.getDistance() * 0.005f;
+
+	if (part == CW_X_ARROW + 1 || part == CW_Y_ARROW + 1 || part == CW_Z_ARROW + 1) {
+		float axis[3] = {0, 0, 0};
+		if (part == CW_X_ARROW + 1)      axis[0] = 1.0f;
+		else if (part == CW_Y_ARROW + 1) axis[1] = 1.0f;
+		else                              axis[2] = 1.0f;
+
+		float view_mat[16], proj_mat[16];
+		camera.getViewMatrix(view_mat);
+		int w = mGlArea.get_allocated_width();
+		int h = mGlArea.get_allocated_height();
+		float aspect = (float)w / (float)h;
+		camera.getProjectionMatrix(aspect, proj_mat);
+
+		float mvp[16];
+		float temp[16];
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++) {
+				temp[i * 4 + j] = 0;
+				for (int k = 0; k < 4; k++)
+					temp[i * 4 + j] += proj_mat[i * 4 + k] * view_mat[k * 4 + j];
+			}
+		for (int i = 0; i < 16; i++) mvp[i] = temp[i];
+
+		auto project = [&](float wx, float wy, float wz, float& sx, float& sy) {
+			float cx = mvp[0]*wx + mvp[4]*wy + mvp[8]*wz + mvp[12];
+			float cy = mvp[1]*wx + mvp[5]*wy + mvp[9]*wz + mvp[13];
+			float cw = mvp[3]*wx + mvp[7]*wy + mvp[11]*wz + mvp[15];
+			if (fabs(cw) < 1e-6f) cw = 1e-6f;
+			sx = (cx / cw + 1.0f) * 0.5f * w;
+			sy = (1.0f - cy / cw) * 0.5f * h;
+		};
+
+		float sx0, sy0, sx1, sy1;
+		project(cw_position[0], cw_position[1], cw_position[2], sx0, sy0);
+		project(cw_position[0] + axis[0], cw_position[1] + axis[1], cw_position[2] + axis[2], sx1, sy1);
+
+		float screen_dx = sx1 - sx0;
+		float screen_dy = sy1 - sy0;
+		float len = sqrtf(screen_dx * screen_dx + screen_dy * screen_dy);
+		if (len < 1e-4f) return;
+		screen_dx /= len;
+		screen_dy /= len;
+
+		float amount = (dx * screen_dx + dy * screen_dy) * scale;
+		camera.panAlongWorldAxis(amount, axis[0], axis[1], axis[2]);
+	} else if (part == CW_TURN_CYLINDER + 1) {
+		camera.orbit(dx * 0.3f, dy * 0.3f);
+	} else if (part == CW_RELOCATE_SPHERE + 1) {
+		float view_mat[16];
+		camera.getViewMatrix(view_mat);
+		float right[3] = {view_mat[0], view_mat[4], view_mat[8]};
+		float up[3] = {view_mat[1], view_mat[5], view_mat[9]};
+		for (int i = 0; i < 3; i++)
+			cw_position[i] += (right[i] * dx - up[i] * dy) * scale;
+	}
 }
 
 void view::ensurePickFBO(int w, int h) {
@@ -370,6 +632,7 @@ void view::initGL() {
 	initAxesMesh();
 	initGridMesh();
 	initGizmoMeshes();
+	initControlWidget();
 
 	while (glGetError() != GL_NO_ERROR) {}
 }
@@ -383,9 +646,11 @@ void view::onUnrealize() {
 	pick_shader.cleanup();
 	axes_mesh.cleanup();
 	grid_mesh.cleanup();
+	grid_axis_lines.cleanup();
 	gizmo_arrow_x.cleanup();
 	gizmo_arrow_y.cleanup();
 	gizmo_arrow_z.cleanup();
+	for (int i = 0; i < CW_COUNT; i++) cw_meshes[i].cleanup();
 	if (pick_fbo) {
 		glDeleteFramebuffers(1, &pick_fbo);
 		glDeleteTextures(1, &pick_color_tex);
@@ -396,6 +661,7 @@ void view::onUnrealize() {
 		scene_ptr->view_object_toolbar.cleanup();
 		scene_ptr->main_toolbar.cleanup();
 		scene_ptr->object_toolbar.cleanup();
+		scene_ptr->window_manager.cleanup();
 	}
 }
 
@@ -419,6 +685,16 @@ void view::renderGrid(float* view_mat, float* proj_mat) {
 	wireframe_shader.setMat4("projection", proj_mat);
 	wireframe_shader.setVec3("lineColor", gc);
 	grid_mesh.drawWireframe();
+
+	if (vertcolor_shader.getId() && grid_axis_lines.hasData()) {
+		glLineWidth(2.0f);
+		vertcolor_shader.use();
+		vertcolor_shader.setMat4("model", identity);
+		vertcolor_shader.setMat4("view", view_mat);
+		vertcolor_shader.setMat4("projection", proj_mat);
+		grid_axis_lines.drawWireframe();
+		glLineWidth(1.0f);
+	}
 }
 
 void view::renderAxes(float* view_mat, float* proj_mat) {
@@ -431,7 +707,9 @@ void view::renderAxes(float* view_mat, float* proj_mat) {
 	vertcolor_shader.setMat4("model", identity);
 	vertcolor_shader.setMat4("view", view_mat);
 	vertcolor_shader.setMat4("projection", proj_mat);
+	glLineWidth(2.0f);
 	axes_mesh.drawWireframe();
+	glLineWidth(1.0f);
 }
 
 void view::renderObjects(float* view_mat, float* proj_mat) {
@@ -439,6 +717,7 @@ void view::renderObjects(float* view_mat, float* proj_mat) {
 	if (!solid_shader.getId() && !wireframe_shader.getId()) return;
 
 	int draw_mode = scene_ptr->current_draw_mode;
+	int edit_mode = scene_ptr->Get_Edit_Mode();
 
 	for (auto& obj_ptr : scene_ptr->object_list) {
 		if (!obj_ptr) continue;
@@ -452,7 +731,52 @@ void view::renderObjects(float* view_mat, float* proj_mat) {
 		float model_mat[16];
 		obj_ptr->buildModelMatrix(model_mat);
 		bool is_selected = scene_ptr->IsSelected(obj_ptr);
+		int tool = scene_ptr->Get_Current_Tool();
+		bool is_context = (tool == 250 && edit_mode == 0);
+		bool is_edit_target = ((edit_mode >= 1 && edit_mode <= 3) || is_context) &&
+							   obj_ptr == scene_ptr->current_object;
 		float* color = is_selected ? obj_ptr->getSelectedColor() : obj_ptr->getUnselectedColor();
+
+		if (is_edit_target) {
+			if (solid_shader.getId()) {
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glDepthMask(GL_FALSE);
+
+				solid_shader.use();
+				solid_shader.setMat4("model", model_mat);
+				solid_shader.setMat4("view", view_mat);
+				solid_shader.setMat4("projection", proj_mat);
+				float normal_mat[9] = {
+					model_mat[0], model_mat[1], model_mat[2],
+					model_mat[4], model_mat[5], model_mat[6],
+					model_mat[8], model_mat[9], model_mat[10]
+				};
+				solid_shader.setMat3("normalMatrix", normal_mat);
+				float light_dir[3] = {-0.5f, -1.0f, -0.5f};
+				float light_color[3] = {1.0f, 1.0f, 1.0f};
+				solid_shader.setVec3("lightDir", light_dir);
+				solid_shader.setVec3("lightColor", light_color);
+				solid_shader.setFloat("ambient", 0.25f);
+				solid_shader.setVec3("objectColor", color);
+				solid_shader.setFloat("alpha", 0.5f);
+
+				obj_ptr->getMesh().drawSolid();
+
+				glDepthMask(GL_TRUE);
+				glDisable(GL_BLEND);
+			}
+			if (wireframe_shader.getId()) {
+				wireframe_shader.use();
+				wireframe_shader.setMat4("model", model_mat);
+				wireframe_shader.setMat4("view", view_mat);
+				wireframe_shader.setMat4("projection", proj_mat);
+				float edit_wire[3] = {0.2f, 0.2f, 0.4f};
+				wireframe_shader.setVec3("lineColor", edit_wire);
+				obj_ptr->getMesh().drawWireframe();
+			}
+			continue;
+		}
 
 		bool draw_solid = (draw_mode == SOLID_VIEW || draw_mode == SOLID_WIREFRAME_VIEW ||
 						   draw_mode == TRANSPARENT_SOLID_VIEW || draw_mode == TRANSPARENT_WIREFRAME_VIEW ||
@@ -533,12 +857,14 @@ void view::renderGizmo(float* view_mat, float* proj_mat) {
 	vertcolor_shader.setMat4("model", model_mat);
 
 	glDisable(GL_DEPTH_TEST);
+	glLineWidth(2.0f);
 	gizmo_arrow_x.drawWireframe();
 	gizmo_arrow_x.drawSolid();
 	gizmo_arrow_y.drawWireframe();
 	gizmo_arrow_y.drawSolid();
 	gizmo_arrow_z.drawWireframe();
 	gizmo_arrow_z.drawSolid();
+	glLineWidth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -641,8 +967,10 @@ int view::pickSubElementAt(int x, int y, int edit_mode) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.getTriEBO());
 		glDrawElements(GL_TRIANGLES, m.getTriangleCount() * 3, GL_UNSIGNED_INT, 0);
 	} else if (edit_mode == 2) {
+		glLineWidth(5.0f);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.getLineEBO());
 		glDrawElements(GL_LINES, m.getLineCount() * 2, GL_UNSIGNED_INT, 0);
+		glLineWidth(1.0f);
 	} else if (edit_mode == 1) {
 		glEnable(GL_PROGRAM_POINT_SIZE);
 		glDrawArrays(GL_POINTS, 0, m.getVertexCount());
@@ -673,7 +1001,9 @@ int view::pickSubElementAt(int x, int y, int edit_mode) {
 void view::renderSubElementHighlights(float* view_mat, float* proj_mat) {
 	if (!scene_ptr || !scene_ptr->current_object) return;
 	int edit_mode = scene_ptr->Get_Edit_Mode();
-	if (edit_mode == 0) return;
+	int tool = scene_ptr->Get_Current_Tool();
+	bool is_context = (tool == 250 && edit_mode == 0);
+	if (edit_mode == 0 && !is_context) return;
 	if (!wireframe_shader.getId()) return;
 
 	auto obj = scene_ptr->current_object;
@@ -683,43 +1013,38 @@ void view::renderSubElementHighlights(float* view_mat, float* proj_mat) {
 	float model_mat[16];
 	obj->buildModelMatrix(model_mat);
 
-	float* hi = scene_ptr->prefs.get_highlight_color();
-	float highlight[3] = { hi[0], hi[1], hi[2] };
-
-	wireframe_shader.use();
-	wireframe_shader.setMat4("model", model_mat);
-	wireframe_shader.setMat4("view", view_mat);
-	wireframe_shader.setMat4("projection", proj_mat);
-	wireframe_shader.setVec3("lineColor", highlight);
+	float hover_color[3] = { 0.0f, 0.8f, 0.8f };
+	float select_color[3] = { 0.4f, 1.0f, 0.6f };
 
 	glDisable(GL_DEPTH_TEST);
 	glBindVertexArray(m.getVAO());
 
-	if (edit_mode == 3) {
-		// Fill selected faces
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.getTriEBO());
-		for (int face_id : obj->getSelectedFaces()) {
-			for (int tri = 0; tri < m.getTriangleCount(); tri++) {
-				if (m.getFaceFromTriangle(tri) == face_id) {
-					int offset = tri * 3 * sizeof(unsigned int);
-					glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)(intptr_t)offset);
-				}
+	auto drawFaceWireframe = [&](int face_id, float* color) {
+		wireframe_shader.use();
+		wireframe_shader.setMat4("model", model_mat);
+		wireframe_shader.setMat4("view", view_mat);
+		wireframe_shader.setMat4("projection", proj_mat);
+		wireframe_shader.setVec3("lineColor", color);
+
+		std::map<std::pair<unsigned int,unsigned int>, int> edge_count;
+		auto addEdge = [&](unsigned int a, unsigned int b) {
+			auto key = (a < b) ? std::make_pair(a, b) : std::make_pair(b, a);
+			edge_count[key]++;
+		};
+		for (int tri = 0; tri < m.getTriangleCount(); tri++) {
+			if (m.getFaceFromTriangle(tri) == face_id) {
+				int base = tri * 3;
+				unsigned int i0 = m.triangle_indices[base];
+				unsigned int i1 = m.triangle_indices[base + 1];
+				unsigned int i2 = m.triangle_indices[base + 2];
+				addEdge(i0, i1); addEdge(i1, i2); addEdge(i2, i0);
 			}
 		}
-
-		// Draw edges of selected faces
 		std::vector<unsigned int> edge_verts;
-		for (int face_id : obj->getSelectedFaces()) {
-			for (int tri = 0; tri < m.getTriangleCount(); tri++) {
-				if (m.getFaceFromTriangle(tri) == face_id) {
-					int base = tri * 3;
-					unsigned int i0 = m.triangle_indices[base];
-					unsigned int i1 = m.triangle_indices[base + 1];
-					unsigned int i2 = m.triangle_indices[base + 2];
-					edge_verts.push_back(i0); edge_verts.push_back(i1);
-					edge_verts.push_back(i1); edge_verts.push_back(i2);
-					edge_verts.push_back(i2); edge_verts.push_back(i0);
-				}
+		for (auto& kv : edge_count) {
+			if (kv.second == 1) {
+				edge_verts.push_back(kv.first.first);
+				edge_verts.push_back(kv.first.second);
 			}
 		}
 		if (!edge_verts.empty()) {
@@ -728,22 +1053,79 @@ void view::renderSubElementHighlights(float* view_mat, float* proj_mat) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tmp_ebo);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, edge_verts.size() * sizeof(unsigned int),
 						 edge_verts.data(), GL_STREAM_DRAW);
+			glLineWidth(3.0f);
 			glDrawElements(GL_LINES, edge_verts.size(), GL_UNSIGNED_INT, 0);
+			glLineWidth(1.0f);
 			glDeleteBuffers(1, &tmp_ebo);
 		}
-	} else if (edit_mode == 2) {
+	};
+
+	bool draw_faces = (edit_mode == 3 || is_context);
+	bool draw_edges = (edit_mode == 2 || is_context);
+	bool draw_verts = (edit_mode == 1 || is_context);
+
+	if (draw_faces) {
+		for (int face_id : obj->getSelectedFaces())
+			drawFaceWireframe(face_id, select_color);
+		if (hovered_sub_element >= 0 &&
+			(is_context ? hovered_edit_mode == 3 : true) &&
+			obj->getSelectedFaces().count(hovered_sub_element) == 0)
+			drawFaceWireframe(hovered_sub_element, hover_color);
+	}
+
+	if (draw_edges && !obj->getSelectedEdges().empty()) {
+		wireframe_shader.use();
+		wireframe_shader.setMat4("model", model_mat);
+		wireframe_shader.setMat4("view", view_mat);
+		wireframe_shader.setMat4("projection", proj_mat);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.getLineEBO());
+		glLineWidth(3.0f);
+		wireframe_shader.setVec3("lineColor", select_color);
 		for (int idx : obj->getSelectedEdges()) {
-			int offset = idx * 2 * sizeof(unsigned int);
-			if (idx < m.getLineCount())
+			if (idx < m.getLineCount()) {
+				int offset = idx * 2 * sizeof(unsigned int);
 				glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (void*)(intptr_t)offset);
+			}
 		}
-	} else if (edit_mode == 1) {
-		glPointSize(6.0f);
-		for (int idx : obj->getSelectedVertices()) {
-			if (idx < m.getVertexCount())
-				glDrawArrays(GL_POINTS, idx, 1);
+		glLineWidth(1.0f);
+	}
+	if (draw_edges && hovered_sub_element >= 0 &&
+		(is_context ? hovered_edit_mode == 2 : true) &&
+		hovered_sub_element < m.getLineCount() &&
+		obj->getSelectedEdges().count(hovered_sub_element) == 0) {
+		wireframe_shader.use();
+		wireframe_shader.setMat4("model", model_mat);
+		wireframe_shader.setMat4("view", view_mat);
+		wireframe_shader.setMat4("projection", proj_mat);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.getLineEBO());
+		glLineWidth(3.0f);
+		wireframe_shader.setVec3("lineColor", hover_color);
+		int offset = hovered_sub_element * 2 * sizeof(unsigned int);
+		glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (void*)(intptr_t)offset);
+		glLineWidth(1.0f);
+	}
+
+	if (draw_verts) {
+		wireframe_shader.use();
+		wireframe_shader.setMat4("model", model_mat);
+		wireframe_shader.setMat4("view", view_mat);
+		wireframe_shader.setMat4("projection", proj_mat);
+		glPointSize(8.0f);
+		if (!obj->getSelectedVertices().empty()) {
+			wireframe_shader.setVec3("lineColor", select_color);
+			for (int idx : obj->getSelectedVertices()) {
+				if (idx < m.getVertexCount())
+					glDrawArrays(GL_POINTS, idx, 1);
+			}
 		}
+		if (hovered_sub_element >= 0 &&
+			(is_context ? hovered_edit_mode == 1 : true) &&
+			hovered_sub_element < m.getVertexCount() &&
+			obj->getSelectedVertices().count(hovered_sub_element) == 0) {
+			wireframe_shader.setVec3("lineColor", hover_color);
+			glDrawArrays(GL_POINTS, hovered_sub_element, 1);
+		}
+		glPointSize(1.0f);
 	}
 
 	glBindVertexArray(0);
@@ -817,8 +1199,10 @@ bool view::onRender(const Glib::RefPtr<Gdk::GLContext>& context) {
 	int width = mGlArea.get_allocated_width();
 	int height = mGlArea.get_allocated_height();
 	if (height == 0) height = 1;
+	int scale = mGlArea.get_scale_factor();
+	GLTextRenderer::setScaleFactor(scale);
 	float aspect = (float)width / (float)height;
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, width * scale, height * scale);
 
 	float view_mat[16], proj_mat[16];
 	camera.getViewMatrix(view_mat);
@@ -834,6 +1218,7 @@ bool view::onRender(const Glib::RefPtr<Gdk::GLContext>& context) {
 	renderObjects(view_mat, proj_mat);
 
 	renderGizmo(view_mat, proj_mat);
+	renderControlWidget(view_mat, proj_mat);
 	renderSubElementHighlights(view_mat, proj_mat);
 
 	renderToolbars();
@@ -856,6 +1241,9 @@ void view::renderToolbars() {
 	scene_ptr->view_object_toolbar.render(w, h);
 	scene_ptr->main_toolbar.render(w, h);
 	scene_ptr->object_toolbar.render(w, h);
+	if (scene_ptr->editing_toolbar_visible)
+		scene_ptr->editing_toolbar.render(w, h);
+	scene_ptr->window_manager.render(w, h);
 }
 
 bool view::toolbarHitTest(int mx, int my) {
@@ -865,6 +1253,8 @@ bool view::toolbarHitTest(int mx, int my) {
 	if (scene_ptr->view_object_toolbar.hitTest(mx, my, w, h)) return true;
 	if (scene_ptr->main_toolbar.hitTest(mx, my, w, h)) return true;
 	if (scene_ptr->object_toolbar.hitTest(mx, my, w, h)) return true;
+	if (scene_ptr->editing_toolbar_visible &&
+		scene_ptr->editing_toolbar.hitTest(mx, my, w, h)) return true;
 	return false;
 }
 
@@ -880,10 +1270,35 @@ bool view::onButtonPress(GdkEventButton* event) {
 	last_press_time = event->time;
 
 	if (scene_ptr) {
+		if (scene_ptr->window_manager.onPress(mx, my, event->button, event->time)) {
+			toolbar_dragging = true;
+			mGlArea.queue_render();
+			return true;
+		}
 		if (scene_ptr->view_object_toolbar.onPress(mx, my, event->button, event->time, w, h) ||
 			scene_ptr->main_toolbar.onPress(mx, my, event->button, event->time, w, h) ||
-			scene_ptr->object_toolbar.onPress(mx, my, event->button, event->time, w, h)) {
+			scene_ptr->object_toolbar.onPress(mx, my, event->button, event->time, w, h) ||
+			(scene_ptr->editing_toolbar_visible &&
+			 scene_ptr->editing_toolbar.onPress(mx, my, event->button, event->time, w, h))) {
 			toolbar_dragging = true;
+			return true;
+		}
+	}
+
+	if (event->button == 1 && cw_loaded && scene_ptr &&
+		scene_ptr->prefs.get_draw_control_widget()) {
+		mGlArea.make_current();
+		float view_mat[16], proj_mat[16];
+		camera.getViewMatrix(view_mat);
+		float aspect = (float)w / (float)h;
+		camera.getProjectionMatrix(aspect, proj_mat);
+		int part = pickControlWidgetAt(mx, my, view_mat, proj_mat);
+		if (part > 0) {
+			cw_drag_part = part;
+			dragging = true;
+			drag_button = event->button;
+			last_mouse_x = event->x;
+			last_mouse_y = event->y;
 			return true;
 		}
 	}
@@ -896,13 +1311,24 @@ bool view::onButtonPress(GdkEventButton* event) {
 }
 
 bool view::onButtonRelease(GdkEventButton* event) {
+	if (cw_drag_part > 0) {
+		cw_drag_part = 0;
+		dragging = false;
+		drag_button = 0;
+		mGlArea.queue_render();
+		return true;
+	}
+
 	if (toolbar_dragging && scene_ptr) {
 		int w = mGlArea.get_allocated_width();
 		int h = mGlArea.get_allocated_height();
 		int mx = (int)event->x, my = (int)event->y;
+		scene_ptr->window_manager.onRelease(mx, my, event->button, event->time);
 		scene_ptr->view_object_toolbar.onRelease(mx, my, event->button, event->time, w, h, *scene_ptr);
 		scene_ptr->main_toolbar.onRelease(mx, my, event->button, event->time, w, h, *scene_ptr);
 		scene_ptr->object_toolbar.onRelease(mx, my, event->button, event->time, w, h, *scene_ptr);
+		if (scene_ptr->editing_toolbar_visible)
+			scene_ptr->editing_toolbar.onRelease(mx, my, event->button, event->time, w, h, *scene_ptr);
 		toolbar_dragging = false;
 		mGlArea.queue_render();
 		return true;
@@ -917,7 +1343,9 @@ bool view::onButtonRelease(GdkEventButton* event) {
 	if (event->button == 1 && was_click && scene_ptr) {
 		int tool = scene_ptr->Get_Current_Tool();
 		int edit_mode = scene_ptr->Get_Edit_Mode();
+		bool ctrl = (event->state & GDK_CONTROL_MASK) != 0;
 		bool shift = (event->state & GDK_SHIFT_MASK) != 0;
+		int sel_mode = ctrl ? object::SEL_ADD : (shift ? object::SEL_REMOVE : object::SEL_REPLACE);
 		bool is_object_select = (tool == 0 || tool == 250);
 		bool is_transform_tool = (tool == 40 || tool == 41 || tool == 42);
 		bool is_subelement_mode = (edit_mode >= 1 && edit_mode <= 3) &&
@@ -925,22 +1353,37 @@ bool view::onButtonRelease(GdkEventButton* event) {
 
 		bool is_primitive_tool = (tool >= 50 && tool <= 58);
 
+		bool is_context_mode = (tool == 250 && edit_mode == 0);
+
 		if (is_primitive_tool) {
 			spawn_primitive(*scene_ptr);
 			mGlArea.queue_render();
-		} else if (is_subelement_mode && scene_ptr->current_object) {
-			mGlArea.make_current();
-			int picked = pickSubElementAt((int)event->x, (int)event->y, edit_mode);
+		} else if ((is_subelement_mode || is_context_mode) && scene_ptr->current_object) {
 			auto obj = scene_ptr->current_object;
-			if (picked >= 0) {
-				if (edit_mode == 3)
-					obj->selectFace(picked, shift);
-				else if (edit_mode == 2)
-					obj->selectEdge(picked, shift);
-				else if (edit_mode == 1)
-					obj->selectVertex(picked, shift);
-			} else if (!shift) {
-				obj->clearSubSelection();
+			if (is_context_mode) {
+				if (hovered_sub_element >= 0 && hovered_edit_mode >= 1) {
+					if (hovered_edit_mode == 3)
+						obj->selectFace(hovered_sub_element, sel_mode);
+					else if (hovered_edit_mode == 2)
+						obj->selectEdge(hovered_sub_element, sel_mode);
+					else if (hovered_edit_mode == 1)
+						obj->selectVertex(hovered_sub_element, sel_mode);
+				} else if (!ctrl && !shift) {
+					obj->clearSubSelection();
+				}
+			} else {
+				mGlArea.make_current();
+				int picked = pickSubElementAt((int)event->x, (int)event->y, edit_mode);
+				if (picked >= 0) {
+					if (edit_mode == 3)
+						obj->selectFace(picked, sel_mode);
+					else if (edit_mode == 2)
+						obj->selectEdge(picked, sel_mode);
+					else if (edit_mode == 1)
+						obj->selectVertex(picked, sel_mode);
+				} else if (!ctrl && !shift) {
+					obj->clearSubSelection();
+				}
 			}
 			if (scene_ptr->curr_gui)
 				scene_ptr->curr_gui->update_object_info(*scene_ptr);
@@ -967,19 +1410,73 @@ bool view::onMotionNotify(GdkEventMotion* event) {
 		int w = mGlArea.get_allocated_width();
 		int h = mGlArea.get_allocated_height();
 		int mx = (int)event->x, my = (int)event->y;
+		if (scene_ptr->window_manager.onMotion(mx, my, w, h)) {
+			mGlArea.queue_render();
+			return true;
+		}
 		if (scene_ptr->view_object_toolbar.onMotion(mx, my, w, h) ||
 			scene_ptr->main_toolbar.onMotion(mx, my, w, h) ||
-			scene_ptr->object_toolbar.onMotion(mx, my, w, h)) {
+			scene_ptr->object_toolbar.onMotion(mx, my, w, h) ||
+			(scene_ptr->editing_toolbar_visible &&
+			 scene_ptr->editing_toolbar.onMotion(mx, my, w, h))) {
 			mGlArea.queue_render();
 			return true;
 		}
 	}
 
-	if (!dragging) return false;
+	if (!dragging) {
+		if (scene_ptr && scene_ptr->current_object) {
+			int edit_mode = scene_ptr->Get_Edit_Mode();
+			int tool = scene_ptr->Get_Current_Tool();
+			bool is_context = (tool == 250 && edit_mode == 0);
+			if (edit_mode >= 1 && edit_mode <= 3) {
+				mGlArea.make_current();
+				int mx = (int)event->x, my = (int)event->y;
+				int prev = hovered_sub_element;
+				hovered_sub_element = pickSubElementAt(mx, my, edit_mode);
+				hovered_edit_mode = edit_mode;
+				if (hovered_sub_element != prev)
+					mGlArea.queue_render();
+			} else if (is_context) {
+				mGlArea.make_current();
+				int mx = (int)event->x, my = (int)event->y;
+				int prev = hovered_sub_element;
+				int prev_mode = hovered_edit_mode;
+				hovered_sub_element = pickSubElementAt(mx, my, 2);
+				hovered_edit_mode = 2;
+				if (hovered_sub_element < 0) {
+					hovered_sub_element = pickSubElementAt(mx, my, 1);
+					hovered_edit_mode = 1;
+				}
+				if (hovered_sub_element < 0) {
+					hovered_sub_element = pickSubElementAt(mx, my, 3);
+					hovered_edit_mode = 3;
+				}
+				if (hovered_sub_element < 0)
+					hovered_edit_mode = 0;
+				if (hovered_sub_element != prev || hovered_edit_mode != prev_mode)
+					mGlArea.queue_render();
+			} else {
+				if (hovered_sub_element != -1) {
+					hovered_sub_element = -1;
+					hovered_edit_mode = 0;
+					mGlArea.queue_render();
+				}
+			}
+		}
+		return false;
+	}
 
 	double dx = event->x - last_mouse_x;
 	double dy = event->y - last_mouse_y;
 	last_mouse_x = event->x;
+
+	if (cw_drag_part > 0) {
+		handleControlWidgetDrag(dx, dy, cw_drag_part);
+		last_mouse_y = event->y;
+		mGlArea.queue_render();
+		return true;
+	}
 	last_mouse_y = event->y;
 
 	int tool = scene_ptr ? scene_ptr->Get_Current_Tool() : 0;
@@ -1029,6 +1526,20 @@ bool view::onScroll(GdkEventScroll* event) {
 
 bool view::onKeyPress(GdkEventKey* event) {
 	if (!scene_ptr) return false;
+
+	if (scene_ptr->window_manager.hasFocus()) {
+		if (event->keyval == GDK_KEY_Escape) {
+			scene_ptr->window_manager.clearFocus();
+			mGlArea.queue_render();
+			return true;
+		}
+		bool handled = scene_ptr->window_manager.onKeyPress(event->keyval, event->state);
+		if (!handled && event->string && event->string[0] >= 32) {
+			handled = scene_ptr->window_manager.onTextInput(event->string);
+		}
+		if (handled) mGlArea.queue_render();
+		return true;
+	}
 
 	if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_KP_Delete) {
 		if (!scene_ptr->selected_objects.empty()) {

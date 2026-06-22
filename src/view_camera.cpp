@@ -113,6 +113,15 @@ void ViewCamera::pan(float dx, float dy, float viewport_width, float viewport_he
 	}
 }
 
+void ViewCamera::panAlongWorldAxis(float amount, float axis_x, float axis_y, float axis_z) {
+	position[0] += amount * axis_x;
+	position[1] += amount * axis_y;
+	position[2] += amount * axis_z;
+	target[0] += amount * axis_x;
+	target[1] += amount * axis_y;
+	target[2] += amount * axis_z;
+}
+
 void ViewCamera::zoom(float delta) {
 	if (is_perspective) {
 		distance -= delta;

@@ -243,38 +243,35 @@ void object::clearSubSelection() {
 	selected_faces.clear();
 }
 
-void object::selectFace(int idx, bool shift) {
-	if (shift) {
-		if (selected_faces.count(idx))
-			selected_faces.erase(idx);
-		else
-			selected_faces.insert(idx);
+void object::selectFace(int idx, int mode) {
+	if (mode == SEL_ADD) {
+		selected_faces.insert(idx);
+	} else if (mode == SEL_REMOVE) {
+		selected_faces.erase(idx);
 	} else {
-		selected_faces.clear();
+		clearSubSelection();
 		selected_faces.insert(idx);
 	}
 }
 
-void object::selectEdge(int idx, bool shift) {
-	if (shift) {
-		if (selected_edges.count(idx))
-			selected_edges.erase(idx);
-		else
-			selected_edges.insert(idx);
+void object::selectEdge(int idx, int mode) {
+	if (mode == SEL_ADD) {
+		selected_edges.insert(idx);
+	} else if (mode == SEL_REMOVE) {
+		selected_edges.erase(idx);
 	} else {
-		selected_edges.clear();
+		clearSubSelection();
 		selected_edges.insert(idx);
 	}
 }
 
-void object::selectVertex(int idx, bool shift) {
-	if (shift) {
-		if (selected_vertices.count(idx))
-			selected_vertices.erase(idx);
-		else
-			selected_vertices.insert(idx);
+void object::selectVertex(int idx, int mode) {
+	if (mode == SEL_ADD) {
+		selected_vertices.insert(idx);
+	} else if (mode == SEL_REMOVE) {
+		selected_vertices.erase(idx);
 	} else {
-		selected_vertices.clear();
+		clearSubSelection();
 		selected_vertices.insert(idx);
 	}
 }

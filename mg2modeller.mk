@@ -63,7 +63,7 @@ CodeLiteDir:=/usr/share/codelite
 Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_view.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_tools.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_scene.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_primitive.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_preferences.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_plane.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_object.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_math3d.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_light.cpp$(ObjectSuffix) \
 	$(IntermediateDirectory)/src_gui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_edit.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_display.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_geometry.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_material.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_animation.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_texture.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_render.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_nurbs.cpp$(ObjectSuffix) \
 	$(IntermediateDirectory)/src_metaball.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_text.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_draw.cpp$(ObjectSuffix) $(IntermediateDirectory)/include_guide.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tdsgui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tsgui.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tdsgui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_tsgui_callbacks.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gui_mg2toolbutton.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_shader.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mesh.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_view_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gl_toolbar.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_shader.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_mesh.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_view_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gl_toolbar.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gl_text.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gl_widgets.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gl_window_manager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gl_expr.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_gl_tool_windows.cpp$(ObjectSuffix) \
 
 
 
@@ -354,6 +354,26 @@ $(IntermediateDirectory)/src_gl_toolbar.cpp$(ObjectSuffix): src/gl_toolbar.cpp $
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/gl_toolbar.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_gl_toolbar.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_gl_toolbar.cpp$(DependSuffix): src/gl_toolbar.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_gl_toolbar.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_gl_toolbar.cpp$(DependSuffix) -MM src/gl_toolbar.cpp
+$(IntermediateDirectory)/src_gl_text.cpp$(ObjectSuffix): src/gl_text.cpp $(IntermediateDirectory)/src_gl_text.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/gl_text.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_gl_text.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_gl_text.cpp$(DependSuffix): src/gl_text.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_gl_text.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_gl_text.cpp$(DependSuffix) -MM src/gl_text.cpp
+$(IntermediateDirectory)/src_gl_widgets.cpp$(ObjectSuffix): src/gl_widgets.cpp $(IntermediateDirectory)/src_gl_widgets.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/gl_widgets.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_gl_widgets.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_gl_widgets.cpp$(DependSuffix): src/gl_widgets.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_gl_widgets.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_gl_widgets.cpp$(DependSuffix) -MM src/gl_widgets.cpp
+$(IntermediateDirectory)/src_gl_window_manager.cpp$(ObjectSuffix): src/gl_window_manager.cpp $(IntermediateDirectory)/src_gl_window_manager.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/gl_window_manager.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_gl_window_manager.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_gl_window_manager.cpp$(DependSuffix): src/gl_window_manager.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_gl_window_manager.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_gl_window_manager.cpp$(DependSuffix) -MM src/gl_window_manager.cpp
+$(IntermediateDirectory)/src_gl_expr.cpp$(ObjectSuffix): src/gl_expr.cpp $(IntermediateDirectory)/src_gl_expr.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/gl_expr.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_gl_expr.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_gl_expr.cpp$(DependSuffix): src/gl_expr.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_gl_expr.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_gl_expr.cpp$(DependSuffix) -MM src/gl_expr.cpp
+$(IntermediateDirectory)/src_gl_tool_windows.cpp$(ObjectSuffix): src/gl_tool_windows.cpp $(IntermediateDirectory)/src_gl_tool_windows.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/james/development/mg2modeller/mg2modeller++/src/gl_tool_windows.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_gl_tool_windows.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_gl_tool_windows.cpp$(DependSuffix): src/gl_tool_windows.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_gl_tool_windows.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_gl_tool_windows.cpp$(DependSuffix) -MM src/gl_tool_windows.cpp
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
 ##

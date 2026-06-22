@@ -22,8 +22,8 @@ class object
 		float rotation[3] = { 0.0, 0.0, 0.0 };
 		float scale[3] = { 1.0, 1.0, 1.0 };
 		string name;
-		float selected_color[3] = { 1.0, 1.0, 1.0 };
-		float unselected_color[3] = { 0.75, 0.75, 0.75 };
+		float selected_color[3] = { 0.98f, 0.98f, 0.98f };
+		float unselected_color[3] = { 0.86f, 0.86f, 0.86f };
 		type_of_object object_type;
 		int num_vertices = 0;
 		int num_edges = 0;
@@ -97,10 +97,11 @@ class object
 		void setSelectedColor(float r, float g, float b);
 		void setUnselectedColor(float r, float g, float b);
 
+		enum SelectMode { SEL_REPLACE = 0, SEL_ADD = 1, SEL_REMOVE = 2 };
 		void clearSubSelection();
-		void selectFace(int idx, bool shift);
-		void selectEdge(int idx, bool shift);
-		void selectVertex(int idx, bool shift);
+		void selectFace(int idx, int mode);
+		void selectEdge(int idx, int mode);
+		void selectVertex(int idx, int mode);
 		const std::set<int>& getSelectedFaces() const;
 		const std::set<int>& getSelectedEdges() const;
 		const std::set<int>& getSelectedVertices() const;

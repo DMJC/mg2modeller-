@@ -6,6 +6,7 @@
 #include "nurbs.h"
 #include "animation.h"
 #include "gl_toolbar.h"
+#include "gl_window_manager.h"
 #include <memory>
 #include <set>
 
@@ -38,6 +39,9 @@ class scene
 		GLToolbar view_object_toolbar;
 		GLToolbar main_toolbar;
 		GLToolbar object_toolbar;
+		GLToolbar editing_toolbar;
+		bool editing_toolbar_visible = false;
+		GLWindowManager window_manager;
 		std::vector<std::list<tool>*> owned_tool_lists;
 		scene();
 
